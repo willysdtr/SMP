@@ -3,14 +3,14 @@ using StageInfo;
 public static class Stage2
 {
     public static readonly StageData Stage2_1 = new StageData(
-        6,                          // ステージ: 横
+        8,                          // ステージ: 横
         8,                          // ステージ: 縦
 
         new Int2(1, 0),           // 表: スタート位置
-        new Int2(3, 4),           // 表: ゴール位置
+        new Int2(7, 7),           // 表: ゴール位置
 
         new Int2(5, 5),           // 裏: スタート位置
-        new Int2(2, 4),           // 裏: ゴール位置
+        new Int2(0, 7),           // 裏: ゴール位置
 
         new SoulPos(true, 0, 3),    // 魂の位置: 左側, X=0, Y=3
 
@@ -58,14 +58,14 @@ public static class Stage2
 
 
     public static readonly StageData Stage2_2 = new StageData(
-        6,                          // ステージ: 横
+        10,                          // ステージ: 横
         8,                          // ステージ: 縦
 
         new Int2(1, 0),           // 表: スタート位置
         new Int2(3, 4),           // 表: ゴール位置
 
         new Int2(5, 5),           // 裏: スタート位置
-        new Int2(2, 4),           // 裏: ゴール位置
+        new Int2(9, 4),           // 裏: ゴール位置
 
         new SoulPos(true, 0, 3),    // 魂の位置: 左側, X=0, Y=3
 
