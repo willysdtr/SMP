@@ -38,7 +38,7 @@ public class StageSelect : MonoBehaviour
     {
         m_StageNum = m_InActiveStage.Length;//大きさを取得
         inputActions = new InputSystem_Actions();//PlayerInputActionsのインスタンスを生成
-        inputActions.Select.Move.performed += ctx =>/* MoveRightArrow();*/
+        inputActions.Select.Move.performed += ctx =>//上が１、下が０,右が２、左が３
         {
             horizontalInput = ctx.ReadValue<float>();
             if (horizontalInput==1)//右
