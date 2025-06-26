@@ -3801,12 +3801,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9091754666906519619, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: stageId
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9091754666906519619, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: tileUIPrefab
       value: 
       objectReference: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
+    - target: {fileID: 9091754666906519619, guid: 1fc1d09210861de44b896782205bb244, type: 3}
+      propertyPath: useDataFromDropdown
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
