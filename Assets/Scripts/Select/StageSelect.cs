@@ -1,4 +1,5 @@
-using DG.Tweening;	//DOTween‚ðŽg‚¤‚Æ‚«‚Í‚±‚Ìusing‚ð“ü‚ê‚é
+using DG.Tweening;  //DOTween‚ðŽg‚¤‚Æ‚«‚Í‚±‚Ìusing‚ð“ü‚ê‚é
+using UnityEditor.TerrainTools;
 using UnityEngine;
 
 public class StageSelect : MonoBehaviour
@@ -102,6 +103,10 @@ public class StageSelect : MonoBehaviour
             horizontalInput = 0f;
         };
 
+        inputActions.Select.SelectStage.performed += ctx =>
+        {
+            LoadSelectedStage();
+        };
     }
         // Update is called once per frame
     void FixedUpdate()
@@ -181,6 +186,12 @@ public class StageSelect : MonoBehaviour
             });
 
         }
+    }
+
+    void LoadSelectedStage()
+    {
+        // Load the actual gameplay scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("testScene");
     }
 
     void OnEnable()

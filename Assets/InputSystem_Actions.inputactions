@@ -1041,6 +1041,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SelectStage",
+                    "type": "Button",
+                    "id": "410667ae-0a66-458a-a53b-c6a46b95bebb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1118,6 +1127,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "NextStageLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3b0cc7d3-7886-472f-8665-314362f1539c",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectStage",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

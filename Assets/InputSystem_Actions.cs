@@ -1127,6 +1127,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectStage"",
+                    ""type"": ""Button"",
+                    ""id"": ""410667ae-0a66-458a-a53b-c6a46b95bebb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1204,6 +1213,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""NextStageLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b0cc7d3-7886-472f-8665-314362f1539c"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectStage"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1445,6 +1465,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Select_Move = m_Select.FindAction("Move", throwIfNotFound: true);
         m_Select_NewtStageRight = m_Select.FindAction("NewtStageRight", throwIfNotFound: true);
         m_Select_NextStageLeft = m_Select.FindAction("NextStageLeft", throwIfNotFound: true);
+        m_Select_SelectStage = m_Select.FindAction("SelectStage", throwIfNotFound: true);
         // Pause
         m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
         m_Pause_SoundSelect = m_Pause.FindAction("SoundSelect", throwIfNotFound: true);
@@ -1927,6 +1948,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Select_Move;
     private readonly InputAction m_Select_NewtStageRight;
     private readonly InputAction m_Select_NextStageLeft;
+    private readonly InputAction m_Select_SelectStage;
     /// <summary>
     /// Provides access to input actions defined in input action map "Select".
     /// </summary>
@@ -1950,6 +1972,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Select/NextStageLeft".
         /// </summary>
         public InputAction @NextStageLeft => m_Wrapper.m_Select_NextStageLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Select/SelectStage".
+        /// </summary>
+        public InputAction @SelectStage => m_Wrapper.m_Select_SelectStage;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1985,6 +2011,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @NextStageLeft.started += instance.OnNextStageLeft;
             @NextStageLeft.performed += instance.OnNextStageLeft;
             @NextStageLeft.canceled += instance.OnNextStageLeft;
+            @SelectStage.started += instance.OnSelectStage;
+            @SelectStage.performed += instance.OnSelectStage;
+            @SelectStage.canceled += instance.OnSelectStage;
         }
 
         /// <summary>
@@ -2005,6 +2034,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @NextStageLeft.started -= instance.OnNextStageLeft;
             @NextStageLeft.performed -= instance.OnNextStageLeft;
             @NextStageLeft.canceled -= instance.OnNextStageLeft;
+            @SelectStage.started -= instance.OnSelectStage;
+            @SelectStage.performed -= instance.OnSelectStage;
+            @SelectStage.canceled -= instance.OnSelectStage;
         }
 
         /// <summary>
@@ -2416,6 +2448,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnNextStageLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectStage" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectStage(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Pause" which allows adding and removing callbacks.

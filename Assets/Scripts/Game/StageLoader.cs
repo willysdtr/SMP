@@ -7,6 +7,7 @@ using StageInfo;
 public class StageUICanvasLoader : MonoBehaviour
 {
     [Header("Stage Data")]
+    public bool useDataFromDropdown;
     public StageID stageId;  // Entire grid with front+back concatenated horizontally
 
     [Header("UI References")]
@@ -19,10 +20,16 @@ public class StageUICanvasLoader : MonoBehaviour
 
     private List<List<int>> stageGrid;
     private StageData stage;
-
+    
     void Start()
     {
-        switch(stageId)
+        //LoadStage layout based on stage select (comment out for debugging)
+        if (!useDataFromDropdown) 
+        {
+            stageId = (StageID)SMPState.CURRENT_STAGE;
+        }      
+
+        switch (stageId)
         {
             default:
                 Debug.LogWarning("No StageID in list");
