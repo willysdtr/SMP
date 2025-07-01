@@ -11,7 +11,7 @@ public class PlayerStateMachine : MonoBehaviour
     PlayerMove move;
     PlayerJump jump;
 
-    private bool moveFg;
+    private bool moveFg = true;
     private bool jumpFg;
     private bool isground;
     private bool downFg;
@@ -30,6 +30,7 @@ public class PlayerStateMachine : MonoBehaviour
     private void Start()
     {
         move = GetComponent<PlayerMove>();
+        jump = GetComponent<PlayerJump>();
         m_transform = this.transform;
         anim = GetComponent<Animator>();
     }
@@ -42,6 +43,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeState()
     {
+        if (downFg)
+        {//プレイヤーがやられるかの判定
+            currentstate = PlayerState.DEATH;
+            return;
+        }
+
         switch (currentstate)//現在の状態から停止に移行するか
         {
             case PlayerState.WALK://WALK
@@ -51,7 +58,7 @@ public class PlayerStateMachine : MonoBehaviour
                 if(!climbFg){ currentstate = PlayerState.STOP; }
                 break;
             case PlayerState.JUMP://JUMP
-                if(ceiling_hit){ currentstate = PlayerState.STOP; }
+                if(ceiling_hit || isground){ currentstate = PlayerState.STOP; }
                 break;
             case PlayerState.FALL://FALL
                 if(isground){ currentstate = PlayerState.STOP; }
@@ -71,7 +78,6 @@ public class PlayerStateMachine : MonoBehaviour
                 {
                     currentstate = PlayerState.JUMP;
                     jump.Jump(gimjumpFg);
-                    jumpFg = false;
                 }
                 else if (moveFg)
                 {
@@ -80,31 +86,27 @@ public class PlayerStateMachine : MonoBehaviour
             }
         }
 
-        if (!isground)
-        {//落下フラグがオンで、落下中でなく、ジャンプ中でもなければ
-            currentstate = PlayerState.FALL;// 下開始
+        //落下フラグがオンで、落下中でなく、ジャンプ中でもなければ
+        //if (currentstate == PlayerState.JUMP) { return; }
+        if (!isground) {
+            currentstate = PlayerState.FALL;// 落下開始
         }
-
-        if (downFg)
-        {//プレイヤーがやられるかの判定
-            currentstate = PlayerState.DEATH;
-        }
-
     }
 
     public void HandleState()
     {
         switch (currentstate)
         {
-            case PlayerState.STOP:  break;
-            case PlayerState.WALK:  move.Move(); break;
-            case PlayerState.JUMP:  break;
-            case PlayerState.FALL:  break;
-            case PlayerState.GOAL: break;
-            case PlayerState.DEATH: break;
+            case PlayerState.STOP: anim.speed = 0; break;
+            case PlayerState.WALK:  anim.speed = 1; move.Move(); break;
+            case PlayerState.JUMP: anim.speed = 0; jump.Move(move.maxspeed_read * direction); break;
+            case PlayerState.FALL: anim.speed = 0; break;
+            case PlayerState.CLIMB: anim.speed = 1; break;
+            case PlayerState.GOAL: anim.speed = 1; break;
+            case PlayerState.DEATH: anim.speed = 1; break;
         }
         anim.SetInteger("State", (int)currentstate);
-        anim.SetBool("isJump", jumpFg);
+        anim.SetBool("IsJump", jumpFg);
     }
 
     public void SetClimbFg(bool fg)

@@ -4,7 +4,9 @@ public class PlayerJump : MonoBehaviour
 {
 
     private Rigidbody2D rb;
-    private float jumpForce = 2f;
+    [SerializeField]
+    [Header("ジャンプ力")]
+    private float jumpForce = 5f;
     [SerializeField]
     [Header("ばねのジャンプ力")]
     private float gimjumpForce = 10f;
@@ -20,6 +22,13 @@ public class PlayerJump : MonoBehaviour
     {
         
         float jump = gim ? jumpForce : gimjumpForce;
+        //rb.linearVelocity = new Vector2(100f, rb.linearVelocity.y);
         rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
     }
+
+    public void Move(float speed)
+    {
+        rb.position += new Vector2((speed / 4) * Time.deltaTime, 0);
+    }
+
 }

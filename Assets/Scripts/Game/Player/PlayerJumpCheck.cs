@@ -13,7 +13,17 @@ public class PlayerJumpCheck : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
         {
+            Debug.Log("2”»’è");
             state_ma.SetJumpFg(true);
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        {
+            Debug.Log("”»’è");
+            state_ma.SetJumpFg(false);
         }
     }
 }
