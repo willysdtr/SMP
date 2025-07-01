@@ -24,15 +24,17 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("“–‚½‚è”»’è‚ðŽæ‚éƒŒƒCƒ„[")]
     private LayerMask GroundLayers;
 
+    private Animator anim = null;
     public LayerMask groundlayers => GroundLayers;
     public int direction { get; private set; } = 1;
     private void Start()
     {
         move = GetComponent<PlayerMove>();
         m_transform = this.transform;
+        anim = GetComponent<Animator>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         ChangeState();
         HandleState();
@@ -65,16 +67,10 @@ public class PlayerStateMachine : MonoBehaviour
             }
             else
             {
-                if (gimjumpFg)
+                if (jumpFg)
                 {
                     currentstate = PlayerState.JUMP;
-                    jump.Jump();
-                    jumpFg = false;
-                }
-                else if (jumpFg)
-                {
-                    currentstate = PlayerState.JUMP;
-                    jump.Jump();
+                    jump.Jump(gimjumpFg);
                     jumpFg = false;
                 }
                 else if (moveFg)
@@ -107,6 +103,8 @@ public class PlayerStateMachine : MonoBehaviour
             case PlayerState.GOAL: break;
             case PlayerState.DEATH: break;
         }
+        anim.SetInteger("State", (int)currentstate);
+        anim.SetBool("isJump", jumpFg);
     }
 
     public void SetClimbFg(bool fg)

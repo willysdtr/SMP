@@ -7,8 +7,9 @@ public class PlayerMove : MonoBehaviour
     PlayerStateMachine state_ma;
     Rigidbody2D rb;
     [Header("速度設定")]
-    private float currentspeed = 0f;     // 現在の速度
     private float maxspeed = 5f;          // 最高速度
+    
+    private float currentspeed = 0f;     // 現在の速度
 
     void Start()
     {
@@ -30,7 +31,7 @@ public class PlayerMove : MonoBehaviour
         //    currentspeed -= maxspeed * Time.deltaTime;
         //    currentspeed = Mathf.Max(currentspeed, 0f);
         //}
-        Vector2 movepos = rb.position + new Vector2(state_ma.direction * currentspeed * Time.deltaTime, 0);
+        Vector2 movepos = rb.position + new Vector2(state_ma.direction * currentspeed * Time.fixedDeltaTime, 0);
         rb.MovePosition(movepos);
         //Vector2 move = new Vector2(state_ma.direction * currentspeed, 0f);
         //transform.Translate(move * Time.deltaTime);

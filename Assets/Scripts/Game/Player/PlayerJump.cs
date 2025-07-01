@@ -4,7 +4,10 @@ public class PlayerJump : MonoBehaviour
 {
 
     private Rigidbody2D rb;
-    private float jumpForce = 5f;
+    private float jumpForce = 2f;
+    [SerializeField]
+    [Header("‚Î‚Ë‚ÌƒWƒƒƒ“ƒv—Í")]
+    private float gimjumpForce = 10f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,8 +16,10 @@ public class PlayerJump : MonoBehaviour
 
     // Update is called once per frame
 
-    public void Jump()
+    public void Jump(bool gim)
     {
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        
+        float jump = gim ? jumpForce : gimjumpForce;
+        rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
     }
 }
