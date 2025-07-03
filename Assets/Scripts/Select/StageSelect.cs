@@ -1,5 +1,6 @@
 using DG.Tweening;	//DOTween‚ğg‚¤‚Æ‚«‚Í‚±‚Ìusing‚ğ“ü‚ê‚é
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageSelect : MonoBehaviour
 {
@@ -100,6 +101,14 @@ public class StageSelect : MonoBehaviour
         inputActions.Select.Move.canceled += ctx =>
         {
             horizontalInput = 0f;
+        };
+
+        inputActions.PauseApperance.Apperance.performed += ctx =>//‚±‚±‚Ìˆ—‚ğSMP_SceneManager‚ÉˆÚ“®‚³‚¹‚æ‚¤I
+        {
+            if (MoveRight == true || MoveLeft == true) return;//–îˆóˆÚ“®’†‚Ío‚³‚È‚¢
+            SMPState.Instance.m_CurrentGameState = SMPState.GameState.Pause;//Pauseó‘Ô‚É‚·‚é
+            inputActions.Select.Disable();//PlayerInputActions‚ğ–³Œø‰»
+            SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
         };
 
     }

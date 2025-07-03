@@ -1162,6 +1162,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Delete",
+                    "type": "Button",
+                    "id": "299ab7cf-f445-469e-9ee3-dc21631329d6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1261,6 +1270,45 @@
                     "processors": "Scale(factor=-1)",
                     "groups": "",
                     "action": "PauseSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e390d0ae-b112-45ff-811b-d1c5d83bc853",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PauseApperance",
+            "id": "3a35d973-67b4-4600-83a5-7d43a4c07e41",
+            "actions": [
+                {
+                    "name": "Apperance",
+                    "type": "Button",
+                    "id": "7778b1a5-1629-4cca-b3ee-c96c8b94a091",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "70df7fac-e2ee-46ce-8c72-2db3a9328498",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Apperance",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
