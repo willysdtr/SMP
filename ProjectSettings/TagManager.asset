@@ -3,15 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - SteelPlate
+  - Spring
+  - Wrinkles
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Gimmick
   - Water
   - UI
-  - 
+  - String
   - 
   - 
   - 
