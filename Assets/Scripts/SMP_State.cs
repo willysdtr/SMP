@@ -25,6 +25,6 @@ public class SMPState : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // シーンをまたいでも破棄しない
+        //DontDestroyOnLoad(gameObject); // シーンをまたいでも破棄しない
     }
 }

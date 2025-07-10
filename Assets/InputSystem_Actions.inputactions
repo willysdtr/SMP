@@ -1333,6 +1333,87 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Stirng",
+            "id": "de401f2a-1518-4eae-a8e5-958dac5819a5",
+            "actions": [
+                {
+                    "name": "nami",
+                    "type": "Value",
+                    "id": "974ee775-87cd-4d43-8c3e-0dd17b9e7fcc",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "kaesi",
+                    "type": "Button",
+                    "id": "582f00c9-116c-465e-b833-3b35822e340c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e5779f38-5186-4345-a150-08e498981f6b",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "",
+                    "action": "nami",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a584efd-740e-4c29-862e-77768afc4507",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "nami",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f2854d1b-13e0-431d-97fd-09a3e3fdc2dd",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "nami",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "772e8d9d-8fa1-43a1-a8f4-c6d34bd5874c",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "",
+                    "action": "nami",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b56ba0b-1709-482c-a286-9d7caafd907b",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "kaesi",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

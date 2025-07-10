@@ -138,7 +138,7 @@ public class StageSelect : MonoBehaviour
         {
             m_WorldIcon[i].SetActive(i == World);
         }
-        Debug.Log(SMPState.CURRENT_STAGE);
+
     }
 
     void MoveRightArrow()//矢印右移動
@@ -202,7 +202,8 @@ public class StageSelect : MonoBehaviour
     void LoadSelectedStage()
     {
         // ゲームステージをロードする
-        SceneManager.LoadScene("testScene",LoadSceneMode.Single);
+        SceneManager.LoadScene("testScene");
+        Debug.Log("現在のシーン: " + SceneManager.GetActiveScene().name);  // ← 確認用
     }
 
 

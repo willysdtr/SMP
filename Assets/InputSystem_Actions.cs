@@ -1419,6 +1419,87 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Stirng"",
+            ""id"": ""de401f2a-1518-4eae-a8e5-958dac5819a5"",
+            ""actions"": [
+                {
+                    ""name"": ""nami"",
+                    ""type"": ""Value"",
+                    ""id"": ""974ee775-87cd-4d43-8c3e-0dd17b9e7fcc"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""kaesi"",
+                    ""type"": ""Button"",
+                    ""id"": ""582f00c9-116c-465e-b833-3b35822e340c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e5779f38-5186-4345-a150-08e498981f6b"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": """",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a584efd-740e-4c29-862e-77768afc4507"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": """",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f2854d1b-13e0-431d-97fd-09a3e3fdc2dd"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""772e8d9d-8fa1-43a1-a8f4-c6d34bd5874c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=-1)"",
+                    ""groups"": """",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b56ba0b-1709-482c-a286-9d7caafd907b"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""kaesi"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1524,6 +1605,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // PauseApperance
         m_PauseApperance = asset.FindActionMap("PauseApperance", throwIfNotFound: true);
         m_PauseApperance_Apperance = m_PauseApperance.FindAction("Apperance", throwIfNotFound: true);
+        // Stirng
+        m_Stirng = asset.FindActionMap("Stirng", throwIfNotFound: true);
+        m_Stirng_nami = m_Stirng.FindAction("nami", throwIfNotFound: true);
+        m_Stirng_kaesi = m_Stirng.FindAction("kaesi", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1533,6 +1618,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Select.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Select.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Pause.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Pause.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PauseApperance.enabled, "This will cause a leak and performance issues, InputSystem_Actions.PauseApperance.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Stirng.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Stirng.Disable() has not been called.");
     }
 
     /// <summary>
@@ -2359,6 +2445,113 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PauseApperanceActions" /> instance referencing this action map.
     /// </summary>
     public PauseApperanceActions @PauseApperance => new PauseApperanceActions(this);
+
+    // Stirng
+    private readonly InputActionMap m_Stirng;
+    private List<IStirngActions> m_StirngActionsCallbackInterfaces = new List<IStirngActions>();
+    private readonly InputAction m_Stirng_nami;
+    private readonly InputAction m_Stirng_kaesi;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Stirng".
+    /// </summary>
+    public struct StirngActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public StirngActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/nami".
+        /// </summary>
+        public InputAction @nami => m_Wrapper.m_Stirng_nami;
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/kaesi".
+        /// </summary>
+        public InputAction @kaesi => m_Wrapper.m_Stirng_kaesi;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Stirng; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="StirngActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(StirngActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="StirngActions" />
+        public void AddCallbacks(IStirngActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StirngActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StirngActionsCallbackInterfaces.Add(instance);
+            @nami.started += instance.OnNami;
+            @nami.performed += instance.OnNami;
+            @nami.canceled += instance.OnNami;
+            @kaesi.started += instance.OnKaesi;
+            @kaesi.performed += instance.OnKaesi;
+            @kaesi.canceled += instance.OnKaesi;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="StirngActions" />
+        private void UnregisterCallbacks(IStirngActions instance)
+        {
+            @nami.started -= instance.OnNami;
+            @nami.performed -= instance.OnNami;
+            @nami.canceled -= instance.OnNami;
+            @kaesi.started -= instance.OnKaesi;
+            @kaesi.performed -= instance.OnKaesi;
+            @kaesi.canceled -= instance.OnKaesi;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="StirngActions.UnregisterCallbacks(IStirngActions)" />.
+        /// </summary>
+        /// <seealso cref="StirngActions.UnregisterCallbacks(IStirngActions)" />
+        public void RemoveCallbacks(IStirngActions instance)
+        {
+            if (m_Wrapper.m_StirngActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="StirngActions.AddCallbacks(IStirngActions)" />
+        /// <seealso cref="StirngActions.RemoveCallbacks(IStirngActions)" />
+        /// <seealso cref="StirngActions.UnregisterCallbacks(IStirngActions)" />
+        public void SetCallbacks(IStirngActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StirngActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StirngActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="StirngActions" /> instance referencing this action map.
+    /// </summary>
+    public StirngActions @Stirng => new StirngActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2673,5 +2866,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnApperance(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Stirng" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="StirngActions.AddCallbacks(IStirngActions)" />
+    /// <seealso cref="StirngActions.RemoveCallbacks(IStirngActions)" />
+    public interface IStirngActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "nami" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNami(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "kaesi" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnKaesi(InputAction.CallbackContext context);
     }
 }
