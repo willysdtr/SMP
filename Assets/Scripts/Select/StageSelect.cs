@@ -1,6 +1,6 @@
-using DG.Tweening;  //DOTweenを使うときはこのusingを入れる
-using UnityEditor.TerrainTools;
+using DG.Tweening;	//DOTweenを使うときはこのusingを入れる
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageSelect : MonoBehaviour
 {
@@ -103,10 +103,22 @@ public class StageSelect : MonoBehaviour
             horizontalInput = 0f;
         };
 
+        //選択しているステージをロードする
         inputActions.Select.SelectStage.performed += ctx =>
         {
             LoadSelectedStage();
         };
+
+        inputActions.PauseApperance.Apperance.performed += ctx =>//ここの処理をSMP_SceneManagerに移動させよう！
+        {
+            if (MoveRight == true || MoveLeft == true) return;//矢印移動中は出さない
+            SMPState.Instance.m_CurrentGameState = SMPState.GameState.Pause;//Pause状態にする
+            inputActions.Select.Disable();//PlayerInputActionsを無効化
+            SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
+        };
+
+        
+
     }
         // Update is called once per frame
     void FixedUpdate()
@@ -187,12 +199,12 @@ public class StageSelect : MonoBehaviour
 
         }
     }
-
     void LoadSelectedStage()
     {
-        // Load the actual gameplay scene
-        UnityEngine.SceneManagement.SceneManager.LoadScene("testScene");
+        // ゲームステージをロードする
+        SceneManager.LoadScene("testScene",LoadSceneMode.Single);
     }
+
 
     void OnEnable()
     {
