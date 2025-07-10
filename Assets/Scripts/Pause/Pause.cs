@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
@@ -26,6 +27,12 @@ public class Pause : MonoBehaviour
             // Submitˆ—‚ð‚±‚±‚É’Ç‰Á
             ChangeScenePause();
             Debug.Log("Submit pressed");
+        };
+        inputActions.Pause.Delete.performed += ctx =>
+        {
+            inputActions.Pause.Disable();
+            inputActions.Select.Enable();
+            SceneManager.UnloadSceneAsync("PauseScene");
         };
     }
 
