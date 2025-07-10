@@ -9,20 +9,19 @@ public class PlayerJumpCheck : MonoBehaviour
         state_ma = GetComponentInParent<PlayerStateMachine>();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)
         {
-            Debug.Log("2”»’è");
             state_ma.SetJumpFg(true);
+            state_ma.SetMoveFg(false);
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)
         {
-            Debug.Log("”»’è");
             state_ma.SetJumpFg(false);
         }
     }

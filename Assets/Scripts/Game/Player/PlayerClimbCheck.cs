@@ -10,27 +10,19 @@ public class PlayerClimbCheck : MonoBehaviour
         state_ma = GetComponentInParent<PlayerStateMachine>();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)
         {
             ++contactcount;
-            foreach (ContactPoint2D contact in collision.contacts)
-            {
-                Vector2 normal = contact.normal;
+            state_ma.SetNgFg(true);
 
-                if (normal == Vector2.down)
-                {
-                    state_ma.SetNgFg(true);
-                }
-
-            }
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)
         {
             --contactcount;
 

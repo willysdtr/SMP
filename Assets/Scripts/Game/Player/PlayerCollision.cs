@@ -10,6 +10,13 @@ public class PlayerCollision : MonoBehaviour
     private HashSet<GameObject> ground_obj = new HashSet<GameObject>();
     private HashSet<GameObject> wall_obj = new HashSet<GameObject>();
 
+    private Rigidbody2D rb;
+
+    [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 1.0f);
+    [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);
+    [SerializeField] private LayerMask climbLayer;
+
+    public Vector2 hitobj_pos { get; private set; } = new Vector2(0.0f,0.0f);
     private int groundcount = 0;
     private bool moveFg;
     private bool jumpFg;
@@ -17,41 +24,65 @@ public class PlayerCollision : MonoBehaviour
     private bool celling_hit;
     private bool ngFg;
     private bool climbFg;
+    private bool ishit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         state_ma = GetComponent<PlayerStateMachine>();
     }
 
     // Update is called once per frame
     void Update()
     {
-    
+
     }
 
     void FixedUpdate()
     {
-        //PlayerHitProcess();
+        Vector2 center = (Vector2)transform.position + checkOffset;
+
+        Collider2D hit = Physics2D.OverlapBox(center, checkSize, 0f, climbLayer);
+        
+        ishit = hit;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector2 center = (Vector2)transform.position + checkOffset;
+        Gizmos.DrawWireCube(center, checkSize);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
         {
-            foreach (ContactPoint2D contact in collision.contacts)
+            if (collision.gameObject.tag == "Spring")
             {
-                // 上向きに接触した場合のみカウント
-                if (contact.normal == Vector2.up)
+                state_ma.SetJumpFg(true);
+                state_ma.SetGimJumpFg(true);
+                state_ma.SetMoveFg(false);
+            }
+            else
+            {
+                foreach (ContactPoint2D contact in collision.contacts)
                 {
-                    state_ma.SetIsGround(true);
-                    ground_obj.Add(collision.gameObject);
-                }
-                // 横向きに接触した場合のみカウント
-                if (contact.normal== Vector2.left || contact.normal == Vector2.right)
-                {
-                    state_ma.SetMoveFg(false);
-                    wall_obj.Add(collision.gameObject);
+
+                    // 上向きに接触した場合のみカウント
+                    if (contact.normal == Vector2.up)
+                    {
+                        state_ma.SetIsGround(true);
+                        ground_obj.Add(collision.gameObject);
+
+                    }
+                    // 横向きに接触した場合のみカウント
+                    if (contact.normal == Vector2.left || contact.normal == Vector2.right)
+                    {
+                        wall_obj.Add(collision.gameObject);
+                        state_ma.SetMoveFg(false);
+                    }
                 }
             }
         }
@@ -71,6 +102,32 @@ public class PlayerCollision : MonoBehaviour
            state_ma.SetMoveFg(true);
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "String")
+        {
+            state_ma.SetMoveFg(false);
+            state_ma.SetClimbFg(true);
+            state_ma.SetHitObjPos(collider.transform.position);
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (!ishit)
+        {
+            if (collider.gameObject.tag == "String")
+            {
+                state_ma.SetClimbFg(false);
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.linearVelocity = Vector2.zero;
+            }
+        }
+        
     }
 
     //void OnCollisionEnter2D(Collision2D collision)
@@ -126,10 +183,5 @@ public class PlayerCollision : MonoBehaviour
     //        }
     //    }
     //}
-
-    public void SetClimbFg(bool fg)
-    {
-        climbFg = fg;  
-    }
 
 }

@@ -10,6 +10,7 @@ public class PlayerStateMachine : MonoBehaviour
     Transform m_transform;
     PlayerMove move;
     PlayerJump jump;
+    PlayerClimb climb;
 
     private bool moveFg = true;
     private bool jumpFg;
@@ -19,6 +20,7 @@ public class PlayerStateMachine : MonoBehaviour
     private bool ngFg;
     private bool climbFg;
     private bool gimjumpFg;
+    private Vector2 hitobj_pos;
 
     [SerializeField]
     [Header("“–‚½‚è”»’è‚ðŽæ‚éƒŒƒCƒ„[")]
@@ -27,15 +29,18 @@ public class PlayerStateMachine : MonoBehaviour
     private Animator anim = null;
     public LayerMask groundlayers => GroundLayers;
     public int direction { get; private set; } = 1;
+
+    private float jumpspeed = 0.0f;
     private void Start()
     {
         move = GetComponent<PlayerMove>();
         jump = GetComponent<PlayerJump>();
-        m_transform = this.transform;
+        climb = GetComponent<PlayerClimb>();
         anim = GetComponent<Animator>();
+        m_transform = this.transform;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         ChangeState();
         HandleState();
@@ -71,13 +76,19 @@ public class PlayerStateMachine : MonoBehaviour
             if (climbFg)
             {
                 currentstate = PlayerState.CLIMB;
+                transform.position = new Vector2(hitobj_pos.x, transform.position.y);
             }
             else
             {
                 if (jumpFg)
                 {
+                    move.Stop();
                     currentstate = PlayerState.JUMP;
                     jump.Jump(gimjumpFg);
+                    jumpspeed = gimjumpFg ? move.maxspeed_read / 3 : move.maxspeed_read / 2;
+                    jumpFg = false;
+                    gimjumpFg = false;
+
                 }
                 else if (moveFg)
                 {
@@ -97,16 +108,16 @@ public class PlayerStateMachine : MonoBehaviour
     {
         switch (currentstate)
         {
-            case PlayerState.STOP: anim.speed = 0; break;
+            case PlayerState.STOP: anim.speed = 0; move.Stop(); break;
             case PlayerState.WALK:  anim.speed = 1; move.Move(); break;
-            case PlayerState.JUMP: anim.speed = 0; jump.Move(move.maxspeed_read * direction); break;
-            case PlayerState.FALL: anim.speed = 0; break;
-            case PlayerState.CLIMB: anim.speed = 1; break;
+            case PlayerState.JUMP: anim.speed = 0; jump.Move(jumpspeed * direction); break;
+            case PlayerState.FALL: anim.speed = 0; move.Stop(); break;
+            case PlayerState.CLIMB: anim.speed = 1;climb.Climb(move.maxspeed_read / 2); break;
             case PlayerState.GOAL: anim.speed = 1; break;
             case PlayerState.DEATH: anim.speed = 1; break;
         }
         anim.SetInteger("State", (int)currentstate);
-        anim.SetBool("IsJump", jumpFg);
+
     }
 
     public void SetClimbFg(bool fg)
@@ -161,5 +172,9 @@ public class PlayerStateMachine : MonoBehaviour
     {
         direction *= -1;
         m_transform.Rotate(0, 180, 0);
+    }
+    public void SetHitObjPos(Vector2 pos)
+    {
+        hitobj_pos = pos;
     }
 }

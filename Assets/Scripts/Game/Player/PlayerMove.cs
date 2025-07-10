@@ -7,8 +7,8 @@ public class PlayerMove : MonoBehaviour
     PlayerStateMachine state_ma;
     Rigidbody2D rb;
     [SerializeField]
-    [Header("‘¬“xİ’è")]
-    private float maxspeed = 5f;          // Å‚‘¬“x
+    [Header("é€Ÿåº¦è¨­å®š")]
+    private float maxspeed = 5f;          // æœ€é«˜é€Ÿåº¦
 
     public float maxspeed_read { get; private set; } = 0f;
 
@@ -23,7 +23,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Move()
     {
-        //‰Á‘¬ˆ—
+        //åŠ é€Ÿå‡¦ç†
         if (state_ma.direction != 0)
         {
             currentspeed += maxspeed * Time.deltaTime;
@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            // Œ¸‘¬ˆ—
+            // æ¸›é€Ÿå‡¦ç†
             currentspeed -= maxspeed * Time.deltaTime;
             currentspeed = Mathf.Max(currentspeed, 0f);
         }
@@ -40,6 +40,17 @@ public class PlayerMove : MonoBehaviour
         //rb.MovePosition(movepos);
         //rb.position += new Vector2(state_ma.direction * currentspeed * Time.deltaTime, 0);
         rb.linearVelocity = new Vector2(state_ma.direction * currentspeed,rb.linearVelocity.y);
+    }
+
+    public void Stop()
+    {
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    }
+
+    public void AllStop()
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = 0f;
     }
 }
 
