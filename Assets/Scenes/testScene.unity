@@ -1292,7 +1292,7 @@ MonoBehaviour:
     tutorialSlides:
     - {fileID: 21300000, guid: a922233915394084db6368b401507299, type: 3}
     - {fileID: 21300000, guid: 15902a26127b34142a60a99dc89c6eee, type: 3}
-  alwaysShowTutorial: 1
+  alwaysShowTutorial: 0
 --- !u!114 &631714609
 MonoBehaviour:
   m_ObjectHideFlags: 0

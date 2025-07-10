@@ -59,7 +59,7 @@ public class StageUICanvasLoader : MonoBehaviour
                 break;
         }
 
-        GenerateStageGrid();
+        GenerateStageGridObjects();
 
         if (stageGrid == null || stageGrid.Count == 0)
         {
@@ -74,7 +74,7 @@ public class StageUICanvasLoader : MonoBehaviour
         SetupGrid(rightPanel, cols / 2, cols);
     }
 
-    private void GenerateStageGrid()
+    private void GenerateStageGridObjects()
     {
         if (stage == null || tileUIPrefab == null)
         {
@@ -184,14 +184,21 @@ public class StageUICanvasLoader : MonoBehaviour
             {
                 int tileId = stageGrid[y][colStart + x];
                 GameObject tile = Instantiate(tileUIPrefab, panel);
-
                 tile.name = $"Tile_{x}_{y}";
 
-                // âºÇ…êFÇ√Ç´éläp
-                var img = tile.GetComponent<Image>();
-                if (img != null)
+                // Find the child "Fill" and color it
+                Transform fill = tile.transform.Find("Fill");
+
+                if (fill != null)
                 {
-                    img.color = TileColorFromId(tileId);
+                    if (fill.TryGetComponent<Image>(out var fillImage))
+                    {
+                        fillImage.color = (tileId == 0) ? new Color(0, 0, 0, 0) : TileColorFromId(tileId);
+                    }
+                    else if (fill.TryGetComponent<RawImage>(out var fillRaw))
+                    {
+                        fillRaw.color = (tileId == 0) ? new Color(0, 0, 0, 0) : TileColorFromId(tileId);
+                    }
                 }
             }
         }
@@ -210,7 +217,7 @@ public class StageUICanvasLoader : MonoBehaviour
             case 7:
             case 8:
             case 9: return Color.cyan;    // wind
-            default: return Color.clear;  // empty
+            default: return new Color(0f, 0f, 0f, 0.01f);   // empty
         }
     }
 }
