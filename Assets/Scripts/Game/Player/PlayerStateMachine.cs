@@ -20,7 +20,9 @@ public class PlayerStateMachine : MonoBehaviour
     private bool ngFg;
     private bool climbFg;
     private bool gimjumpFg;
+
     private Vector2 hitobj_pos;
+    Vector2 initialVelocity;//ジャンプで渡す用
 
     [SerializeField]
     [Header("当たり判定を取るレイヤー")]
@@ -63,7 +65,7 @@ public class PlayerStateMachine : MonoBehaviour
                 if(!climbFg){ currentstate = PlayerState.STOP; }
                 break;
             case PlayerState.JUMP://JUMP
-                if(ceiling_hit || isground){ currentstate = PlayerState.STOP; }
+                if(ceiling_hit){ currentstate = PlayerState.STOP; }
                 break;
             case PlayerState.FALL://FALL
                 if(isground){ currentstate = PlayerState.STOP; }
@@ -83,8 +85,8 @@ public class PlayerStateMachine : MonoBehaviour
                 if (jumpFg)
                 {
                     move.Stop();
+                    jump.InitJump(initialVelocity);
                     currentstate = PlayerState.JUMP;
-                    jump.Jump(gimjumpFg);
                     jumpspeed = gimjumpFg ? move.maxspeed_read / 3 : move.maxspeed_read / 2;
                     jumpFg = false;
                     gimjumpFg = false;
@@ -110,7 +112,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             case PlayerState.STOP: anim.speed = 0; move.Stop(); break;
             case PlayerState.WALK:  anim.speed = 1; move.Move(); break;
-            case PlayerState.JUMP: anim.speed = 0; jump.Move(jumpspeed * direction); break;
+            case PlayerState.JUMP: anim.speed = 0; jump.Jump(gimjumpFg); jump.Move(jumpspeed * direction); break;
             case PlayerState.FALL: anim.speed = 0; move.Stop(); break;
             case PlayerState.CLIMB: anim.speed = 1;climb.Climb(move.maxspeed_read / 2); break;
             case PlayerState.GOAL: anim.speed = 1; break;
@@ -176,5 +178,10 @@ public class PlayerStateMachine : MonoBehaviour
     public void SetHitObjPos(Vector2 pos)
     {
         hitobj_pos = pos;
+    }
+
+    public void SetInitVelocity(Vector2 vec)
+    {
+        initialVelocity = vec;
     }
 }

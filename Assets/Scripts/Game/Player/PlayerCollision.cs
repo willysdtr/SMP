@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -55,6 +56,11 @@ public class PlayerCollision : MonoBehaviour
         Gizmos.DrawWireCube(center, checkSize);
     }
 
+    public void JumpWithVelocity(Vector3 initialVelocity)
+    {
+        rb.linearVelocity = initialVelocity; // Å© RigidbodyÇÃvelocityÇ…íºê⁄ë„ì¸Ç≈OK
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
@@ -64,6 +70,13 @@ public class PlayerCollision : MonoBehaviour
                 state_ma.SetJumpFg(true);
                 state_ma.SetGimJumpFg(true);
                 state_ma.SetMoveFg(false);
+                JumpLine pad = collision.gameObject.GetComponent<JumpLine>();
+                if (pad != null)
+                {
+                    //JumpWithVelocity(pad.GetInitialVelocity());
+                    state_ma.SetInitVelocity(pad.GetInitialVelocity());
+                }
+                transform.position = new Vector3(collision.transform.position.x, transform.position.y, 0);
             }
             else
             {
