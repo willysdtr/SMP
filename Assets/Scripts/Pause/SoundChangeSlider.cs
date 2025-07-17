@@ -21,7 +21,7 @@ public class SoundChangeSlider : MonoBehaviour
     [SerializeField] private GameObject m_EventSystem;
     private float SoundInput = 0;//音量調整の入力値
 
-    private bool SoundOn;
+    private bool SoundOn;   
     private bool IsSoundChange;
 
     float m_FinalVolumeBGM;
@@ -35,6 +35,7 @@ public class SoundChangeSlider : MonoBehaviour
             SoundInput = ctx.ReadValue<float>();
             if (SoundInput == 1)//上
             {
+
                 m_SoundCount -= 1;
                 m_SoundCount = Mathf.Clamp(m_SoundCount, 0, m_Sliders.Length - 1);
             }
@@ -103,7 +104,7 @@ public class SoundChangeSlider : MonoBehaviour
                         //セット
                         m_AudioMixer.SetFloat("MasterVolume", masterDB);
                         m_AudioMixer.SetFloat("BGMVolume", bgmDB);
-                        m_AudioMixer.SetFloat("SEVolume", seDB);
+                        m_AudioMixer.SetFloat("SEVolume", seDB);    
                         //バーを隠す用の画像のサイズ変更
                         RectTransform rect = m_maskImages[m_SoundCount].GetComponent<RectTransform>();
                         float hideRatio = 1f - (m_Sliders[m_SoundCount].value / 10);
