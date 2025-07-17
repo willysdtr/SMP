@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
-
-public enum PlayerState { STOP, WALK, JUMP, FALL, CLIMB, GOAL, DEATH }
+//public enum PlayerState { STOP, WALK, JUMP, FALL, CLIMB, GOAL, DEATH }
 public class PlayerStateMachine : MonoBehaviour
 {
     //プレイヤーの状態管理スクリプト

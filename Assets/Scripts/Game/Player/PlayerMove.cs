@@ -1,54 +1,86 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PlayerMove : MonoBehaviour
 {
-    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //ƒvƒŒƒCƒ„[‚Ì“®‚«‘S”Ê‚ÌƒXƒNƒŠƒvƒg
     PlayerStateMachine state_ma;
     Rigidbody2D rb;
     [SerializeField]
-    [Header("é€Ÿåº¦è¨­å®š")]
-    private float maxspeed = 5f;          // æœ€é«˜é€Ÿåº¦
+    [Header("‘¬“xİ’è")]
+    private float maxspeed = 5f;          // Å‚‘¬“x
 
-    public float maxspeed_read { get; private set; } = 0f;//å¤–éƒ¨ã‹ã‚‰ã¯èª­ã¿å–ã‚Šå°‚ç”¨ã€æ›¸ãè¾¼ã¿ã¯ã‚¹ã‚¯ãƒªãƒ—ãƒˆå†…éƒ¨ã§ã®ã¿å¯èƒ½
+    public float maxspeed_read { get; private set; } = 0f;//ŠO•”‚©‚ç‚Í“Ç‚İæ‚èê—pA‘‚«‚İ‚ÍƒXƒNƒŠƒvƒg“à•”‚Å‚Ì‚İ‰Â”\
 
     private float currentspeed = 0f;
+
+    private Vector2 velocity;
+    private float gravity = -9.81f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         state_ma = GetComponentInParent<PlayerStateMachine>();
-        maxspeed_read = maxspeed;//èª­ã¿å–ã‚Šå°‚ç”¨å¤‰æ•°ã¸ã®ä»£å…¥
+        maxspeed_read = maxspeed;//“Ç‚İæ‚èê—p•Ï”‚Ö‚Ì‘ã“ü
+        var a = PlayerState.State.CLIMB;
     }
 
     public void Move()
     {
-        //åŠ é€Ÿå‡¦ç†
-        if (state_ma.direction != 0)//å‘ããŒ0ã§ãªã‘ã‚Œã°
+        //‰Á‘¬ˆ—
+        if (state_ma.direction != 0)//Œü‚«‚ª0‚Å‚È‚¯‚ê‚Î
         {
             currentspeed += maxspeed * Time.deltaTime;
             currentspeed = Mathf.Min(currentspeed, maxspeed);
         }
         else
         {
-            // æ¸›é€Ÿå‡¦ç†
+            // Œ¸‘¬ˆ—
             currentspeed -= maxspeed * Time.deltaTime;
             currentspeed = Mathf.Max(currentspeed, 0f);
         }
-        rb.linearVelocity = new Vector2(state_ma.direction * currentspeed,rb.linearVelocity.y);//é€Ÿåº¦ã‚’ä»£å…¥
+        rb.linearVelocity = new Vector2(state_ma.direction * currentspeed, rb.linearVelocity.y);//‘¬“x‚ğ‘ã“ü
+    }
+
+    public void InitJump(Vector2 initialVelocity)//ƒWƒƒƒ“ƒv‰Šú‰»
+    {
+        rb.gravityScale = 0;
+        velocity = initialVelocity;
+    }
+
+    public void Jump()//ƒWƒƒƒ“ƒvˆ—
+    {
+        //•ú•¨ü‚Ì‹N“®‚ÅˆÚ“®‚·‚é
+
+        // d—Í‚ğ‘¬“x‚É‰Á‚¦‚é
+        velocity += Vector2.down * Mathf.Abs(gravity) * Time.deltaTime;
+
+        // ˆÚ“®‚·‚é
+        Vector2 displacement = velocity * Time.deltaTime;
+        transform.position += (Vector3)displacement;
+
+    }
+
+    public void EndJump()//ƒWƒƒƒ“ƒvI—¹ˆ—
+    {
+        rb.gravityScale = 1;
+        rb.linearVelocity = new Vector2(velocity.x, 0);
+    }
+
+    public void Climb(float speed)//speed‚Ì’l‚¾‚¯ã‚ÉˆÚ“®‚·‚é
+    {
+        rb.position += new Vector2(0, speed * Time.deltaTime);
     }
 
     public void Stop()
     {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);//æ¨ªæ–¹å‘ã®é€Ÿåº¦ã®ã¿ã‚’0ã«ã™ã‚‹
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);//‰¡•ûŒü‚Ì‘¬“x‚Ì‚İ‚ğ0‚É‚·‚é
     }
 
     public void AllStop()
     {
-        //å‹•ãã‚’å®Œå…¨ã«æ­¢ã‚ã‚‹
+        //“®‚«‚ğŠ®‘S‚É~‚ß‚é
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = 0f;
     }
 }
-
