@@ -2,19 +2,14 @@ using UnityEngine;
 
 public class PlayerClimb : MonoBehaviour
 {
+    //プレイヤーの登る処理スクリプト
     private Rigidbody2D rb;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void Climb(float speed)
+    public void Climb(float speed)//speedの値だけ上に移動する
     {
         rb.position += new Vector2(0, speed * Time.deltaTime);
     }

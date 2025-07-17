@@ -4,13 +4,14 @@ using UnityEngine.EventSystems;
 
 public class PlayerMove : MonoBehaviour
 {
+    //プレイヤーの移動スクリプト
     PlayerStateMachine state_ma;
     Rigidbody2D rb;
     [SerializeField]
     [Header("速度設定")]
     private float maxspeed = 5f;          // 最高速度
 
-    public float maxspeed_read { get; private set; } = 0f;
+    public float maxspeed_read { get; private set; } = 0f;//外部からは読み取り専用、書き込みはスクリプト内部でのみ可能
 
     private float currentspeed = 0f;
 
@@ -18,13 +19,13 @@ public class PlayerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         state_ma = GetComponentInParent<PlayerStateMachine>();
-        maxspeed_read = maxspeed;
+        maxspeed_read = maxspeed;//読み取り専用変数への代入
     }
 
     public void Move()
     {
         //加速処理
-        if (state_ma.direction != 0)
+        if (state_ma.direction != 0)//向きが0でなければ
         {
             currentspeed += maxspeed * Time.deltaTime;
             currentspeed = Mathf.Min(currentspeed, maxspeed);
@@ -35,20 +36,17 @@ public class PlayerMove : MonoBehaviour
             currentspeed -= maxspeed * Time.deltaTime;
             currentspeed = Mathf.Max(currentspeed, 0f);
         }
-        //rb.AddForceX(state_ma.direction * maxspeed);
-        //Vector2 movepos = rb.position + new Vector2(state_ma.direction * currentspeed * Time.fixedDeltaTime, 0);
-        //rb.MovePosition(movepos);
-        //rb.position += new Vector2(state_ma.direction * currentspeed * Time.deltaTime, 0);
-        rb.linearVelocity = new Vector2(state_ma.direction * currentspeed,rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(state_ma.direction * currentspeed,rb.linearVelocity.y);//速度を代入
     }
 
     public void Stop()
     {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);//横方向の速度のみを0にする
     }
 
     public void AllStop()
     {
+        //動きを完全に止める
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = 0f;
     }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerJumpCheck : MonoBehaviour
 {
+    //ジャンプ判定用スクリプト(今のところ使わない)
     PlayerStateMachine state_ma;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

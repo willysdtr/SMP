@@ -2,21 +2,11 @@ using UnityEngine;
 
 public class PlayerJump : MonoBehaviour
 {
-
+    //プレイヤーのジャンプ処理スクリプト
     private Rigidbody2D rb;
-    [SerializeField]
-    [Header("ジャンプ力")]
-    private float jumpForce = 5f;
-    [SerializeField]
-    [Header("ばねのジャンプ力")]
-    private float gimjumpForce = 10f;
 
-
-    private Vector2 startPosition;
     private Vector2 velocity;
-    private float elapsed = 0f;
     private float gravity = -9.81f;
-    private float maxTime = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,36 +17,29 @@ public class PlayerJump : MonoBehaviour
 
     // Update is called once per frame
 
-    public void InitJump(Vector2 initialVelocity)
+    public void InitJump(Vector2 initialVelocity)//ジャンプ初期化
     {
         rb.gravityScale = 0;
-        startPosition = transform.position;
         velocity = initialVelocity;
-        elapsed = 0f;
-
     }
 
-    public void Jump(bool gim)
+    public void Jump()//ジャンプ処理
     {
-        //float jump = gim ? gimjumpForce : jumpForce;
-        ////rb.linearVelocity = new Vector2(100f, rb.linearVelocity.y);
-        //rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-        elapsed += Time.deltaTime;
+        //放物線の起動で移動する
 
-        // 放物線の計算
-        float x = velocity.x * elapsed;
-        float y = velocity.y * elapsed + 0.5f * gravity * Mathf.Pow(elapsed, 2);
+        // 重力を速度に加える
+        velocity += Vector2.down * Mathf.Abs(gravity) * Time.deltaTime;
 
-        transform.position = startPosition + new Vector2(x, y);
+        // 移動する
+        Vector2 displacement = velocity * Time.deltaTime;
+        transform.position += (Vector3)displacement;
 
     }
 
-    public void Move(float speed)
+    public void EndJump()//ジャンプ終了処理
     {
-        //rb.position += new Vector2(speed * Time.deltaTime, 0);
+        rb.gravityScale = 1;
+        rb.linearVelocity = new  Vector2(velocity.x, 0);
     }
 
-    //放物線上にばねジャンプ。
-    //ばねは予測線を付ける。
-    //ジャンプ高さはプレイヤーの位置から2マス上。
 }

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerHeadCheck : MonoBehaviour
 {
+    //天井に当たったかのチェックスクリプト
+
     PlayerStateMachine state_ma;
     private int contactcount = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -10,27 +12,18 @@ public class PlayerHeadCheck : MonoBehaviour
         state_ma = GetComponentInParent<PlayerStateMachine>();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)//当たったオブジェクトの数を記録し、天井判定をオンにする
         {
             ++contactcount;
-            foreach (ContactPoint2D contact in collision.contacts)
-            {
-                Vector2 normal = contact.normal;
-
-                if (normal == Vector2.down)
-                {
-                    state_ma.SetCelingHit(true);
-                }
-
-            }
+            state_ma.SetCelingHit(true);
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)//当たったオブジェクトの数を減らし、0になれば天井判定をオフにする
         {
             --contactcount;
             if (contactcount <= 0)
@@ -40,4 +33,5 @@ public class PlayerHeadCheck : MonoBehaviour
             }
         }
     }
+
 }

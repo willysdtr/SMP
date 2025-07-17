@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 
 public class PlayerCollision : MonoBehaviour
 {
+    //プレイヤー本体部分の当たり判定管理スクリプト
 
     private PlayerStateMachine state_ma;
 
@@ -18,13 +19,6 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private LayerMask climbLayer;
 
     public Vector2 hitobj_pos { get; private set; } = new Vector2(0.0f,0.0f);
-    private int groundcount = 0;
-    private bool moveFg;
-    private bool jumpFg;
-    private bool isground;
-    private bool celling_hit;
-    private bool ngFg;
-    private bool climbFg;
     private bool ishit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,14 +28,9 @@ public class PlayerCollision : MonoBehaviour
         state_ma = GetComponent<PlayerStateMachine>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void FixedUpdate()
     {
+        //OverlapBoxの作成、Climb処理に使用
         Vector2 center = (Vector2)transform.position + checkOffset;
 
         Collider2D hit = Physics2D.OverlapBox(center, checkSize, 0f, climbLayer);
@@ -51,32 +40,30 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        //OverlapBoxの描画
         Gizmos.color = Color.red;
         Vector2 center = (Vector2)transform.position + checkOffset;
         Gizmos.DrawWireCube(center, checkSize);
     }
 
-    public void JumpWithVelocity(Vector3 initialVelocity)
-    {
-        rb.linearVelocity = initialVelocity; // ← Rigidbodyのvelocityに直接代入でOK
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        
+        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)//インスペクターで設定したLayerとのみ判定を取る
         {
-            if (collision.gameObject.tag == "Spring")
+
+            if (collision.gameObject.tag == "Spring")//ばねに当たった時の処理
             {
-                state_ma.SetJumpFg(true);
-                state_ma.SetGimJumpFg(true);
-                state_ma.SetMoveFg(false);
+                //予測線スクリプトがあれば、処理を実行
                 JumpLine pad = collision.gameObject.GetComponent<JumpLine>();
                 if (pad != null)
                 {
-                    //JumpWithVelocity(pad.GetInitialVelocity());
                     state_ma.SetInitVelocity(pad.GetInitialVelocity());
+                    transform.position = new Vector3(collision.transform.position.x, transform.position.y, 0);
+                    state_ma.SetJumpFg(true);
+                    state_ma.SetGimJumpFg(true);
+                    state_ma.SetMoveFg(false);
                 }
-                transform.position = new Vector3(collision.transform.position.x, transform.position.y, 0);
             }
             else
             {
@@ -103,16 +90,16 @@ public class PlayerCollision : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        ground_obj.Remove(collision.gameObject);
-        wall_obj.Remove(collision.gameObject);
+        ground_obj.Remove(collision.gameObject);//地面判定したオブジェクトを削除
+        wall_obj.Remove(collision.gameObject);//壁判定したオブジェクトを削除
         if (ground_obj.Count == 0)
-        {
+        {//地面判定したオブジェクトがすべてなくなれば、地面から離れた状態にする
            state_ma.SetIsGround(false);
         }
 
         if (wall_obj.Count == 0)
-        {
-           state_ma.SetMoveFg(true);
+        {//壁判定したオブジェクトがすべてなくなれば、移動可能にする
+            state_ma.SetMoveFg(true);
         }
 
     }
@@ -121,6 +108,7 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collider.gameObject.tag == "String")
         {
+            //糸に当たった時の処理
             state_ma.SetMoveFg(false);
             state_ma.SetClimbFg(true);
             state_ma.SetHitObjPos(collider.transform.position);
@@ -132,9 +120,9 @@ public class PlayerCollision : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (!ishit)
-        {
+        {//OverlapBoxが重なってないときに実行(誤作動するため)
             if (collider.gameObject.tag == "String")
-            {
+            {//糸から離れた時の処理
                 state_ma.SetClimbFg(false);
                 rb.bodyType = RigidbodyType2D.Dynamic;
                 rb.linearVelocity = Vector2.zero;
@@ -142,59 +130,5 @@ public class PlayerCollision : MonoBehaviour
         }
         
     }
-
-    //void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Wrinkles"))
-    //    {
-    //        //state_ma.SetDownFg(true);
-    //    }
-    //    if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
-    //    {
-    //        foreach (ContactPoint2D contact in collision.contacts)
-    //        {
-    //            Vector2 normal = contact.normal;
-
-    //            if (normal == Vector2.left || normal == Vector2.right)
-    //            {
-    //                state_ma.SetMoveFg(true);
-    //            }
-
-    //            if (normal == Vector2.up)
-    //            {
-    //                state_ma.SetIsGround(true);
-    //                if (collision.gameObject.CompareTag("Spring"))
-    //                {
-    //                    state_ma.SetGimJumpFg(true);
-    //                }
-    //            }
-
-    //        }
-    //    }
-    //}
-
-
-    //void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
-    //    {
-    //        foreach (ContactPoint2D contact in collision.contacts)
-    //        {
-    //            Vector2 normal = contact.normal;
-
-    //            if (normal == Vector2.left || normal == Vector2.right)
-    //            {
-    //                state_ma.SetMoveFg(false);
-    //            }
-
-    //            if (Vector2.Dot(normal, Vector2.up) > 0.7f) //「上方向」判定
-    //            {
-    //                state_ma.SetIsGround(false);
-    //                Debug.LogError("落下判定");
-    //            }
-
-    //        }
-    //    }
-    //}
 
 }
