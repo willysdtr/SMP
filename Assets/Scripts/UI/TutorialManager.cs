@@ -27,11 +27,12 @@ public class TutorialManager : MonoBehaviour
     {
         if (loader == null)
         {
-            Debug.LogError("StageUICanvasLoader reference not set!");
+            Debug.LogError("StageUICanvasLoaderのレファレンス見つからない");
             tutorialPanel.SetActive(false);
             return;
         }
 
+        //ドロップダウンかステージセレクトシーンから、ステージデータもらう
         StageID currentStage;
         if (!loader.useDataFromDropdown)
         {
