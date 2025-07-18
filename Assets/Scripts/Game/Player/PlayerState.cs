@@ -5,15 +5,34 @@ public class PlayerState
     public enum State { STOP, WALK, JUMP, FALL, CLIMB, GOAL, DEATH };
     public enum Direction { LEFT = -1, STOP = 0, RIGHT = 1 };
 
-    public static float MAX_SPEED = 5f;
-    public static bool IS_MOVE = true;
-    public static bool IS_JUMP;
-    public static bool IS_GROUND;
-    public static bool IS_DOWN;
-    public static bool IS_CEILING_HIT;
-    public static bool IS_CLIMB_NG;
-    public static bool IS_CLIMB;
-    public static bool IS_GIMJUMP;
+    public int m_direction = 0;
+
+    public State currentstate = State.STOP;
+
+    public const float MAX_SPEED = 5f;
+
+    public bool IS_MOVE = true;
+    public bool IS_JUMP;
+    public bool IS_GROUND;
+    public bool IS_DOWN;
+    public bool IS_CEILING_HIT;
+    public bool IS_CLIMB_NG;
+    public bool IS_CLIMB;
+    public bool IS_GIMJUMP;
+
+    public Vector2 hitobj_pos;
+    public Vector2 initialVelocity;//ジャンプで渡す用
+
+    [SerializeField]
+    [Header("ジャンプを行う最低時間")]
+    public const float jumptime_max = 0.1f;//ジャンプを行う最低時間
+    
+
+    public LayerMask groundlayers => GroundLayers;
+
+    [SerializeField]
+    [Header("当たり判定を取るレイヤー")]
+    private LayerMask GroundLayers;
 
     //このスクリプトは情報を持つだけ
 }
