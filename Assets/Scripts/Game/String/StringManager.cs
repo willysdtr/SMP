@@ -4,10 +4,13 @@ using UnityEngine.InputSystem;
 public class StringManager : MonoBehaviour
 {
     //定数宣言
-    public const int RIGHT = 0;
-    public const int LEFT = 1;
-    public const int Up = 2;
-    public const int Down = 3;
+    private const int RIGHT = 0;
+    private const int LEFT = 1;
+    private const int Up = 2;
+    private const int Down = 3;
+
+    private const bool NoString=false;
+    private const bool isString=true;
 
     [SerializeField] private GameObject StringPrefub;
 
@@ -17,33 +20,78 @@ public class StringManager : MonoBehaviour
     private List<GameObject> Strings = new List<GameObject>();
     private List<GameObject> FrontStrings = new List<GameObject>();
     private List<GameObject> BackStrings = new List<GameObject>();
-    [SerializeField] private int StringNum;
+    [SerializeField] List<int> StringNum;
+    [SerializeField] GameObject Tamadome;
+    [SerializeField] GameObject StringCursol;
     private InputSystem_Actions inputActions;
     private float m_PauseDirection;//音量調整の入力値
     private int m_LastDirection;//前回の入力値
+
+    bool m_StringMode = NoString;//ストリングモードのフラグ
+
     void Awake()
     {
         inputActions = new InputSystem_Actions();
         inputActions.Stirng.nami.performed += ctx =>
         {
             float value = ctx.ReadValue<float>();
-            m_PauseDirection = value;
-            if (m_PauseDirection == 1)//上
+            if(m_StringMode== isString)
             {
-                OnUpInput();
+                m_PauseDirection = value;
+                if (m_PauseDirection == 1)//上
+                {
+                    OnUpInput();
+                }
+                else if (m_PauseDirection == -1)//下
+                {
+                    OnDownInput();
+                }
+                else if (m_PauseDirection == 2)//右
+                {
+                    OnRightInput();
+                }
+                else if (m_PauseDirection == 3)//左
+                {
+                    OnLeftInput();
+                }
             }
-            else if (m_PauseDirection == -1)//下
+            else if (m_StringMode == NoString)
             {
-                OnDownInput();
+                m_PauseDirection = value;
+                if (m_PauseDirection == 1)//上
+                {
+                    StringCursol.transform.position -= (Vector3)m_Offset_Y;
+                }
+                else if (m_PauseDirection == -1)//下
+                {
+                    StringCursol.transform.position += (Vector3)m_Offset_Y;
+                }
+                else if (m_PauseDirection == 2)//右
+                {
+                    StringCursol.transform.position += (Vector3)m_Offset_X;
+                }
+                else if (m_PauseDirection == 3)//左
+                {
+                    StringCursol.transform.position -= (Vector3)m_Offset_X;
+                }
             }
-            else if (m_PauseDirection == 2)//右
+        };
+        inputActions.Stirng.tama.performed += ctx =>
+        {
+            // たまを生成する処理
+            if (Strings.Count > 0)
             {
-                OnRightInput();
+                BallStopper();
             }
-            else if (m_PauseDirection == 3)//左
-            {
-                OnLeftInput();
-            }
+        };
+        inputActions.Stirng.start.performed += ctx =>
+        {
+            //最初の初点を決める
+            // GameObject first = Instantiate(StringPrefub, StringCursol.transform.position, Quaternion.identity);
+            GameObject dummy = new GameObject("FirstPoint");
+            dummy.transform.position = StringCursol.transform.position;
+            Strings.Add(dummy);
+            m_StringMode = isString; // ストリングモードを有効にする
         };
     }
 
@@ -52,8 +100,7 @@ public class StringManager : MonoBehaviour
         //最初の初点を決める
         m_Offset_X=new Vector2(m_StrinngScale.x, 0.0f);
         m_Offset_Y=new Vector2(0.0f,-m_StrinngScale.y);
-       GameObject first = Instantiate(StringPrefub, Vector3.zero, Quaternion.identity);
-        Strings.Add(first);
+
     }
 
     // Update is called once per frame
@@ -65,7 +112,7 @@ public class StringManager : MonoBehaviour
     {
         if (m_LastDirection == LEFT) return;
         // 最後のオブジェクトの右に生成
-        Vector3 lastPos = Strings[^1].transform.position;//最後のオブジェクトの位置を取得
+        Vector3 lastPos = Strings[^1].transform.position;//最後のオブジェクトの位置を取得→ここを最初だけ始点の場所に指定したら最初左行かない問題解決しそう
         Vector3 FrontlastPos;
         Vector3 BacklastPos;
         Vector3 newPos = lastPos + (Vector3)m_Offset_X;
@@ -257,6 +304,35 @@ public class StringManager : MonoBehaviour
             }
         }
         return true; // 重なりがない場合はtrueを返す
+    }
+    void BallStopper()
+    {
+        Vector3 lastPos = Strings[^1].transform.position;
+        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//初期化
+        switch (m_LastDirection)
+        {
+            case RIGHT:
+                // 右にたまを止める処理
+                newPos = lastPos + (Vector3)m_Offset_X / 2;        //offsetをマイナスにして右側に
+                break;
+            case LEFT:
+                // 左にたまを止める処理
+                newPos = lastPos - (Vector3)m_Offset_X / 2;        //offsetをマイナスにして右側に
+                break;
+            case Up:
+                // 上にたまを止める処理
+                newPos = lastPos - (Vector3)m_Offset_Y / 2;
+                break;
+            case Down:
+                // 下にたまを止める処理
+                newPos = lastPos + (Vector3)m_Offset_Y / 2;
+                break;
+        }
+        // たまを止める処理
+        GameObject tama = Instantiate(Tamadome, newPos, Quaternion.identity);
+        m_StringMode = NoString;
+        m_LastDirection=RIGHT; // 直前の方向を初期化
+
     }
     void OnEnable()
     {
