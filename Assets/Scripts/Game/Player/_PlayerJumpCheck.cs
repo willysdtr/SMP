@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerJumpCheck : MonoBehaviour
 {
+    //ジャンプ判定用スクリプト(今のところ使わない)
     PlayerStateMachine state_ma;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -9,20 +10,19 @@ public class PlayerJumpCheck : MonoBehaviour
         state_ma = GetComponentInParent<PlayerStateMachine>();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)
         {
-            Debug.Log("2判定");
             state_ma.SetJumpFg(true);
+            state_ma.SetMoveFg(false);
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D collider)
     {
-        if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)
+        if (((1 << collider.gameObject.layer) & state_ma.groundlayers) != 0)
         {
-            Debug.Log("判定");
             state_ma.SetJumpFg(false);
         }
     }

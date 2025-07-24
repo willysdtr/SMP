@@ -58,10 +58,10 @@ public static class Stage1
 
 
     public static readonly StageData Stage1_2 = new StageData(
-        6,                          // ステージ: 横
+        8,                          // ステージ: 横
         8,                          // ステージ: 縦
 
-        new Int2(1, 0),           // 表: スタート位置
+        new Int2(2, 0),           // 表: スタート位置
         new Int2(3, 4),           // 表: ゴール位置
 
         new Int2(5, 5),           // 裏: スタート位置
@@ -101,13 +101,19 @@ public static class Stage1
         /*========== 風穴 の位置 ==========*/
         new WindPos[]               // 表
         {
-            new WindPos(Facing.Right, 3, 3),
-            new WindPos(Facing.Down,  3, 0),
+            new WindPos(Facing.Left, 0, 0),
+            new WindPos(Facing.Left, 0, 1),
+            new WindPos(Facing.Left, 1, 0),
+
+            new WindPos(Facing.Left, 0, 6),
+            new WindPos(Facing.Left, 0, 7),
+            new WindPos(Facing.Left, 1, 7),
         },
         new WindPos[]               // 裏
         {
-            new WindPos(Facing.Left, 4, 0),
-            new WindPos(Facing.Up,   3, 3),
+            new WindPos(Facing.Left, 7, 7),
+            new WindPos(Facing.Left, 6, 7),
+            new WindPos(Facing.Left, 7, 6),
         }
     );
 }

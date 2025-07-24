@@ -14,7 +14,9 @@ public class StageUICanvasLoader : MonoBehaviour
     public RectTransform leftPanel;     //左のステージ配置する場所
     public RectTransform rightPanel;    //右のステージ配置する場所
 
+    [Header("Tile Setup")]
     public GameObject tileUIPrefab;     //ステージオブジェクトのPrefab（後もっと増やす）
+    public TileData[] tileDataArray;
 
     private int rows;
     private int cols;
@@ -59,7 +61,7 @@ public class StageUICanvasLoader : MonoBehaviour
                 break;
         }
 
-        GenerateStageGrid();
+        GenerateStageGridObjects();
 
         if (stageGrid == null || stageGrid.Count == 0)
         {
@@ -74,7 +76,7 @@ public class StageUICanvasLoader : MonoBehaviour
         SetupGrid(rightPanel, cols / 2, cols);
     }
 
-    private void GenerateStageGrid()
+    private void GenerateStageGridObjects()
     {
         if (stage == null || tileUIPrefab == null)
         {
@@ -184,33 +186,63 @@ public class StageUICanvasLoader : MonoBehaviour
             {
                 int tileId = stageGrid[y][colStart + x];
                 GameObject tile = Instantiate(tileUIPrefab, panel);
-
                 tile.name = $"Tile_{x}_{y}";
 
-                // 仮に色づき四角
-                var img = tile.GetComponent<Image>();
-                if (img != null)
+                // 中身の「Fill」オブジェクトを探す
+                Transform fill = tile.transform.Find("Fill");
+
+                TileData tileData = GetTileData(tileId);
+                tile.tag = tileData.tag;             
+              
+                if (fill != null && fill.TryGetComponent<Image>(out var fillImage))
                 {
-                    img.color = TileColorFromId(tileId);
-                }
+                    fillImage.color = Color.white;
+                    fillImage.sprite = tileData.sprite;
+
+                    if (tile.tag == "Empty")
+                        fillImage.color = Color.clear;
+
+                    else if (tile.tag == "Void")
+                    {
+                        Image tileImage = tile.GetComponent<Image>();
+
+                        fillImage.color = Color.clear;
+                        // 親も透明にする
+                        
+                            tileImage.color = Color.clear;
+                        
+                    }
+
+                }                   
+                
             }
         }
     }
 
-    Color TileColorFromId(int id)
+    TileData GetTileData(int id)
     {
-        switch (id)
+        foreach (var data in tileDataArray)
         {
-            case 1: return Color.green;   // start
-            case 2: return Color.red;     // goal
-            case 3: return Color.yellow;  // soul
-            case 4: return Color.gray;    // steel
-            case 5: return new Color(1f, 0.5f, 0f); // wrinkle (orange)
-            case 6:
-            case 7:
-            case 8:
-            case 9: return Color.cyan;    // wind
-            default: return Color.clear;  // empty
+            //TEMP後で消す
+            if (id == 6 || id == 7 /*|| id == 8*/)
+            {
+                id = 9;
+            }
+
+            if (data.id == id)
+                return data;
         }
+
+        // 見つけてない場合
+        return new TileData { tag = "Untagged", sprite = null };
     }
+}
+
+
+[System.Serializable]
+public struct TileData
+{
+    public int id;
+    public string tag;
+    public Sprite sprite;
 }
