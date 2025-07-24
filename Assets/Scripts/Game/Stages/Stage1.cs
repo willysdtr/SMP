@@ -61,7 +61,7 @@ public static class Stage1
         8,                          // ステージ: 横
         8,                          // ステージ: 縦
 
-        new Int2(1, 0),           // 表: スタート位置
+        new Int2(2, 0),           // 表: スタート位置
         new Int2(3, 4),           // 表: ゴール位置
 
         new Int2(5, 5),           // 裏: スタート位置
@@ -111,8 +111,9 @@ public static class Stage1
         },
         new WindPos[]               // 裏
         {
-            new WindPos(Facing.Left, 4, 0),
-            new WindPos(Facing.Up,   3, 3),
+            new WindPos(Facing.Left, 7, 7),
+            new WindPos(Facing.Left, 6, 7),
+            new WindPos(Facing.Left, 7, 6),
         }
     );
 }

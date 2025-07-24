@@ -224,7 +224,7 @@ public class StageUICanvasLoader : MonoBehaviour
         foreach (var data in tileDataArray)
         {
             //TEMPå„Ç≈è¡Ç∑
-            if (id == 6 || id == 7 || id == 8)
+            if (id == 6 || id == 7 /*|| id == 8*/)
             {
                 id = 9;
             }
