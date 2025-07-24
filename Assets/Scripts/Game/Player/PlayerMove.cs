@@ -4,7 +4,6 @@ public class PlayerMove : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //プレイヤーの動き全般のスクリプト
-    PlayerState state;
     Rigidbody2D rb;
     [SerializeField]
 
@@ -16,13 +15,12 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        state = GetComponent<PlayerState>();
     }
 
-    public void Move()
+    public void Move(int direction)
     {
         //加速処理
-        if (state.m_direction != 0)//向きが0でなければ
+        if (direction != 0)//向きが0でなければ
         {
             currentspeed += PlayerState.MAX_SPEED * Time.deltaTime;
             currentspeed = Mathf.Min(currentspeed, PlayerState.MAX_SPEED);
@@ -33,7 +31,7 @@ public class PlayerMove : MonoBehaviour
             currentspeed -= PlayerState.MAX_SPEED * Time.deltaTime;
             currentspeed = Mathf.Max(currentspeed, 0f);
         }
-        rb.linearVelocity = new Vector2(state.m_direction * currentspeed, rb.linearVelocity.y);//速度を代入
+        rb.linearVelocity = new Vector2(direction * currentspeed, rb.linearVelocity.y);//速度を代入
     }
 
     public void InitJump(Vector2 initialVelocity)//ジャンプ初期化

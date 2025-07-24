@@ -22,7 +22,7 @@ public class _PlayerMove : MonoBehaviour
         maxspeed_read = maxspeed;//読み取り専用変数への代入
     }
 
-    public void Move()
+    public void Move(int direction)
     {
         //加速処理
         if (state_ma.direction != 0)//向きが0でなければ

@@ -15,7 +15,7 @@ public class PlayerState
     public bool IS_JUMP;
     public bool IS_GROUND;
     public bool IS_DOWN;
-    public bool IS_CEILING_HIT;
+    public bool IS_CEILING_HIT = false;
     public bool IS_CLIMB_NG;
     public bool IS_CLIMB;
     public bool IS_GIMJUMP;
@@ -25,14 +25,19 @@ public class PlayerState
 
     [SerializeField]
     [Header("ジャンプを行う最低時間")]
-    public const float jumptime_max = 0.1f;//ジャンプを行う最低時間
+    public const float jumptime_max = 0.3f;//ジャンプを行う最低時間
     
 
-    public LayerMask groundlayers => GroundLayers;
+    //public LayerMask groundlayers => GroundLayers;
 
     [SerializeField]
     [Header("当たり判定を取るレイヤー")]
-    private LayerMask GroundLayers;
+    public LayerMask GroundLayers;
+
+    public PlayerState(LayerMask groundLayers)
+    {
+        GroundLayers = groundLayers;
+    }
 
     //このスクリプトは情報を持つだけ
 }
