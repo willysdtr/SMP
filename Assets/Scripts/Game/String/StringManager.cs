@@ -15,6 +15,8 @@ public class StringManager : MonoBehaviour
     private Vector2 m_Offset_X=new Vector2(1.0f,0.0f);
     private Vector2 m_Offset_Y =new Vector2(0.0f,-1.0f);
     private List<GameObject> Strings = new List<GameObject>();
+    private List<GameObject> FrontStrings = new List<GameObject>();
+    private List<GameObject> BackStrings = new List<GameObject>();
     [SerializeField] private int StringNum;
     private InputSystem_Actions inputActions;
     private float m_PauseDirection;//音量調整の入力値
@@ -47,6 +49,7 @@ public class StringManager : MonoBehaviour
 
     void Start()
     {
+        //最初の初点を決める
         m_Offset_X=new Vector2(m_StrinngScale.x, 0.0f);
         m_Offset_Y=new Vector2(0.0f,-m_StrinngScale.y);
        GameObject first = Instantiate(StringPrefub, Vector3.zero, Quaternion.identity);
@@ -63,7 +66,10 @@ public class StringManager : MonoBehaviour
         if (m_LastDirection == LEFT) return;
         // 最後のオブジェクトの右に生成
         Vector3 lastPos = Strings[^1].transform.position;//最後のオブジェクトの位置を取得
+        Vector3 FrontlastPos;
+        Vector3 BacklastPos;
         Vector3 newPos = lastPos + (Vector3)m_Offset_X;
+
         if (m_LastDirection == Up)
         {
             newPos = lastPos + (Vector3)m_Offset_X / 2 - (Vector3)m_Offset_Y / 2;
@@ -72,20 +78,33 @@ public class StringManager : MonoBehaviour
         {
             newPos = lastPos + (Vector3)m_Offset_X / 2 + (Vector3)m_Offset_Y / 2;
         }
-        GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+        FrontlastPos = newPos + (Vector3)m_Offset_X / 2; // 上向きのときは少し上にずらす
+        BacklastPos = newPos - (Vector3)m_Offset_X / 2; // 上向きのときは少し下にずらす
 
-        //アニメーションを実行
-        Animator animator=obj.GetComponent<Animator>();
-        animator.SetTrigger("Play"); // アニメーションを再生
-        Strings.Add(obj);
-        m_LastDirection=RIGHT; // 直前の方向を更新
+        if(CheckString(newPos, FrontlastPos, BacklastPos))
+        {
+            GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+            //アニメーションを実行
+            Animator animator = obj.GetComponent<Animator>();
+            animator.SetTrigger("Play"); // アニメーションを再生
+            Strings.Add(obj);
+            GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
+            FrontStrings.Add(frontobj);
+            GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
+            BackStrings.Add(backobj);
+
+            m_LastDirection = RIGHT; // 直前の方向を更新
+        }
     }
     void OnLeftInput()
     {
         if (m_LastDirection == RIGHT) return;
         // 最後のオブジェクトの左に生成
         Vector3 lastPos = Strings[^1].transform.position; // 最後のオブジェクトの位置
+        Vector3 FrontlastPos;
+        Vector3 BacklastPos;
         Vector3 newPos = lastPos - (Vector3)m_Offset_X;        // ← offsetをマイナスにして左側に
+
         if (m_LastDirection == Up)
         {
             newPos = lastPos - (Vector3)m_Offset_X / 2 - (Vector3)m_Offset_Y / 2; // 上向きのときは少し下にずらす
@@ -94,40 +113,77 @@ public class StringManager : MonoBehaviour
         {
             newPos = lastPos-(Vector3)m_Offset_X / 2 + (Vector3)m_Offset_Y / 2; // 下向きのときは少し上にずらす
         }
-        GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-        obj.transform.rotation = Quaternion.Euler(0, 180, 0); // 左向きに回転
+        FrontlastPos = newPos - (Vector3)m_Offset_X / 2; // 上向きのときは少し上にずらす
+        BacklastPos = newPos + (Vector3)m_Offset_X / 2; // 上向きのときは少し下にずらす
+        if (CheckString(newPos, FrontlastPos, BacklastPos))
+        {
+            GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+            obj.transform.rotation = Quaternion.Euler(0, 180, 0); // 左向きに回転
+            //アニメーションを実行
+            Animator animator = obj.GetComponent<Animator>();
+            animator.SetTrigger("Play"); // アニメーションを再生
+            Strings.Add(obj);
+            GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
+            FrontStrings.Add(frontobj);
+            GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
+            BackStrings.Add(backobj);
 
-        Animator animator = obj.GetComponent<Animator>();
-        animator.SetTrigger("Play");
-        Strings.Add(obj);
-        m_LastDirection = LEFT; // 直前の方向を更新
+            m_LastDirection = LEFT; // 直前の方向を更新
+        }
+        //GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+        //obj.transform.rotation = Quaternion.Euler(0, 180, 0); // 左向きに回転
+
+        //Animator animator = obj.GetComponent<Animator>();
+        //animator.SetTrigger("Play");
+        //Strings.Add(obj);
+        //m_LastDirection = LEFT; // 直前の方向を更新
     }
     void OnUpInput()
     {
         if (m_LastDirection == Down) return;
         // 最後のオブジェクトの左に生成
         Vector3 lastPos = Strings[^1].transform.position; // 最後のオブジェクトの位置
+        Vector3 FrontlastPos;
+        Vector3 BacklastPos;
         Vector3 newPos= new Vector3(0.0f,0.0f,0.0f);//初期化
+
         if (m_LastDirection==RIGHT)
         {
            newPos = lastPos + (Vector3)m_Offset_X / 2 - (Vector3)m_Offset_Y / 2;        //offsetをマイナスにして右側に
         }
         else if (m_LastDirection==LEFT)
         {
-            newPos = lastPos - (Vector3)m_Offset_X - (Vector3)m_Offset_Y / 2;        //offsetをマイナスにして左側に
+            newPos = lastPos - (Vector3)m_Offset_X/2 - (Vector3)m_Offset_Y / 2;        //offsetをマイナスにして左側に
         }
         else if (m_LastDirection == Up)
         {
             newPos = lastPos - (Vector3)m_Offset_Y;        //offsetをマイナスにして左側に
         }
+        FrontlastPos = newPos - (Vector3)m_Offset_Y / 2; // 上向きのときは少し上にずらす
+        BacklastPos = newPos + (Vector3)m_Offset_Y / 2; // 上向きのときは少し下にずらす
 
-        GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-        obj.transform.rotation = Quaternion.Euler(0,0, 90); // 上向きに回転
+        if (CheckString(newPos, FrontlastPos, BacklastPos))
+        {
+            GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+            obj.transform.rotation = Quaternion.Euler(0,0, 90); // 上向きに回転
+            //アニメーションを実行
+            Animator animator = obj.GetComponent<Animator>();
+            animator.SetTrigger("Play"); // アニメーションを再生
+            Strings.Add(obj);
+            GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
+            FrontStrings.Add(frontobj);
+            GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
+            BackStrings.Add(backobj);
 
-        Animator animator = obj.GetComponent<Animator>();
-        animator.SetTrigger("Play");
-        Strings.Add(obj);
-        m_LastDirection = Up;
+            m_LastDirection = Up; // 直前の方向を更新
+        }
+        //GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+        //obj.transform.rotation = Quaternion.Euler(0,0, 90); // 上向きに回転
+
+        //Animator animator = obj.GetComponent<Animator>();
+        //animator.SetTrigger("Play");
+        //Strings.Add(obj);
+        //m_LastDirection = Up;
     }
     void OnDownInput()
     {
@@ -135,6 +191,8 @@ public class StringManager : MonoBehaviour
         // 最後のオブジェクトの左に生成
         Vector3 lastPos = Strings[^1].transform.position; // 最後のオブジェクトの位置
         Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//初期化
+        Vector3 FrontlastPos;
+        Vector3 BacklastPos;
         if (m_LastDirection == RIGHT)
         {
             newPos = lastPos + (Vector3)m_Offset_X /2 + (Vector3)m_Offset_Y /2;        //offsetをマイナスにして右側に
@@ -147,14 +205,58 @@ public class StringManager : MonoBehaviour
         {
             newPos = lastPos + (Vector3)m_Offset_Y;        //offsetをマイナスにして左側に
         }
+        FrontlastPos = newPos + (Vector3)m_Offset_Y / 2; // 上向きのときは少し上にずらす
+        BacklastPos = newPos - (Vector3)m_Offset_Y / 2; // 上向きのときは少し下にずらす
 
-        GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-        obj.transform.rotation = Quaternion.Euler(0, 0, 270); // 上向きに回転
+        if (CheckString(newPos, FrontlastPos, BacklastPos))
+        {
+            GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+            //アニメーションを実行
+            obj.transform.rotation = Quaternion.Euler(0, 0, 270); // 上向きに回転
+            Animator animator = obj.GetComponent<Animator>();
+            animator.SetTrigger("Play"); // アニメーションを再生
+            Strings.Add(obj);
+            GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
+            FrontStrings.Add(frontobj);
+            GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
+            BackStrings.Add(backobj);
 
-        Animator animator = obj.GetComponent<Animator>();
-        animator.SetTrigger("Play");
-        Strings.Add(obj);
-        m_LastDirection = Down;
+            m_LastDirection =Down; // 直前の方向を更新
+        }
+        //GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+        //obj.transform.rotation = Quaternion.Euler(0, 0, 270); // 上向きに回転
+
+        //Animator animator = obj.GetComponent<Animator>();
+        //animator.SetTrigger("Play");
+        //Strings.Add(obj);
+        //m_LastDirection = Down;
+    }
+
+    bool CheckString(Vector3 newPos, Vector3 FrontlastPos, Vector3 BacklastPos)
+    {
+        // 重なりチェック（微小なズレ防止のため距離で判定）
+        foreach (GameObject str in Strings)
+        {
+            if (Vector3.Distance(str.transform.position, FrontlastPos) < 0.001f)
+            {
+                return false; // すでに同じ位置に存在 → 処理中断
+            }
+        }
+        foreach (GameObject str in FrontStrings)
+        {
+            if (Vector3.Distance(str.transform.position, FrontlastPos) < 0.001f)
+            {
+                return false; // すでに同じ位置に存在 → 処理中断
+            }
+        }
+        foreach (GameObject str in BackStrings)
+        {
+            if (Vector3.Distance(str.transform.position, FrontlastPos) < 0.001f)
+            {
+                return false; // すでに同じ位置に存在 → 処理中断
+            }
+        }
+        return true; // 重なりがない場合はtrueを返す
     }
     void OnEnable()
     {

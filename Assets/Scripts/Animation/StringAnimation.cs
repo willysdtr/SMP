@@ -25,7 +25,7 @@ public class StringAnimation : MonoBehaviour
             child.rotation = worldRot;
             // スケールを再設定（特殊）
             SetWorldScale(child, worldScale); // 
-
+           // this.transform.localScale.x
             // 必要ならアクティブ化
             child.gameObject.SetActive(true);
         }
