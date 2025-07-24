@@ -7,6 +7,12 @@ TagManager:
   - SteelPlate
   - Spring
   - Wrinkles
+  - Start
+  - Goal
+  - Soul
+  - Wind
+  - Empty
+  - Void
   layers:
   - Default
   - TransparentFX
