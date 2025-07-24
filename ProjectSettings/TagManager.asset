@@ -7,12 +7,16 @@ TagManager:
   - SteelPlate
   - Spring
   - Wrinkles
+<<<<<<< HEAD
   - Start
   - Goal
   - Soul
   - Wind
   - Empty
   - Void
+=======
+  - String
+>>>>>>> origin/Work_Taniguchi
   layers:
   - Default
   - TransparentFX
