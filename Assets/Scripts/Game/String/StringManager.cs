@@ -22,6 +22,7 @@ public class StringManager : MonoBehaviour
     private List<GameObject> BackStrings = new List<GameObject>();
     [SerializeField] List<int> StringNum;
     private int currentIndex = 0;
+
     [SerializeField] private ShowStringNum listDisplay; // 表示クラスをインスペクターでセット
     [SerializeField] GameObject Tamadome;
     [SerializeField] GameObject StringCursol;
@@ -31,42 +32,38 @@ public class StringManager : MonoBehaviour
 
     bool m_StringMode = NoString;//ストリングモードのフラグ
 
+    public bool EndSiting = false; // たまを止めるかどうかのフラグ
+
     void Awake()
     {
         inputActions = new InputSystem_Actions();
 
         inputActions.Stirng.nami.performed += ctx =>
         {
-            // すべての要素が0の場合、処理を行わない
-            while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
-            {
-                currentIndex++;
-            }
-
-            // 現在処理可能な要素がなければ終了
-            if (currentIndex >= StringNum.Count)
-            {
-                Debug.Log("すべての処理が完了しました");
-                return;
-            }
-
-            // 対象要素を1減らす
-            StringNum[currentIndex]--;
-
-            Debug.Log($"Index {currentIndex} の要素を1減らしました。残り: {StringNum[currentIndex]}");
-
-            // もし現在の要素が0になったら、次回は次のインデックスへ進むようになる
-            if (StringNum[currentIndex] == 0)
-            {
-                currentIndex++;
-            }
-
-            listDisplay.UpdateDisplay(StringNum);// Text表示を更新
-
-
+     
             float value = ctx.ReadValue<float>();
             if(m_StringMode== isString)
             {
+                // すべての要素が0の場合、処理を行わない
+                while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
+                {
+                    currentIndex++;
+                }
+
+                // 現在処理可能な要素がなければ終了
+                if (currentIndex >= StringNum.Count)
+                {
+                    Debug.Log("すべての処理が完了しました");
+                    return;
+                }
+
+                // 対象要素を1減らす
+                StringNum[currentIndex]--;
+
+                Debug.Log($"Index {currentIndex} の要素を1減らしました。残り: {StringNum[currentIndex]}");
+
+                listDisplay.UpdateDisplay(StringNum);// Text表示を更新
+
                 m_PauseDirection = value;
                 if (m_PauseDirection == 1)//上
                 {
@@ -83,6 +80,14 @@ public class StringManager : MonoBehaviour
                 else if (m_PauseDirection == 3)//左
                 {
                     OnLeftInput();
+                }
+                // もし現在の要素が0になったら、次回は次のインデックスへ進むようになる
+                if (StringNum[currentIndex] == 0)
+                {
+                    currentIndex++;
+                    Debug.Log($"Index {currentIndex} の要素が0になりました。次の要素へ進みます。");
+                    //EndSiting = true;←　これAnimationに入れてるんやけどなんかStringsが反映されてないっぽいです
+                    BallStopper();//たまを止める処理を呼び出す
                 }
             }
             else if (m_StringMode == NoString)
@@ -332,7 +337,7 @@ public class StringManager : MonoBehaviour
         }
         return true; // 重なりがない場合はtrueを返す
     }
-    void BallStopper()
+    public void BallStopper()
     {
         Vector3 lastPos = Strings[^1].transform.position;
         Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//初期化

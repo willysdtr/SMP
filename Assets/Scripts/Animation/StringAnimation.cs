@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class StringAnimation : MonoBehaviour
 {
+    public StringManager m_StringManager;
     public void EndAnimarion()
     {
         Debug.Log("アニメーション終了しました");
@@ -28,6 +29,12 @@ public class StringAnimation : MonoBehaviour
            // this.transform.localScale.x
             // 必要ならアクティブ化
             child.gameObject.SetActive(true);
+            if(m_StringManager.EndSiting==true)
+            {
+                m_StringManager.BallStopper();
+                Debug.Log("EndSitingがtrueになりました");
+                m_StringManager.EndSiting = true;
+            }
         }
     }
     void SetWorldScale(Transform target, Vector3 desiredWorldScale)
