@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
                 if (!state.IS_CLIMB) { state.currentstate = PlayerState.State.STOP; }
                 break;
             case PlayerState.State.JUMP://JUMP
-                if (state.IS_CEILING_HIT || (state.IS_GROUND && jumptime > PlayerState.jumptime_max)) { state.currentstate = PlayerState.State.STOP; move.EndJump(); Debug.Log("cc"); }
+                if (state.IS_CEILING_HIT || (state.IS_GROUND && jumptime > PlayerState.jumptime_max)) { state.currentstate = PlayerState.State.STOP; move.EndJump();}
                 break;
             case PlayerState.State.FALL://FALL
                 if (state.IS_GROUND) { state.currentstate = PlayerState.State.STOP; }
