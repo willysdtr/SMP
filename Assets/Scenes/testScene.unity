@@ -3758,7 +3758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9091754666906519619, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: tileDataArray.Array.data[3].tag
-      value: SteelPlate
+      value: Void
       objectReference: {fileID: 0}
     - target: {fileID: 9091754666906519619, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: tileDataArray.Array.data[4].tag
