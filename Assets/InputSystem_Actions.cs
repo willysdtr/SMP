@@ -1441,6 +1441,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""tama"",
+                    ""type"": ""Button"",
+                    ""id"": ""e5017d51-a3cc-4c9d-80b5-402ecf414c36"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""start"",
+                    ""type"": ""Button"",
+                    ""id"": ""6fbca6fb-76d7-413f-868e-38cfe6571a78"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1496,6 +1514,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""kaesi"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a94dd799-6d3f-415c-938d-f617e173eb65"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""tama"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8551c224-a17a-494d-9100-62a3800299b4"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1609,6 +1649,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Stirng = asset.FindActionMap("Stirng", throwIfNotFound: true);
         m_Stirng_nami = m_Stirng.FindAction("nami", throwIfNotFound: true);
         m_Stirng_kaesi = m_Stirng.FindAction("kaesi", throwIfNotFound: true);
+        m_Stirng_tama = m_Stirng.FindAction("tama", throwIfNotFound: true);
+        m_Stirng_start = m_Stirng.FindAction("start", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -2451,6 +2493,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private List<IStirngActions> m_StirngActionsCallbackInterfaces = new List<IStirngActions>();
     private readonly InputAction m_Stirng_nami;
     private readonly InputAction m_Stirng_kaesi;
+    private readonly InputAction m_Stirng_tama;
+    private readonly InputAction m_Stirng_start;
     /// <summary>
     /// Provides access to input actions defined in input action map "Stirng".
     /// </summary>
@@ -2470,6 +2514,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Stirng/kaesi".
         /// </summary>
         public InputAction @kaesi => m_Wrapper.m_Stirng_kaesi;
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/tama".
+        /// </summary>
+        public InputAction @tama => m_Wrapper.m_Stirng_tama;
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/start".
+        /// </summary>
+        public InputAction @start => m_Wrapper.m_Stirng_start;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2502,6 +2554,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @kaesi.started += instance.OnKaesi;
             @kaesi.performed += instance.OnKaesi;
             @kaesi.canceled += instance.OnKaesi;
+            @tama.started += instance.OnTama;
+            @tama.performed += instance.OnTama;
+            @tama.canceled += instance.OnTama;
+            @start.started += instance.OnStart;
+            @start.performed += instance.OnStart;
+            @start.canceled += instance.OnStart;
         }
 
         /// <summary>
@@ -2519,6 +2577,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @kaesi.started -= instance.OnKaesi;
             @kaesi.performed -= instance.OnKaesi;
             @kaesi.canceled -= instance.OnKaesi;
+            @tama.started -= instance.OnTama;
+            @tama.performed -= instance.OnTama;
+            @tama.canceled -= instance.OnTama;
+            @start.started -= instance.OnStart;
+            @start.performed -= instance.OnStart;
+            @start.canceled -= instance.OnStart;
         }
 
         /// <summary>
@@ -2888,5 +2952,19 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnKaesi(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "tama" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTama(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "start" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStart(InputAction.CallbackContext context);
     }
 }
