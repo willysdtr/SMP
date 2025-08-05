@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2434848859039919341}
   - component: {fileID: 4221106609058937438}
   - component: {fileID: 5416418816901042235}
-  - component: {fileID: 7619519398029701094}
+  - component: {fileID: -6344957794804798917}
   m_Layer: 6
   m_Name: Nami_anim
   m_TagString: Untagged
@@ -125,7 +125,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7619519398029701094
+--- !u!114 &-6344957794804798917
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4061977648869043068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73a534a907301f343a3bf72ab491defd, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ba164cde3710c7488a37da338995963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6527325876537924140
@@ -148,7 +148,6 @@ GameObject:
   - component: {fileID: 3079818868505903455}
   - component: {fileID: 754222614164566368}
   - component: {fileID: 8184539656378739168}
-  - component: {fileID: 3474833116906230074}
   m_Layer: 6
   m_Name: Nami_nui1
   m_TagString: Untagged
@@ -238,49 +237,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &3474833116906230074
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6527325876537924140}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5, y: 1.5003663}
-    newSize: {x: 2, y: 2.5}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.5, y: 1.5}
-  m_EdgeRadius: 0
