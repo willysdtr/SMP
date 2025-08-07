@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 public class StringManager : MonoBehaviour
 {
     //定数宣言
@@ -8,6 +7,7 @@ public class StringManager : MonoBehaviour
     private const int LEFT = 1;
     private const int Up = 2;
     private const int Down = 3;
+    private const int Middle = 4;
 
     private const bool NoString=false;
     private const bool isString=true;
@@ -21,6 +21,9 @@ public class StringManager : MonoBehaviour
     private List<GameObject> FrontStrings = new List<GameObject>();
     private List<GameObject> BackStrings = new List<GameObject>();
     [SerializeField] List<int> StringNum;
+    private int currentIndex = 0;
+
+    [SerializeField] private ShowStringNum listDisplay; // 表示クラスをインスペクターでセット
     [SerializeField] GameObject Tamadome;
     [SerializeField] GameObject StringCursol;
     private InputSystem_Actions inputActions;
@@ -29,14 +32,34 @@ public class StringManager : MonoBehaviour
 
     bool m_StringMode = NoString;//ストリングモードのフラグ
 
+    public bool EndSiting = false; // たまを止めるかどうかのフラグ
+
     void Awake()
     {
         inputActions = new InputSystem_Actions();
+
         inputActions.Stirng.nami.performed += ctx =>
         {
+     
             float value = ctx.ReadValue<float>();
             if(m_StringMode== isString)
             {
+                // すべての要素が0の場合、処理を行わない
+                while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
+                {
+                    currentIndex++;
+                }
+
+                // 現在処理可能な要素がなければ終了
+                if (currentIndex >= StringNum.Count)
+                {
+                    Debug.Log("すべての処理が完了しました");
+                    return;
+                }
+
+
+                //StringNumを減らう処理はOnRightInput, OnLeftInput, OnUpInput, OnDownInputの中で行う
+
                 m_PauseDirection = value;
                 if (m_PauseDirection == 1)//上
                 {
@@ -53,6 +76,14 @@ public class StringManager : MonoBehaviour
                 else if (m_PauseDirection == 3)//左
                 {
                     OnLeftInput();
+                }
+                // もし現在の要素が0になったら、次回は次のインデックスへ進むようになる
+                if (StringNum[currentIndex] == 0)
+                {
+                    currentIndex++;
+                    Debug.Log($"Index {currentIndex} の要素が0になりました。次の要素へ進みます。");
+                    //EndSiting = true;←　これAnimationに入れてるんやけどなんかStringsが反映されてないっぽいです
+                    BallStopper();//たまを止める処理を呼び出す
                 }
             }
             else if (m_StringMode == NoString)
@@ -93,6 +124,10 @@ public class StringManager : MonoBehaviour
             Strings.Add(dummy);
             m_StringMode = isString; // ストリングモードを有効にする
         };
+        inputActions.Stirng.kaesi.performed += ctx =>
+        {
+            OnKaesiInput();
+        };
     }
 
     void Start()
@@ -100,7 +135,8 @@ public class StringManager : MonoBehaviour
         //最初の初点を決める
         m_Offset_X=new Vector2(m_StrinngScale.x, 0.0f);
         m_Offset_Y=new Vector2(0.0f,-m_StrinngScale.y);
-
+        m_LastDirection = Middle;
+        listDisplay.UpdateDisplay(StringNum);// Text表示を更新
     }
 
     // Update is called once per frame
@@ -125,12 +161,17 @@ public class StringManager : MonoBehaviour
         {
             newPos = lastPos + (Vector3)m_Offset_X / 2 + (Vector3)m_Offset_Y / 2;
         }
+        else if (m_LastDirection == Middle)
+        {
+            newPos = lastPos + (Vector3)m_Offset_X/2; // 最初の位置から右にずらす
+        }
         FrontlastPos = newPos + (Vector3)m_Offset_X / 2; // 上向きのときは少し上にずらす
         BacklastPos = newPos - (Vector3)m_Offset_X / 2; // 上向きのときは少し下にずらす
 
         if(CheckString(newPos, FrontlastPos, BacklastPos))
         {
             GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+            obj.tag = "Nami";
             //アニメーションを実行
             Animator animator = obj.GetComponent<Animator>();
             animator.SetTrigger("Play"); // アニメーションを再生
@@ -141,6 +182,12 @@ public class StringManager : MonoBehaviour
             BackStrings.Add(backobj);
 
             m_LastDirection = RIGHT; // 直前の方向を更新
+                                     // 対象要素を1減らす
+            StringNum[currentIndex]--;
+
+            Debug.Log($"Index {currentIndex} の要素を1減らしました。残り: {StringNum[currentIndex]}");
+
+            listDisplay.UpdateDisplay(StringNum);// Text表示を更新
         }
     }
     void OnLeftInput()
@@ -160,12 +207,17 @@ public class StringManager : MonoBehaviour
         {
             newPos = lastPos-(Vector3)m_Offset_X / 2 + (Vector3)m_Offset_Y / 2; // 下向きのときは少し上にずらす
         }
+        else if (m_LastDirection == Middle)
+        {
+            newPos = lastPos - (Vector3)m_Offset_X/2; // 最初の位置から右にずらす
+        }
         FrontlastPos = newPos - (Vector3)m_Offset_X / 2; // 上向きのときは少し上にずらす
         BacklastPos = newPos + (Vector3)m_Offset_X / 2; // 上向きのときは少し下にずらす
         if (CheckString(newPos, FrontlastPos, BacklastPos))
         {
             GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
             obj.transform.rotation = Quaternion.Euler(0, 180, 0); // 左向きに回転
+            obj.tag = "Nami"; 
             //アニメーションを実行
             Animator animator = obj.GetComponent<Animator>();
             animator.SetTrigger("Play"); // アニメーションを再生
@@ -176,14 +228,13 @@ public class StringManager : MonoBehaviour
             BackStrings.Add(backobj);
 
             m_LastDirection = LEFT; // 直前の方向を更新
-        }
-        //GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-        //obj.transform.rotation = Quaternion.Euler(0, 180, 0); // 左向きに回転
+                                    // 対象要素を1減らす
+            StringNum[currentIndex]--;
 
-        //Animator animator = obj.GetComponent<Animator>();
-        //animator.SetTrigger("Play");
-        //Strings.Add(obj);
-        //m_LastDirection = LEFT; // 直前の方向を更新
+            Debug.Log($"Index {currentIndex} の要素を1減らしました。残り: {StringNum[currentIndex]}");
+
+            listDisplay.UpdateDisplay(StringNum);// Text表示を更新
+        }
     }
     void OnUpInput()
     {
@@ -206,6 +257,10 @@ public class StringManager : MonoBehaviour
         {
             newPos = lastPos - (Vector3)m_Offset_Y;        //offsetをマイナスにして左側に
         }
+        else if (m_LastDirection == Middle)
+        {
+            newPos = lastPos - (Vector3)m_Offset_Y/2; // 最初の位置から右にずらす
+        }
         FrontlastPos = newPos - (Vector3)m_Offset_Y / 2; // 上向きのときは少し上にずらす
         BacklastPos = newPos + (Vector3)m_Offset_Y / 2; // 上向きのときは少し下にずらす
 
@@ -213,6 +268,7 @@ public class StringManager : MonoBehaviour
         {
             GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
             obj.transform.rotation = Quaternion.Euler(0,0, 90); // 上向きに回転
+            obj.tag = "Nami";
             //アニメーションを実行
             Animator animator = obj.GetComponent<Animator>();
             animator.SetTrigger("Play"); // アニメーションを再生
@@ -223,14 +279,14 @@ public class StringManager : MonoBehaviour
             BackStrings.Add(backobj);
 
             m_LastDirection = Up; // 直前の方向を更新
-        }
-        //GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-        //obj.transform.rotation = Quaternion.Euler(0,0, 90); // 上向きに回転
+                                  // 対象要素を1減らす
+            StringNum[currentIndex]--;
 
-        //Animator animator = obj.GetComponent<Animator>();
-        //animator.SetTrigger("Play");
-        //Strings.Add(obj);
-        //m_LastDirection = Up;
+            Debug.Log($"Index {currentIndex} の要素を1減らしました。残り: {StringNum[currentIndex]}");
+
+            listDisplay.UpdateDisplay(StringNum);// Text表示を更新
+        }
+
     }
     void OnDownInput()
     {
@@ -252,6 +308,10 @@ public class StringManager : MonoBehaviour
         {
             newPos = lastPos + (Vector3)m_Offset_Y;        //offsetをマイナスにして左側に
         }
+        else if (m_LastDirection == Middle)
+        {
+            newPos = lastPos + (Vector3)m_Offset_Y / 2; // 最初の位置から右にずらす
+        }
         FrontlastPos = newPos + (Vector3)m_Offset_Y / 2; // 上向きのときは少し上にずらす
         BacklastPos = newPos - (Vector3)m_Offset_Y / 2; // 上向きのときは少し下にずらす
 
@@ -261,6 +321,7 @@ public class StringManager : MonoBehaviour
             //アニメーションを実行
             obj.transform.rotation = Quaternion.Euler(0, 0, 270); // 上向きに回転
             Animator animator = obj.GetComponent<Animator>();
+            obj.tag = "Nami";
             animator.SetTrigger("Play"); // アニメーションを再生
             Strings.Add(obj);
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
@@ -269,14 +330,13 @@ public class StringManager : MonoBehaviour
             BackStrings.Add(backobj);
 
             m_LastDirection =Down; // 直前の方向を更新
-        }
-        //GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-        //obj.transform.rotation = Quaternion.Euler(0, 0, 270); // 上向きに回転
+                                   // 対象要素を1減らす
+            StringNum[currentIndex]--;
 
-        //Animator animator = obj.GetComponent<Animator>();
-        //animator.SetTrigger("Play");
-        //Strings.Add(obj);
-        //m_LastDirection = Down;
+            Debug.Log($"Index {currentIndex} の要素を1減らしました。残り: {StringNum[currentIndex]}");
+
+            listDisplay.UpdateDisplay(StringNum);// Text表示を更新
+        }
     }
 
     bool CheckString(Vector3 newPos, Vector3 FrontlastPos, Vector3 BacklastPos)
@@ -305,7 +365,7 @@ public class StringManager : MonoBehaviour
         }
         return true; // 重なりがない場合はtrueを返す
     }
-    void BallStopper()
+    public void BallStopper()
     {
         Vector3 lastPos = Strings[^1].transform.position;
         Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//初期化
@@ -331,8 +391,55 @@ public class StringManager : MonoBehaviour
         // たまを止める処理
         GameObject tama = Instantiate(Tamadome, newPos, Quaternion.identity);
         m_StringMode = NoString;
-        m_LastDirection=RIGHT; // 直前の方向を初期化
+        m_LastDirection = Middle; // 直前の方向を初期化
+    }
+    void OnKaesiInput()
+    {
+        Vector3 lastPos = Strings[^1].transform.position;
+        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//初期化
+        GameObject obj=new GameObject();
+        Animator animator=new Animator();
+        switch (m_LastDirection)
+        {
+            case RIGHT:
+                // 右にたまを止める処理
+                newPos = lastPos - (Vector3)m_Offset_Y / 10;        //offsetをマイナスにして右側に
+                obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+                obj.transform.rotation = Quaternion.Euler(0, 180, 0); // 左向きに回転
+                obj.tag = "Kaesi";
+                animator = obj.GetComponent<Animator>();
+                animator.SetTrigger("Play"); // アニメーションを再生
+                newPos = lastPos;//配列に入れる場所は上に移動させたくないので元に戻す
+                //obj.transform.position = newPos; //これは場所はあかんけどobjが増えない
+                obj = Instantiate(StringPrefub, newPos, Quaternion.identity);//これの場合は要らないObjが増えるけど場所はいい感じ
+                Strings.Add(obj);
+                m_LastDirection = LEFT; //返し縫なので実質逆
+                break;
+            case LEFT:
+                // 左にたまを止める処理                  
+                newPos = lastPos - (Vector3)m_Offset_Y / 10;         //offsetをマイナスにして右側に
+                obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
+                obj.tag = "Kaesi";
+                animator = obj.GetComponent<Animator>();
+                animator.SetTrigger("Play"); // アニメーションを再生
+                newPos = lastPos;//配列に入れる場所は上に移動させたくないので元に戻す
+                //obj.transform.position = newPos; // 位置を元に戻す
+                 obj = Instantiate(StringPrefub, newPos, Quaternion.identity);//これの場合は要らないObjが増えるけど場所はいい感じ
+                Strings.Add(obj);
+                m_LastDirection = RIGHT; //返し縫なので実質逆
+                break;
+            case Up:
+                return;
+           case Down: 
+                return;
+        }
+                                                           
+                                // 対象要素を1減らす
+        StringNum[currentIndex]--;
 
+        Debug.Log($"Index {currentIndex} の要素を1減らしました。残り: {StringNum[currentIndex]}");
+
+        listDisplay.UpdateDisplay(StringNum);// Text表示を更新
     }
     void OnEnable()
     {
