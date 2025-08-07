@@ -134,11 +134,11 @@ public class StringManager : MonoBehaviour
 
     void Start()
     {
-        //最初の初点を決める
-        if(stageLoader != null)
+        //最初の初点を決める    
+        if (stageLoader != null)
         {
             m_StrinngScale = new Vector3(stageLoader.TileSize, stageLoader.TileSize, 0.0f); //糸のサイズを設定する
-        }      
+        }
         m_Offset_X =new Vector2(m_StrinngScale.x, 0.0f);
         m_Offset_Y=new Vector2(0.0f,-m_StrinngScale.y);
         m_LastDirection = Middle;
