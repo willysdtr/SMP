@@ -134,7 +134,7 @@ public class StringManager : MonoBehaviour
 
     void Start()
     {
-        //最初の初点を決める    
+        //最初の初点を決める
         if (stageLoader != null)
         {
             m_StrinngScale = new Vector3(stageLoader.TileSize, stageLoader.TileSize, 0.0f); //糸のサイズを設定する
