@@ -23,7 +23,10 @@ public class StageUICanvasLoader : MonoBehaviour
 
     private List<List<int>> stageGrid;
     private StageData stage;
-    
+
+    private float tilesize;
+    public float TileSize => tilesize;
+
     void Start()
     {
         //チェックマーク付いたら、StageIDから、ステージロード・付けないならばステージセレクトからステージIDを設定する
@@ -172,6 +175,8 @@ public class StageUICanvasLoader : MonoBehaviour
         float tileWidth = panel.rect.width / gridCols;
         float tileHeight = panel.rect.height / gridRows;
         float tileSize = Mathf.Min(tileWidth, tileHeight);
+
+        tilesize = tileSize;
 
         gridLayout.cellSize = new Vector2(tileSize, tileSize);
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
