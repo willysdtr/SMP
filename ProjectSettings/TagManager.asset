@@ -14,6 +14,8 @@ TagManager:
   - Empty
   - Void
   - String
+  - Kaesi
+  - Nami
   layers:
   - Default
   - TransparentFX
