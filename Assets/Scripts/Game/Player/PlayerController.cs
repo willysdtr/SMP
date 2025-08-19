@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // プレイヤーを指定の親（Canvasのパネル）に、アンカー位置とサイズで配置する関数
+    // プレイヤーをCanvasに、アンカー位置とサイズで配置する関数
     public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size)
     {
         // 親を設定（第2引数falseでローカル座標維持なし、完全に親基準で位置設定）
@@ -225,7 +225,12 @@ public class PlayerController : MonoBehaviour
         // 親パネル基準のローカル座標（アンカー位置）をセット
         rect.anchoredPosition = anchoredPos;
 
+        Vector2 setScale = new ( size.x / rect.sizeDelta.x, size.y / rect.sizeDelta.y );
+
         // サイズを合わせる
         rect.sizeDelta = size;
+
+        BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
+        collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);
     }
 }

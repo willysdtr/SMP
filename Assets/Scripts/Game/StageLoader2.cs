@@ -89,6 +89,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
         // 自分自身のRectTransformを取得
         RectTransform myRect = this.GetComponent<RectTransform>();
 
+        //プレイヤー配置
         playerController = king.GetComponent<PlayerController>();
         if (playerController != null)
         {
@@ -224,8 +225,14 @@ public class StageUICanvasLoader2 : MonoBehaviour
                 {
                     tile = Instantiate(tileData.prefab, panel);
                     Transform fill2 = tile.transform.Find("Fill");
+                    RectTransform rect = tile.GetComponent<RectTransform>();
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
-                    collider.size = new Vector2(tileSize, tileSize);
+                    Vector2 setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
+                    collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
+                    if(tileId == 1)
+                    {
+                        collider.offset = new (collider.offset.x * setScale.x, collider.offset.y * setScale.y);//Startの場合はoffset変更も行う
+                    }
                 }
 
                 tile.name = $"Tile_{x}_{y}";
