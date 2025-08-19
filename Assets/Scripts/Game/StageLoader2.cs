@@ -1,8 +1,7 @@
+using StageInfo;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
-using StageInfo;
 
 //StageLoaderの谷口改造版
 
@@ -19,6 +18,16 @@ public class StageUICanvasLoader2 : MonoBehaviour
     [Header("Tile Setup")]
     public GameObject tileUIPrefab;     //ステージオブジェクトのPrefab（後もっと増やす）
     public TileData2[] tileDataArray;
+
+    public GameObject king;
+    public GameObject queen;
+
+    PlayerController playerController;
+
+    private Vector2 kingPos;
+    private Vector2 queenPos;
+
+    private Vector2 size;
 
     private int rows;
     private int cols;
@@ -76,6 +85,22 @@ public class StageUICanvasLoader2 : MonoBehaviour
 
         SetupGrid(leftPanel, 0, cols / 2);
         SetupGrid(rightPanel, cols / 2, cols);
+
+        // 自分自身のRectTransformを取得
+        RectTransform myRect = this.GetComponent<RectTransform>();
+
+        playerController = king.GetComponent<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.PlaceAtPosition(myRect, kingPos, size);
+        }
+
+        playerController = queen.GetComponent<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.PlaceAtPosition(myRect, queenPos, size);
+        }
+
     }
 
     private void GenerateStageGridObjects()
@@ -175,6 +200,8 @@ public class StageUICanvasLoader2 : MonoBehaviour
         float tileHeight = panel.rect.height / gridRows;
         float tileSize = Mathf.Min(tileWidth, tileHeight);
 
+        size = new Vector2(tileSize * 6, tileSize * 8);
+
         gridLayout.cellSize = new Vector2(tileSize, tileSize);
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayout.constraintCount = gridCols;
@@ -189,7 +216,8 @@ public class StageUICanvasLoader2 : MonoBehaviour
                 int tileId = stageGrid[y][colStart + x];
                 TileData2 tileData = GetTileData(tileId);
                 GameObject tile;
-                if (tileData.prefab == null) {
+                if (tileData.prefab == null)
+                {
                     tile = Instantiate(tileUIPrefab, panel);
                 }
                 else
@@ -198,37 +226,52 @@ public class StageUICanvasLoader2 : MonoBehaviour
                     Transform fill2 = tile.transform.Find("Fill");
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
                     collider.size = new Vector2(tileSize, tileSize);
-
                 }
 
                 tile.name = $"Tile_{x}_{y}";
-
-                // 中身の「Fill」オブジェクトを探す
-                Transform fill = tile.transform.Find("Fill");
-
                 tile.tag = tileData.tag;
 
+                Transform fill = tile.transform.Find("Fill");
                 if (fill != null && fill.TryGetComponent<Image>(out var fillImage))
                 {
                     fillImage.color = Color.white;
                     fillImage.sprite = tileData.sprite;
-
-                    if (tile.tag == "Empty")
-                        fillImage.color = Color.clear;
-
+                    if (tile.tag == "Empty") fillImage.color = Color.clear;
                     else if (tile.tag == "Void")
                     {
                         Image tileImage = tile.GetComponent<Image>();
-
                         fillImage.color = Color.clear;
-                        // 親も透明にする
-
                         tileImage.color = Color.clear;
-
                     }
-
                 }
+            }
+        }
 
+        // ===== レイアウト確定 =====
+        LayoutRebuilder.ForceRebuildLayoutImmediate(panel);
+        Debug.Log($"[After LayoutRebuilder] panel.localPos={panel.localPosition}, anchoredPos={panel.anchoredPosition}, rect={panel.rect}");
+
+        // ===== id==1 のタイル座標を取得 =====
+        for (int y = 0; y < gridRows; y++)
+        {
+            for (int x = 0; x < gridCols; x++)
+            {
+                string tileName = $"Tile_{x}_{y}";
+                Transform tileTf = panel.Find(tileName);
+                if (tileTf == null) continue;
+
+                int tileId = stageGrid[y][colStart + x];
+                if (tileId != 1) continue;
+
+                RectTransform tileRect = tileTf as RectTransform;
+                Vector2 tilePosInCanvas = GetTilePositionInCanvasLocal(tileRect, panel);
+
+                if (colStart == 0)
+                    kingPos = tilePosInCanvas;
+                else
+                    queenPos = tilePosInCanvas;
+
+                Debug.Log($"[TileID=1] name={tileName}, anchoredPos={tileRect.anchoredPosition}, worldPos={tileRect.position}, king/queenPos={tilePosInCanvas}");
             }
         }
     }
@@ -250,7 +293,27 @@ public class StageUICanvasLoader2 : MonoBehaviour
         // 見つけてない場合
         return new TileData2 { tag = "Untagged", sprite = null };
     }
+
+    Vector2 GetTilePositionInCanvasLocal(RectTransform tileRect, RectTransform panel)
+    {
+        RectTransform canvasRect = this.GetComponent<RectTransform>();
+        Canvas canvas = canvasRect.GetComponent<Canvas>();
+        Camera cam = canvas != null ? canvas.worldCamera : Camera.main;
+
+        Vector3 tileWorldPos = tileRect.TransformPoint(Vector3.zero);
+        Vector2 screenPoint = cam != null
+            ? (Vector2)cam.WorldToScreenPoint(tileWorldPos)
+            : RectTransformUtility.WorldToScreenPoint(null, tileWorldPos);
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, cam, out localPoint);
+
+        Debug.Log($"    [GetTilePositionInCanvasLocal] tileWorldPos={tileWorldPos}, screenPoint={screenPoint}, localPoint={localPoint}, cam={cam?.name}");
+
+        return localPoint;
+    }
 }
+
 
 
 [System.Serializable]

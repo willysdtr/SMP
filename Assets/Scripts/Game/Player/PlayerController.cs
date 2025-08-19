@@ -26,14 +26,15 @@ public class PlayerController : MonoBehaviour
     Vector2 initialVelocity;
 
     private Rigidbody2D rb;
+    private RectTransform rect;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         move = GetComponent<PlayerMove>();
         state = new PlayerState(groundlayers);
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        rect = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -213,5 +214,18 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    // プレイヤーを指定の親（Canvasのパネル）に、アンカー位置とサイズで配置する関数
+    public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size)
+    {
+        // 親を設定（第2引数falseでローカル座標維持なし、完全に親基準で位置設定）
+        rect.SetParent(parent, false);
+
+        // 親パネル基準のローカル座標（アンカー位置）をセット
+        rect.anchoredPosition = anchoredPos;
+
+        // サイズを合わせる
+        rect.sizeDelta = size;
     }
 }
