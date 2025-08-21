@@ -26,14 +26,15 @@ public class PlayerController : MonoBehaviour
     Vector2 initialVelocity;
 
     private Rigidbody2D rb;
+    private RectTransform rect;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         move = GetComponent<PlayerMove>();
         state = new PlayerState(groundlayers);
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        rect = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour
                 if (!state.IS_CLIMB) { state.currentstate = PlayerState.State.STOP; }
                 break;
             case PlayerState.State.JUMP://JUMP
-                if (state.IS_CEILING_HIT || (state.IS_GROUND && jumptime > PlayerState.jumptime_max)) { state.currentstate = PlayerState.State.STOP; move.EndJump(); Debug.Log("cc"); }
+                if (state.IS_CEILING_HIT || (state.IS_GROUND && jumptime > PlayerState.jumptime_max)) { state.currentstate = PlayerState.State.STOP; move.EndJump();}
                 break;
             case PlayerState.State.FALL://FALL
                 if (state.IS_GROUND) { state.currentstate = PlayerState.State.STOP; }
@@ -213,5 +214,23 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    // プレイヤーをCanvasに、アンカー位置とサイズで配置する関数
+    public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size)
+    {
+        // 親を設定（第2引数falseでローカル座標維持なし、完全に親基準で位置設定）
+        rect.SetParent(parent, false);
+
+        // 親パネル基準のローカル座標（アンカー位置）をセット
+        rect.anchoredPosition = anchoredPos;
+
+        Vector2 setScale = new ( size.x / rect.sizeDelta.x, size.y / rect.sizeDelta.y );
+
+        // サイズを合わせる
+        rect.sizeDelta = size;
+
+        BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
+        collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);
     }
 }

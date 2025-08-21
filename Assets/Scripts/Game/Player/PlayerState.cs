@@ -9,7 +9,7 @@ public class PlayerState
 
     public State currentstate = State.STOP;
 
-    public const float MAX_SPEED = 5f;
+    public const float MAX_SPEED = 100f;
 
     public bool IS_MOVE = true;
     public bool IS_JUMP;
