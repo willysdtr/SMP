@@ -35,14 +35,15 @@ public class StringManager : MonoBehaviour
 
     public bool EndSiting = false; // たまを止めるかどうかのフラグ
 
+    [SerializeField] private PrefubCursol prefubCursol;
     void Awake()
     {
         inputActions = new InputSystem_Actions();
 
         inputActions.Stirng.nami.performed += ctx =>
         {
-     
-            float value = ctx.ReadValue<float>();
+            if (prefubCursol.IsMoving) return;
+                float value = ctx.ReadValue<float>();
             if(m_StringMode== isString)
             {
                 // すべての要素が0の場合、処理を行わない

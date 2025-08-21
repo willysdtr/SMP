@@ -1540,6 +1540,127 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PrefubCursol"",
+            ""id"": ""7073f26f-fa7d-4a84-bbf6-51818b151146"",
+            ""actions"": [
+                {
+                    ""name"": ""catch"",
+                    ""type"": ""Button"",
+                    ""id"": ""23f29c9a-9ced-403d-ae90-dc5f8652a1bf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""release"",
+                    ""type"": ""Button"",
+                    ""id"": ""699eccb7-b8a1-4e24-9ec9-21aeddcf2017"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""move"",
+                    ""type"": ""Button"",
+                    ""id"": ""d38e2277-b4ec-43d3-8bba-f84267c59faf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""changemode"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a438930-427f-42a1-b27a-f17e6dc0298c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2afaa0ea-b2c2-49fd-b758-d6172d279463"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""catch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ef358af-2dc3-4d0a-8fc1-131ea2404eb4"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""release"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce62addb-bd45-4d72-bb87-244d694c6895"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f863770-5426-4a07-afe1-36b24f007d6c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3df213f5-5d49-4e46-a186-7c766d311feb"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04770cff-97a1-451b-b6b3-2312c5eac441"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f11432bb-70bb-4fdd-98c9-48ed56b74abc"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""changemode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1651,6 +1772,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Stirng_kaesi = m_Stirng.FindAction("kaesi", throwIfNotFound: true);
         m_Stirng_tama = m_Stirng.FindAction("tama", throwIfNotFound: true);
         m_Stirng_start = m_Stirng.FindAction("start", throwIfNotFound: true);
+        // PrefubCursol
+        m_PrefubCursol = asset.FindActionMap("PrefubCursol", throwIfNotFound: true);
+        m_PrefubCursol_catch = m_PrefubCursol.FindAction("catch", throwIfNotFound: true);
+        m_PrefubCursol_release = m_PrefubCursol.FindAction("release", throwIfNotFound: true);
+        m_PrefubCursol_move = m_PrefubCursol.FindAction("move", throwIfNotFound: true);
+        m_PrefubCursol_changemode = m_PrefubCursol.FindAction("changemode", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1661,6 +1788,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Pause.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Pause.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PauseApperance.enabled, "This will cause a leak and performance issues, InputSystem_Actions.PauseApperance.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Stirng.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Stirng.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_PrefubCursol.enabled, "This will cause a leak and performance issues, InputSystem_Actions.PrefubCursol.Disable() has not been called.");
     }
 
     /// <summary>
@@ -2616,6 +2744,135 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="StirngActions" /> instance referencing this action map.
     /// </summary>
     public StirngActions @Stirng => new StirngActions(this);
+
+    // PrefubCursol
+    private readonly InputActionMap m_PrefubCursol;
+    private List<IPrefubCursolActions> m_PrefubCursolActionsCallbackInterfaces = new List<IPrefubCursolActions>();
+    private readonly InputAction m_PrefubCursol_catch;
+    private readonly InputAction m_PrefubCursol_release;
+    private readonly InputAction m_PrefubCursol_move;
+    private readonly InputAction m_PrefubCursol_changemode;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "PrefubCursol".
+    /// </summary>
+    public struct PrefubCursolActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public PrefubCursolActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "PrefubCursol/catch".
+        /// </summary>
+        public InputAction @catch => m_Wrapper.m_PrefubCursol_catch;
+        /// <summary>
+        /// Provides access to the underlying input action "PrefubCursol/release".
+        /// </summary>
+        public InputAction @release => m_Wrapper.m_PrefubCursol_release;
+        /// <summary>
+        /// Provides access to the underlying input action "PrefubCursol/move".
+        /// </summary>
+        public InputAction @move => m_Wrapper.m_PrefubCursol_move;
+        /// <summary>
+        /// Provides access to the underlying input action "PrefubCursol/changemode".
+        /// </summary>
+        public InputAction @changemode => m_Wrapper.m_PrefubCursol_changemode;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_PrefubCursol; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="PrefubCursolActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(PrefubCursolActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="PrefubCursolActions" />
+        public void AddCallbacks(IPrefubCursolActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PrefubCursolActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PrefubCursolActionsCallbackInterfaces.Add(instance);
+            @catch.started += instance.OnCatch;
+            @catch.performed += instance.OnCatch;
+            @catch.canceled += instance.OnCatch;
+            @release.started += instance.OnRelease;
+            @release.performed += instance.OnRelease;
+            @release.canceled += instance.OnRelease;
+            @move.started += instance.OnMove;
+            @move.performed += instance.OnMove;
+            @move.canceled += instance.OnMove;
+            @changemode.started += instance.OnChangemode;
+            @changemode.performed += instance.OnChangemode;
+            @changemode.canceled += instance.OnChangemode;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="PrefubCursolActions" />
+        private void UnregisterCallbacks(IPrefubCursolActions instance)
+        {
+            @catch.started -= instance.OnCatch;
+            @catch.performed -= instance.OnCatch;
+            @catch.canceled -= instance.OnCatch;
+            @release.started -= instance.OnRelease;
+            @release.performed -= instance.OnRelease;
+            @release.canceled -= instance.OnRelease;
+            @move.started -= instance.OnMove;
+            @move.performed -= instance.OnMove;
+            @move.canceled -= instance.OnMove;
+            @changemode.started -= instance.OnChangemode;
+            @changemode.performed -= instance.OnChangemode;
+            @changemode.canceled -= instance.OnChangemode;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PrefubCursolActions.UnregisterCallbacks(IPrefubCursolActions)" />.
+        /// </summary>
+        /// <seealso cref="PrefubCursolActions.UnregisterCallbacks(IPrefubCursolActions)" />
+        public void RemoveCallbacks(IPrefubCursolActions instance)
+        {
+            if (m_Wrapper.m_PrefubCursolActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="PrefubCursolActions.AddCallbacks(IPrefubCursolActions)" />
+        /// <seealso cref="PrefubCursolActions.RemoveCallbacks(IPrefubCursolActions)" />
+        /// <seealso cref="PrefubCursolActions.UnregisterCallbacks(IPrefubCursolActions)" />
+        public void SetCallbacks(IPrefubCursolActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PrefubCursolActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PrefubCursolActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="PrefubCursolActions" /> instance referencing this action map.
+    /// </summary>
+    public PrefubCursolActions @PrefubCursol => new PrefubCursolActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2966,5 +3223,41 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnStart(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PrefubCursol" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="PrefubCursolActions.AddCallbacks(IPrefubCursolActions)" />
+    /// <seealso cref="PrefubCursolActions.RemoveCallbacks(IPrefubCursolActions)" />
+    public interface IPrefubCursolActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "catch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCatch(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "release" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRelease(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "changemode" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangemode(InputAction.CallbackContext context);
     }
 }
