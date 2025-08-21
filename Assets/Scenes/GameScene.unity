@@ -1725,11 +1725,11 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 2e4ca92922254d942a0ba20dae070df4, type: 3}
     prefab: {fileID: 7296938410568890891, guid: 933697ad711275941bc81499875065fc, type: 3}
   - id: 2
-    tag: SteelPlate
+    tag: Goal
     sprite: {fileID: 21300000, guid: 49393b0f793bc7542aa5a78d0ad2bd8e, type: 3}
-    prefab: {fileID: 0}
+    prefab: {fileID: 7296938410568890891, guid: 5eb0fe516269ce84386f07ede0a26315, type: 3}
   - id: 3
-    tag: SteelPlate
+    tag: Soul
     sprite: {fileID: 21300000, guid: 78048db7f35be2a47933515fbc21a696, type: 3}
     prefab: {fileID: 0}
   - id: 4
