@@ -21,6 +21,7 @@ public class StringManager : MonoBehaviour
     private List<GameObject> FrontStrings = new List<GameObject>();
     private List<GameObject> BackStrings = new List<GameObject>();
     [SerializeField] List<int> StringNum;
+    [SerializeField] List<int> CopyStringNum;
     private int currentIndex = 0;
 
     [SerializeField] private ShowStringNum listDisplay; // 表示クラスをインスペクターでセット
@@ -111,6 +112,10 @@ public class StringManager : MonoBehaviour
         };
         inputActions.Stirng.tama.performed += ctx =>
         {
+            if (currentIndex >= StringNum.Count)
+            {
+                return;
+            }
             // たまを生成する処理
             if (Strings.Count > 0)
             {
@@ -119,8 +124,12 @@ public class StringManager : MonoBehaviour
         };
         inputActions.Stirng.start.performed += ctx =>
         {
+            // 現在処理可能な要素がなければ終了
+            if (currentIndex >= StringNum.Count)
+            {
+                return;
+            }
             //最初の初点を決める
-            // GameObject first = Instantiate(StringPrefub, StringCursol.transform.position, Quaternion.identity);
             GameObject dummy = new GameObject("FirstPoint");
             dummy.transform.position = StringCursol.transform.position;
             Strings.Add(dummy);
@@ -128,6 +137,13 @@ public class StringManager : MonoBehaviour
         };
         inputActions.Stirng.kaesi.performed += ctx =>
         {
+            
+            if (m_StringMode == NoString||currentIndex >= StringNum.Count|| StringNum[currentIndex] == CopyStringNum[currentIndex])//Start地点で返し縫できないように
+            {
+                Debug.Log(CopyStringNum[currentIndex]);
+                Debug.Log(StringNum[currentIndex] );
+                return;
+            }
             OnKaesiInput();
         };
     }
@@ -143,6 +159,8 @@ public class StringManager : MonoBehaviour
         m_Offset_Y=new Vector2(0.0f,-m_StrinngScale.y);
         m_LastDirection = Middle;
         listDisplay.UpdateDisplay(StringNum);// Text表示を更新
+        CopyStringNum = new List<int>(StringNum);
+       // CopyStringNum =StringNum; // コピーを作成(×)
     }
 
     // Update is called once per frame
