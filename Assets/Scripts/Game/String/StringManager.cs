@@ -18,8 +18,10 @@ public class StringManager : MonoBehaviour
     private Vector2 m_Offset_X=new Vector2(1.0f,0.0f);
     private Vector2 m_Offset_Y =new Vector2(0.0f,-1.0f);
     private List<GameObject> Strings = new List<GameObject>();
+    private List<GameObject> MirrorStrings = new List<GameObject>();
     private List<GameObject> FrontStrings = new List<GameObject>();
     private List<GameObject> BackStrings = new List<GameObject>();
+    [SerializeField] private float mirrorOffsetX = 5.0f; // 反対側にずらす距離
     [SerializeField] List<int> StringNum;
     [SerializeField] List<int> CopyStringNum;
     private int currentIndex = 0;
@@ -195,6 +197,20 @@ public class StringManager : MonoBehaviour
             Animator animator = obj.GetComponent<Animator>();
             animator.SetTrigger("Play"); // アニメーションを再生
             Strings.Add(obj);
+
+            // --- 反対側のオブジェクト（ミラー対称） ---
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f; // ミラーの中心位置を計算
+            // newPos の X を左右反転
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+
+            // Y/Z はそのまま
+            GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 180, 0));
+            mirrorObj.tag = "Nami_Mirror";
+            Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
+            mirrorAnimator.SetTrigger("Play");
+            MirrorStrings.Add(mirrorObj);
+
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
             FrontStrings.Add(frontobj);
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
@@ -241,6 +257,20 @@ public class StringManager : MonoBehaviour
             Animator animator = obj.GetComponent<Animator>();
             animator.SetTrigger("Play"); // アニメーションを再生
             Strings.Add(obj);
+
+            // --- 反対側のオブジェクト（ミラー対称） ---
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f; // ミラーの中心位置を計算
+            // newPos の X を左右反転
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+
+            // Y/Z はそのまま
+            GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.identity);
+            mirrorObj.tag = "Nami_Mirror";
+            Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
+            mirrorAnimator.SetTrigger("Play");
+            MirrorStrings.Add(mirrorObj);
+
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
             FrontStrings.Add(frontobj);
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
@@ -292,6 +322,21 @@ public class StringManager : MonoBehaviour
             Animator animator = obj.GetComponent<Animator>();
             animator.SetTrigger("Play"); // アニメーションを再生
             Strings.Add(obj);
+
+            // --- 反対側のオブジェクト（ミラー対称） ---
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f; // ミラーの中心位置を計算
+            // newPos の X を左右反転
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+
+            // Y/Z はそのまま
+            GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 0, 90));
+            mirrorObj.tag = "Nami_Mirror";
+            Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
+            mirrorAnimator.SetTrigger("Play");
+            MirrorStrings.Add(mirrorObj);
+
+            //先端、前後の当たり判定を取得
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
             FrontStrings.Add(frontobj);
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
@@ -343,6 +388,22 @@ public class StringManager : MonoBehaviour
             obj.tag = "Nami";
             animator.SetTrigger("Play"); // アニメーションを再生
             Strings.Add(obj);
+
+
+            // --- 反対側のオブジェクト（ミラー対称） ---
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f; // ミラーの中心位置を計算
+            // newPos の X を左右反転
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+
+            // Y/Z はそのまま
+            GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 0, 270));
+            mirrorObj.tag = "Nami_Mirror";
+            Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
+            mirrorAnimator.SetTrigger("Play");
+            MirrorStrings.Add(mirrorObj);
+
+
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
             FrontStrings.Add(frontobj);
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
