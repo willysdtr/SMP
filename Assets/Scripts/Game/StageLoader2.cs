@@ -27,7 +27,8 @@ public class StageUICanvasLoader2 : MonoBehaviour
     private Vector2 kingPos;
     private Vector2 queenPos;
 
-    private Vector2 size;
+    private Vector2 size; //これ使って糸のサイズ変える
+    private Vector2 setScale = new (1, 1);
 
     private int rows;
     private int cols;
@@ -154,7 +155,6 @@ public class StageUICanvasLoader2 : MonoBehaviour
         SetObjFromWind(stageGrid, 6, stage.WIND_front, false, offset);
         SetObjFromWind(stageGrid, 6, stage.WIND_back, true, offset);
 
-
     }
 
     private void SetObjFromInt2(List<List<int>> grid, int id, IReadOnlyList<StageInfo.Int2> positions, bool isBack, int offset)
@@ -201,6 +201,11 @@ public class StageUICanvasLoader2 : MonoBehaviour
         float tileHeight = panel.rect.height / gridRows;
         float tileSize = Mathf.Min(tileWidth, tileHeight);
 
+        StringManager_Canvas myStr = this.GetComponent<StringManager_Canvas>();
+        size = new(tileSize * 5.900001f, tileSize * 5.627693f);//この値は左右のCanvasのScale
+        setScale = new(setScale.x * 5.900001f, setScale.y * 5.900001f);
+        myStr.SetStringSize(size, setScale);
+
         size = new Vector2(tileSize * 6, tileSize * 8);
 
         gridLayout.cellSize = new Vector2(tileSize, tileSize);
@@ -227,9 +232,9 @@ public class StageUICanvasLoader2 : MonoBehaviour
                     Transform fill2 = tile.transform.Find("Fill");
                     RectTransform rect = tile.GetComponent<RectTransform>();
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
-                    Vector2 setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
+                    setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
                     collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
-                    if(tileId == 1)
+                    if(tileId == 1 || tileId == 2)
                     {
                         collider.offset = new (collider.offset.x * setScale.x, collider.offset.y * setScale.y);//Startの場合はoffset変更も行う
                     }
@@ -281,6 +286,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
                 Debug.Log($"[TileID=1] name={tileName}, anchoredPos={tileRect.anchoredPosition}, worldPos={tileRect.position}, king/queenPos={tilePosInCanvas}");
             }
         }
+
     }
 
     TileData2 GetTileData(int id)

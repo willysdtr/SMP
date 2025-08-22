@@ -17,7 +17,8 @@ public class StringManager_Canvas : MonoBehaviour
     [SerializeField] private RectTransform StringCursol;
     [SerializeField] private RectTransform canvasTransform; // CanvasのRectTransform
 
-    public Vector2 m_StrinngScale = new Vector2(100f, 100f); // UIサイズに合わせて単位変更
+    private Vector2 m_StrinngScale = new Vector2(100f, 100f); // UIサイズに合わせて単位変更
+    private Vector2 HitBoxScale = new(1, 1);
     private Vector2 m_Offset_X;
     private Vector2 m_Offset_Y;
 
@@ -172,6 +173,8 @@ public class StringManager_Canvas : MonoBehaviour
     {
         RectTransform mainStr = Instantiate(StringPrefub, canvasTransform);
         mainStr.anchoredPosition = main;
+        mainStr.sizeDelta = m_StrinngScale;//サイズ変更
+        RectTransform childstr = mainStr.GetComponentsInChildren<RectTransform>()[0];
         mainStr.rotation = rot;
         mainStr.GetComponent<Animator>()?.SetTrigger("Play");
         StringAnimation_Canvas anim = mainStr.GetComponent<StringAnimation_Canvas>();
@@ -179,23 +182,40 @@ public class StringManager_Canvas : MonoBehaviour
         {
             anim.SetCanvas(canvasTransform);
         }
+        BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        }
         Strings.Add(mainStr);
 
         RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
+        frontStr.sizeDelta = m_StrinngScale;//サイズ変更
         frontStr.anchoredPosition = front;
         anim = frontStr.GetComponent<StringAnimation_Canvas>();
         if (anim != null)
         {
             anim.SetCanvas(canvasTransform);
         }
+        col = frontStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        }
         FrontStrings.Add(frontStr);
 
         RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
+        backStr.sizeDelta = m_StrinngScale;//サイズ変更
         backStr.anchoredPosition = back;
         anim = backStr.GetComponent<StringAnimation_Canvas>();
         if (anim != null)
         {
             anim.SetCanvas(canvasTransform);
+        }
+        col = backStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
         }
         BackStrings.Add(backStr);
     }
@@ -232,6 +252,12 @@ public class StringManager_Canvas : MonoBehaviour
 
         m_StringMode = NoString;
         m_LastDirection = RIGHT;
+    }
+
+    public void SetStringSize(Vector2 size, Vector2 BoxScale)
+    {
+        m_StrinngScale = size; // UIサイズに合わせて単位変更
+        HitBoxScale = BoxScale;
     }
 }
 

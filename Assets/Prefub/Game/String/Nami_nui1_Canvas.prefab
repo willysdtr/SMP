@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7594441548765007214}
   - component: {fileID: 6413594576194288836}
   - component: {fileID: 1603747025003708505}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Nami_nui1_Canvas
-  m_TagString: Untagged
+  m_TagString: String
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
