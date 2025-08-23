@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class StringManager : MonoBehaviour
 {
-    //’è”éŒ¾
+    //ï¿½è”ï¿½éŒ¾
     private const int RIGHT = 0;
     private const int LEFT = 1;
     private const int Up = 2;
@@ -21,28 +21,23 @@ public class StringManager : MonoBehaviour
     private List<GameObject> MirrorStrings = new List<GameObject>();
     private List<GameObject> FrontStrings = new List<GameObject>();
     private List<GameObject> BackStrings = new List<GameObject>();
-    [SerializeField] private float mirrorOffsetX = 5.0f; // ”½‘Î‘¤‚É‚¸‚ç‚·‹——£
+    [SerializeField] private float mirrorOffsetX = 5.0f; // ï¿½ï¿½ï¿½Î‘ï¿½ï¿½É‚ï¿½ï¿½ç‚·ï¿½ï¿½ï¿½ï¿½
     [SerializeField] List<int> StringNum;
     [SerializeField] List<int> CopyStringNum;
     private int currentIndex = 0;
 
-    [SerializeField] private ShowStringNum listDisplay; // •\¦ƒNƒ‰ƒX‚ğƒCƒ“ƒXƒyƒNƒ^[‚ÅƒZƒbƒg
+    [SerializeField] private ShowStringNum listDisplay; // ï¿½\ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½yï¿½Nï¿½^ï¿½[ï¿½ÅƒZï¿½bï¿½g
     [SerializeField] GameObject Tamadome;
     [SerializeField] GameObject StringCursol;
     private InputSystem_Actions inputActions;
-    private float m_PauseDirection;//‰¹—Ê’²®‚Ì“ü—Í’l
-    private int m_LastDirection;//‘O‰ñ‚Ì“ü—Í’l
+    private float m_PauseDirection;//ï¿½ï¿½ï¿½Ê’ï¿½ï¿½ï¿½ï¿½Ì“ï¿½ï¿½Í’l
+    private int m_LastDirection;//ï¿½Oï¿½ï¿½Ì“ï¿½ï¿½Í’l
 
-    bool m_StringMode = NoString;//ƒXƒgƒŠƒ“ƒOƒ‚[ƒh‚Ìƒtƒ‰ƒO
+    bool m_StringMode = NoString;//ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½hï¿½Ìƒtï¿½ï¿½ï¿½O
 
-    public bool EndSiting = false; // ‚½‚Ü‚ğ~‚ß‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+    public bool EndSiting = false; // ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O
 
-<<<<<<< HEAD
-    public StageUICanvasLoader stageLoader; //ƒXƒe[ƒWƒ[ƒ_[‚ÌƒŒƒtƒ@ƒŒƒ“ƒX
-
-=======
     [SerializeField] private PrefubCursol prefubCursol;
->>>>>>> origin/Work_Sakaue3
     void Awake()
     {
         inputActions = new InputSystem_Actions();
@@ -53,64 +48,64 @@ public class StringManager : MonoBehaviour
                 float value = ctx.ReadValue<float>();
             if(m_StringMode== isString)
             {
-                // ‚·‚×‚Ä‚Ì—v‘f‚ª0‚Ìê‡Aˆ—‚ğs‚í‚È‚¢
+                // ï¿½ï¿½ï¿½×‚Ä‚Ì—vï¿½fï¿½ï¿½0ï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½È‚ï¿½
                 while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
                 {
                     currentIndex++;
                 }
 
-                // Œ»İˆ—‰Â”\‚È—v‘f‚ª‚È‚¯‚ê‚ÎI—¹
+                // ï¿½ï¿½ï¿½İï¿½ï¿½ï¿½ï¿½Â”\ï¿½È—vï¿½fï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ÎIï¿½ï¿½
                 if (currentIndex >= StringNum.Count)
                 {
-                    Debug.Log("‚·‚×‚Ä‚Ìˆ—‚ªŠ®—¹‚µ‚Ü‚µ‚½");
+                    Debug.Log("ï¿½ï¿½ï¿½×‚Ä‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
                     return;
                 }
 
 
-                //StringNum‚ğŒ¸‚ç‚¤ˆ—‚ÍOnRightInput, OnLeftInput, OnUpInput, OnDownInput‚Ì’†‚Ås‚¤
+                //StringNumï¿½ï¿½ï¿½ï¿½ï¿½ç‚¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½OnRightInput, OnLeftInput, OnUpInput, OnDownInputï¿½Ì’ï¿½ï¿½Åsï¿½ï¿½
 
                 m_PauseDirection = value;
-                if (m_PauseDirection == 1)//ã
+                if (m_PauseDirection == 1)//ï¿½ï¿½
                 {
                     OnUpInput();
                 }
-                else if (m_PauseDirection == -1)//‰º
+                else if (m_PauseDirection == -1)//ï¿½ï¿½
                 {
                     OnDownInput();
                 }
-                else if (m_PauseDirection == 2)//‰E
+                else if (m_PauseDirection == 2)//ï¿½E
                 {
                     OnRightInput();
                 }
-                else if (m_PauseDirection == 3)//¶
+                else if (m_PauseDirection == 3)//ï¿½ï¿½
                 {
                     OnLeftInput();
                 }
-                // ‚à‚µŒ»İ‚Ì—v‘f‚ª0‚É‚È‚Á‚½‚çAŸ‰ñ‚ÍŸ‚ÌƒCƒ“ƒfƒbƒNƒX‚Öi‚Ş‚æ‚¤‚É‚È‚é
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ì—vï¿½fï¿½ï¿½0ï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Öiï¿½Ş‚æ‚¤ï¿½É‚È‚ï¿½
                 if (StringNum[currentIndex] == 0)
                 {
                     currentIndex++;
-                    Debug.Log($"Index {currentIndex} ‚Ì—v‘f‚ª0‚É‚È‚è‚Ü‚µ‚½BŸ‚Ì—v‘f‚Öi‚İ‚Ü‚·B");
-                    //EndSiting = true;©@‚±‚êAnimation‚É“ü‚ê‚Ä‚é‚ñ‚â‚¯‚Ç‚È‚ñ‚©Strings‚ª”½‰f‚³‚ê‚Ä‚È‚¢‚Á‚Û‚¢‚Å‚·
-                    BallStopper();//‚½‚Ü‚ğ~‚ß‚éˆ—‚ğŒÄ‚Ño‚·
+                    Debug.Log($"Index {currentIndex} ï¿½Ì—vï¿½fï¿½ï¿½0ï¿½É‚È‚ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½Ì—vï¿½fï¿½Öiï¿½İ‚Ü‚ï¿½ï¿½B");
+                    //EndSiting = true;ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½Animationï¿½É“ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½â‚¯ï¿½Ç‚È‚ï¿½Stringsï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½ï¿½ï¿½Û‚ï¿½ï¿½Å‚ï¿½
+                    BallStopper();//ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½
                 }
             }
             else if (m_StringMode == NoString)
             {
                 m_PauseDirection = value;
-                if (m_PauseDirection == 1)//ã
+                if (m_PauseDirection == 1)//ï¿½ï¿½
                 {
                     StringCursol.transform.position -= (Vector3)m_Offset_Y;
                 }
-                else if (m_PauseDirection == -1)//‰º
+                else if (m_PauseDirection == -1)//ï¿½ï¿½
                 {
                     StringCursol.transform.position += (Vector3)m_Offset_Y;
                 }
-                else if (m_PauseDirection == 2)//‰E
+                else if (m_PauseDirection == 2)//ï¿½E
                 {
                     StringCursol.transform.position += (Vector3)m_Offset_X;
                 }
-                else if (m_PauseDirection == 3)//¶
+                else if (m_PauseDirection == 3)//ï¿½ï¿½
                 {
                     StringCursol.transform.position -= (Vector3)m_Offset_X;
                 }
@@ -122,7 +117,7 @@ public class StringManager : MonoBehaviour
             {
                 return;
             }
-            // ‚½‚Ü‚ğ¶¬‚·‚éˆ—
+            // ï¿½ï¿½ï¿½Ü‚ğ¶ï¿½ï¿½ï¿½ï¿½éˆï¿½ï¿½
             if (Strings.Count > 0)
             {
                 BallStopper();
@@ -130,21 +125,21 @@ public class StringManager : MonoBehaviour
         };
         inputActions.Stirng.start.performed += ctx =>
         {
-            // Œ»İˆ—‰Â”\‚È—v‘f‚ª‚È‚¯‚ê‚ÎI—¹
+            // ï¿½ï¿½ï¿½İï¿½ï¿½ï¿½ï¿½Â”\ï¿½È—vï¿½fï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ÎIï¿½ï¿½
             if (currentIndex >= StringNum.Count)
             {
                 return;
             }
-            //Å‰‚Ì‰“_‚ğŒˆ‚ß‚é
+            //ï¿½Åï¿½ï¿½Ìï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
             GameObject dummy = new GameObject("FirstPoint");
             dummy.transform.position = StringCursol.transform.position;
             Strings.Add(dummy);
-            m_StringMode = isString; // ƒXƒgƒŠƒ“ƒOƒ‚[ƒh‚ğ—LŒø‚É‚·‚é
+            m_StringMode = isString; // ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
         };
         inputActions.Stirng.kaesi.performed += ctx =>
         {
             
-            if (m_StringMode == NoString||currentIndex >= StringNum.Count|| StringNum[currentIndex] == CopyStringNum[currentIndex])//Start’n“_‚Å•Ô‚µ–D‚Å‚«‚È‚¢‚æ‚¤‚É
+            if (m_StringMode == NoString||currentIndex >= StringNum.Count|| StringNum[currentIndex] == CopyStringNum[currentIndex])//Startï¿½nï¿½_ï¿½Å•Ô‚ï¿½ï¿½Dï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ï¿½
             {
                 Debug.Log(CopyStringNum[currentIndex]);
                 Debug.Log(StringNum[currentIndex] );
@@ -156,17 +151,17 @@ public class StringManager : MonoBehaviour
 
     void Start()
     {
-        //Å‰‚Ì‰“_‚ğŒˆ‚ß‚é
+        //ï¿½Åï¿½ï¿½Ìï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
         if (stageLoader != null)
         {
-            m_StrinngScale = new Vector3(stageLoader.TileSize, stageLoader.TileSize, 0.0f); //…‚ÌƒTƒCƒY‚ğİ’è‚·‚é
+            m_StrinngScale = new Vector3(stageLoader.TileSize, stageLoader.TileSize, 0.0f); //ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½İ’è‚·ï¿½ï¿½
         }
         m_Offset_X =new Vector2(m_StrinngScale.x, 0.0f);
         m_Offset_Y=new Vector2(0.0f,-m_StrinngScale.y);
         m_LastDirection = Middle;
-        listDisplay.UpdateDisplay(StringNum);// Text•\¦‚ğXV
+        listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         CopyStringNum = new List<int>(StringNum);
-       // CopyStringNum =StringNum; // ƒRƒs[‚ğì¬(~)
+       // CopyStringNum =StringNum; // ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ì¬(ï¿½~)
     }
 
     // Update is called once per frame
@@ -177,8 +172,8 @@ public class StringManager : MonoBehaviour
     void OnRightInput()
     {
         if (m_LastDirection == LEFT) return;
-        // ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰E‚É¶¬
-        Vector3 lastPos = Strings[^1].transform.position;//ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğæ“¾¨‚±‚±‚ğÅ‰‚¾‚¯n“_‚ÌêŠ‚Éw’è‚µ‚½‚çÅ‰¶s‚©‚È‚¢–â‘è‰ğŒˆ‚µ‚»‚¤
+        // ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì‰Eï¿½Éï¿½ï¿½ï¿½
+        Vector3 lastPos = Strings[^1].transform.position;//ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌˆÊ’uï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½_ï¿½ÌêŠï¿½Éwï¿½è‚µï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Vector3 FrontlastPos;
         Vector3 BacklastPos;
         Vector3 newPos = lastPos + (Vector3)m_Offset_X;
@@ -193,27 +188,27 @@ public class StringManager : MonoBehaviour
         }
         else if (m_LastDirection == Middle)
         {
-            newPos = lastPos + (Vector3)m_Offset_X/2; // Å‰‚ÌˆÊ’u‚©‚ç‰E‚É‚¸‚ç‚·
+            newPos = lastPos + (Vector3)m_Offset_X/2; // ï¿½Åï¿½ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ï¿½Eï¿½É‚ï¿½ï¿½ç‚·
         }
-        FrontlastPos = newPos + (Vector3)m_Offset_X / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µã‚É‚¸‚ç‚·
-        BacklastPos = newPos - (Vector3)m_Offset_X / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µ‰º‚É‚¸‚ç‚·
+        FrontlastPos = newPos + (Vector3)m_Offset_X / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
+        BacklastPos = newPos - (Vector3)m_Offset_X / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
 
         if(CheckString(newPos, FrontlastPos, BacklastPos))
         {
             GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
             obj.tag = "Nami";
-            //ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÀs
+            //ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
             Animator animator = obj.GetComponent<Animator>();
-            animator.SetTrigger("Play"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶
+            animator.SetTrigger("Play"); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½
             Strings.Add(obj);
 
-            // --- ”½‘Î‘¤‚ÌƒIƒuƒWƒFƒNƒgiƒ~ƒ‰[‘ÎÌj ---
+            // --- ï¿½ï¿½ï¿½Î‘ï¿½ï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½iï¿½~ï¿½ï¿½ï¿½[ï¿½ÎÌj ---
             Vector3 mirrorPos = newPos;
-            float mirrorCenterX = 0.0f; // ƒ~ƒ‰[‚Ì’†SˆÊ’u‚ğŒvZ
-            // newPos ‚Ì X ‚ğ¶‰E”½“]
+            float mirrorCenterX = 0.0f; // ï¿½~ï¿½ï¿½ï¿½[ï¿½Ì’ï¿½ï¿½Sï¿½Ê’uï¿½ï¿½ï¿½vï¿½Z
+            // newPos ï¿½ï¿½ X ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½]
             mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
 
-            // Y/Z ‚Í‚»‚Ì‚Ü‚Ü
+            // Y/Z ï¿½Í‚ï¿½ï¿½Ì‚Ü‚ï¿½
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 180, 0));
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
@@ -225,55 +220,55 @@ public class StringManager : MonoBehaviour
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
             BackStrings.Add(backobj);
 
-            m_LastDirection = RIGHT; // ’¼‘O‚Ì•ûŒü‚ğXV
-                                     // ‘ÎÛ—v‘f‚ğ1Œ¸‚ç‚·
+            m_LastDirection = RIGHT; // ï¿½ï¿½ï¿½Oï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
+                                     // ï¿½ÎÛ—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚·
             StringNum[currentIndex]--;
 
-            Debug.Log($"Index {currentIndex} ‚Ì—v‘f‚ğ1Œ¸‚ç‚µ‚Ü‚µ‚½Bc‚è: {StringNum[currentIndex]}");
+            Debug.Log($"Index {currentIndex} ï¿½Ì—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚µï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½cï¿½ï¿½: {StringNum[currentIndex]}");
 
-            listDisplay.UpdateDisplay(StringNum);// Text•\¦‚ğXV
+            listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         }
     }
     void OnLeftInput()
     {
         if (m_LastDirection == RIGHT) return;
-        // ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚Ì¶‚É¶¬
-        Vector3 lastPos = Strings[^1].transform.position; // ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u
+        // ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½Éï¿½ï¿½ï¿½
+        Vector3 lastPos = Strings[^1].transform.position; // ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌˆÊ’u
         Vector3 FrontlastPos;
         Vector3 BacklastPos;
-        Vector3 newPos = lastPos - (Vector3)m_Offset_X;        // © offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä¶‘¤‚É
+        Vector3 newPos = lastPos - (Vector3)m_Offset_X;        // ï¿½ï¿½ offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
 
         if (m_LastDirection == Up)
         {
-            newPos = lastPos - (Vector3)m_Offset_X / 2 - (Vector3)m_Offset_Y / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µ‰º‚É‚¸‚ç‚·
+            newPos = lastPos - (Vector3)m_Offset_X / 2 - (Vector3)m_Offset_Y / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
         }
         else if (m_LastDirection == Down)
         {
-            newPos = lastPos-(Vector3)m_Offset_X / 2 + (Vector3)m_Offset_Y / 2; // ‰ºŒü‚«‚Ì‚Æ‚«‚Í­‚µã‚É‚¸‚ç‚·
+            newPos = lastPos-(Vector3)m_Offset_X / 2 + (Vector3)m_Offset_Y / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
         }
         else if (m_LastDirection == Middle)
         {
-            newPos = lastPos - (Vector3)m_Offset_X/2; // Å‰‚ÌˆÊ’u‚©‚ç‰E‚É‚¸‚ç‚·
+            newPos = lastPos - (Vector3)m_Offset_X/2; // ï¿½Åï¿½ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ï¿½Eï¿½É‚ï¿½ï¿½ç‚·
         }
-        FrontlastPos = newPos - (Vector3)m_Offset_X / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µã‚É‚¸‚ç‚·
-        BacklastPos = newPos + (Vector3)m_Offset_X / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µ‰º‚É‚¸‚ç‚·
+        FrontlastPos = newPos - (Vector3)m_Offset_X / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
+        BacklastPos = newPos + (Vector3)m_Offset_X / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
         if (CheckString(newPos, FrontlastPos, BacklastPos))
         {
             GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-            obj.transform.rotation = Quaternion.Euler(0, 180, 0); // ¶Œü‚«‚É‰ñ“]
+            obj.transform.rotation = Quaternion.Euler(0, 180, 0); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½]
             obj.tag = "Nami"; 
-            //ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÀs
+            //ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
             Animator animator = obj.GetComponent<Animator>();
-            animator.SetTrigger("Play"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶
+            animator.SetTrigger("Play"); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½
             Strings.Add(obj);
 
-            // --- ”½‘Î‘¤‚ÌƒIƒuƒWƒFƒNƒgiƒ~ƒ‰[‘ÎÌj ---
+            // --- ï¿½ï¿½ï¿½Î‘ï¿½ï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½iï¿½~ï¿½ï¿½ï¿½[ï¿½ÎÌj ---
             Vector3 mirrorPos = newPos;
-            float mirrorCenterX = 0.0f; // ƒ~ƒ‰[‚Ì’†SˆÊ’u‚ğŒvZ
-            // newPos ‚Ì X ‚ğ¶‰E”½“]
+            float mirrorCenterX = 0.0f; // ï¿½~ï¿½ï¿½ï¿½[ï¿½Ì’ï¿½ï¿½Sï¿½Ê’uï¿½ï¿½ï¿½vï¿½Z
+            // newPos ï¿½ï¿½ X ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½]
             mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
 
-            // Y/Z ‚Í‚»‚Ì‚Ü‚Ü
+            // Y/Z ï¿½Í‚ï¿½ï¿½Ì‚Ü‚ï¿½
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.identity);
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
@@ -285,127 +280,127 @@ public class StringManager : MonoBehaviour
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
             BackStrings.Add(backobj);
 
-            m_LastDirection = LEFT; // ’¼‘O‚Ì•ûŒü‚ğXV
-                                    // ‘ÎÛ—v‘f‚ğ1Œ¸‚ç‚·
+            m_LastDirection = LEFT; // ï¿½ï¿½ï¿½Oï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
+                                    // ï¿½ÎÛ—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚·
             StringNum[currentIndex]--;
 
-            Debug.Log($"Index {currentIndex} ‚Ì—v‘f‚ğ1Œ¸‚ç‚µ‚Ü‚µ‚½Bc‚è: {StringNum[currentIndex]}");
+            Debug.Log($"Index {currentIndex} ï¿½Ì—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚µï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½cï¿½ï¿½: {StringNum[currentIndex]}");
 
-            listDisplay.UpdateDisplay(StringNum);// Text•\¦‚ğXV
+            listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         }
     }
     void OnUpInput()
     {
         if (m_LastDirection == Down) return;
-        // ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚Ì¶‚É¶¬
-        Vector3 lastPos = Strings[^1].transform.position; // ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u
+        // ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½Éï¿½ï¿½ï¿½
+        Vector3 lastPos = Strings[^1].transform.position; // ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌˆÊ’u
         Vector3 FrontlastPos;
         Vector3 BacklastPos;
-        Vector3 newPos= new Vector3(0.0f,0.0f,0.0f);//‰Šú‰»
+        Vector3 newPos= new Vector3(0.0f,0.0f,0.0f);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         if (m_LastDirection==RIGHT)
         {
-           newPos = lastPos + (Vector3)m_Offset_X / 2 - (Vector3)m_Offset_Y / 2;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä‰E‘¤‚É
+           newPos = lastPos + (Vector3)m_Offset_X / 2 - (Vector3)m_Offset_Y / 2;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Ä‰Eï¿½ï¿½ï¿½ï¿½
         }
         else if (m_LastDirection==LEFT)
         {
-            newPos = lastPos - (Vector3)m_Offset_X/2 - (Vector3)m_Offset_Y / 2;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä¶‘¤‚É
+            newPos = lastPos - (Vector3)m_Offset_X/2 - (Vector3)m_Offset_Y / 2;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else if (m_LastDirection == Up)
         {
-            newPos = lastPos - (Vector3)m_Offset_Y;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä¶‘¤‚É
+            newPos = lastPos - (Vector3)m_Offset_Y;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else if (m_LastDirection == Middle)
         {
-            newPos = lastPos - (Vector3)m_Offset_Y/2; // Å‰‚ÌˆÊ’u‚©‚ç‰E‚É‚¸‚ç‚·
+            newPos = lastPos - (Vector3)m_Offset_Y/2; // ï¿½Åï¿½ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ï¿½Eï¿½É‚ï¿½ï¿½ç‚·
         }
-        FrontlastPos = newPos - (Vector3)m_Offset_Y / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µã‚É‚¸‚ç‚·
-        BacklastPos = newPos + (Vector3)m_Offset_Y / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µ‰º‚É‚¸‚ç‚·
+        FrontlastPos = newPos - (Vector3)m_Offset_Y / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
+        BacklastPos = newPos + (Vector3)m_Offset_Y / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
 
         if (CheckString(newPos, FrontlastPos, BacklastPos))
         {
             GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-            obj.transform.rotation = Quaternion.Euler(0,0, 90); // ãŒü‚«‚É‰ñ“]
+            obj.transform.rotation = Quaternion.Euler(0,0, 90); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½]
             obj.tag = "Nami";
-            //ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÀs
+            //ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
             Animator animator = obj.GetComponent<Animator>();
-            animator.SetTrigger("Play"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶
+            animator.SetTrigger("Play"); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½
             Strings.Add(obj);
 
-            // --- ”½‘Î‘¤‚ÌƒIƒuƒWƒFƒNƒgiƒ~ƒ‰[‘ÎÌj ---
+            // --- ï¿½ï¿½ï¿½Î‘ï¿½ï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½iï¿½~ï¿½ï¿½ï¿½[ï¿½ÎÌj ---
             Vector3 mirrorPos = newPos;
-            float mirrorCenterX = 0.0f; // ƒ~ƒ‰[‚Ì’†SˆÊ’u‚ğŒvZ
-            // newPos ‚Ì X ‚ğ¶‰E”½“]
+            float mirrorCenterX = 0.0f; // ï¿½~ï¿½ï¿½ï¿½[ï¿½Ì’ï¿½ï¿½Sï¿½Ê’uï¿½ï¿½ï¿½vï¿½Z
+            // newPos ï¿½ï¿½ X ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½]
             mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
 
-            // Y/Z ‚Í‚»‚Ì‚Ü‚Ü
+            // Y/Z ï¿½Í‚ï¿½ï¿½Ì‚Ü‚ï¿½
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 0, 90));
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
             mirrorAnimator.SetTrigger("Play");
             MirrorStrings.Add(mirrorObj);
 
-            //æ’[A‘OŒã‚Ì“–‚½‚è”»’è‚ğæ“¾
+            //ï¿½ï¿½[ï¿½Aï¿½Oï¿½ï¿½Ì“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ï¿½ï¿½æ“¾
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
             FrontStrings.Add(frontobj);
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
             BackStrings.Add(backobj);
 
-            m_LastDirection = Up; // ’¼‘O‚Ì•ûŒü‚ğXV
-                                  // ‘ÎÛ—v‘f‚ğ1Œ¸‚ç‚·
+            m_LastDirection = Up; // ï¿½ï¿½ï¿½Oï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
+                                  // ï¿½ÎÛ—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚·
             StringNum[currentIndex]--;
 
-            Debug.Log($"Index {currentIndex} ‚Ì—v‘f‚ğ1Œ¸‚ç‚µ‚Ü‚µ‚½Bc‚è: {StringNum[currentIndex]}");
+            Debug.Log($"Index {currentIndex} ï¿½Ì—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚µï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½cï¿½ï¿½: {StringNum[currentIndex]}");
 
-            listDisplay.UpdateDisplay(StringNum);// Text•\¦‚ğXV
+            listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         }
 
     }
     void OnDownInput()
     {
         if(m_LastDirection == Up) return;
-        // ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚Ì¶‚É¶¬
-        Vector3 lastPos = Strings[^1].transform.position; // ÅŒã‚ÌƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u
-        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//‰Šú‰»
+        // ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½Éï¿½ï¿½ï¿½
+        Vector3 lastPos = Strings[^1].transform.position; // ï¿½ÅŒï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌˆÊ’u
+        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Vector3 FrontlastPos;
         Vector3 BacklastPos;
         if (m_LastDirection == RIGHT)
         {
-            newPos = lastPos + (Vector3)m_Offset_X /2 + (Vector3)m_Offset_Y /2;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä‰E‘¤‚É
+            newPos = lastPos + (Vector3)m_Offset_X /2 + (Vector3)m_Offset_Y /2;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Ä‰Eï¿½ï¿½ï¿½ï¿½
         }
         else if (m_LastDirection == LEFT)
         {
-            newPos = lastPos - (Vector3)m_Offset_X /2+ (Vector3)m_Offset_Y / 2;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä¶‘¤‚É
+            newPos = lastPos - (Vector3)m_Offset_X /2+ (Vector3)m_Offset_Y / 2;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else if (m_LastDirection == Down)
         {
-            newPos = lastPos + (Vector3)m_Offset_Y;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä¶‘¤‚É
+            newPos = lastPos + (Vector3)m_Offset_Y;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else if (m_LastDirection == Middle)
         {
-            newPos = lastPos + (Vector3)m_Offset_Y / 2; // Å‰‚ÌˆÊ’u‚©‚ç‰E‚É‚¸‚ç‚·
+            newPos = lastPos + (Vector3)m_Offset_Y / 2; // ï¿½Åï¿½ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ï¿½Eï¿½É‚ï¿½ï¿½ç‚·
         }
-        FrontlastPos = newPos + (Vector3)m_Offset_Y / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µã‚É‚¸‚ç‚·
-        BacklastPos = newPos - (Vector3)m_Offset_Y / 2; // ãŒü‚«‚Ì‚Æ‚«‚Í­‚µ‰º‚É‚¸‚ç‚·
+        FrontlastPos = newPos + (Vector3)m_Offset_Y / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
+        BacklastPos = newPos - (Vector3)m_Offset_Y / 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ç‚·
 
         if (CheckString(newPos, FrontlastPos, BacklastPos))
         {
             GameObject obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-            //ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÀs
-            obj.transform.rotation = Quaternion.Euler(0, 0, 270); // ãŒü‚«‚É‰ñ“]
+            //ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
+            obj.transform.rotation = Quaternion.Euler(0, 0, 270); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½]
             Animator animator = obj.GetComponent<Animator>();
             obj.tag = "Nami";
-            animator.SetTrigger("Play"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶
+            animator.SetTrigger("Play"); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½
             Strings.Add(obj);
 
 
-            // --- ”½‘Î‘¤‚ÌƒIƒuƒWƒFƒNƒgiƒ~ƒ‰[‘ÎÌj ---
+            // --- ï¿½ï¿½ï¿½Î‘ï¿½ï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½iï¿½~ï¿½ï¿½ï¿½[ï¿½ÎÌj ---
             Vector3 mirrorPos = newPos;
-            float mirrorCenterX = 0.0f; // ƒ~ƒ‰[‚Ì’†SˆÊ’u‚ğŒvZ
-            // newPos ‚Ì X ‚ğ¶‰E”½“]
+            float mirrorCenterX = 0.0f; // ï¿½~ï¿½ï¿½ï¿½[ï¿½Ì’ï¿½ï¿½Sï¿½Ê’uï¿½ï¿½ï¿½vï¿½Z
+            // newPos ï¿½ï¿½ X ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½]
             mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
 
-            // Y/Z ‚Í‚»‚Ì‚Ü‚Ü
+            // Y/Z ï¿½Í‚ï¿½ï¿½Ì‚Ü‚ï¿½
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 0, 270));
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
@@ -418,104 +413,104 @@ public class StringManager : MonoBehaviour
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
             BackStrings.Add(backobj);
 
-            m_LastDirection =Down; // ’¼‘O‚Ì•ûŒü‚ğXV
-                                   // ‘ÎÛ—v‘f‚ğ1Œ¸‚ç‚·
+            m_LastDirection =Down; // ï¿½ï¿½ï¿½Oï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
+                                   // ï¿½ÎÛ—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚·
             StringNum[currentIndex]--;
 
-            Debug.Log($"Index {currentIndex} ‚Ì—v‘f‚ğ1Œ¸‚ç‚µ‚Ü‚µ‚½Bc‚è: {StringNum[currentIndex]}");
+            Debug.Log($"Index {currentIndex} ï¿½Ì—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚µï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½cï¿½ï¿½: {StringNum[currentIndex]}");
 
-            listDisplay.UpdateDisplay(StringNum);// Text•\¦‚ğXV
+            listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         }
     }
 
     bool CheckString(Vector3 newPos, Vector3 FrontlastPos, Vector3 BacklastPos)
     {
-        // d‚È‚èƒ`ƒFƒbƒNi”÷¬‚ÈƒYƒŒ–h~‚Ì‚½‚ß‹——£‚Å”»’èj
+        // ï¿½dï¿½È‚ï¿½`ï¿½Fï¿½bï¿½Nï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ÈƒYï¿½ï¿½ï¿½hï¿½~ï¿½Ì‚ï¿½ï¿½ß‹ï¿½ï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½j
         foreach (GameObject str in Strings)
         {
             if (Vector3.Distance(str.transform.position, FrontlastPos) < 0.001f)
             {
-                return false; // ‚·‚Å‚É“¯‚¶ˆÊ’u‚É‘¶İ ¨ ˆ—’†’f
+                return false; // ï¿½ï¿½ï¿½Å‚É“ï¿½ï¿½ï¿½ï¿½Ê’uï¿½É‘ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½f
             }
         }
         foreach (GameObject str in FrontStrings)
         {
             if (Vector3.Distance(str.transform.position, FrontlastPos) < 0.001f)
             {
-                return false; // ‚·‚Å‚É“¯‚¶ˆÊ’u‚É‘¶İ ¨ ˆ—’†’f
+                return false; // ï¿½ï¿½ï¿½Å‚É“ï¿½ï¿½ï¿½ï¿½Ê’uï¿½É‘ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½f
             }
         }
         foreach (GameObject str in BackStrings)
         {
             if (Vector3.Distance(str.transform.position, FrontlastPos) < 0.001f)
             {
-                return false; // ‚·‚Å‚É“¯‚¶ˆÊ’u‚É‘¶İ ¨ ˆ—’†’f
+                return false; // ï¿½ï¿½ï¿½Å‚É“ï¿½ï¿½ï¿½ï¿½Ê’uï¿½É‘ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½f
             }
         }
-        return true; // d‚È‚è‚ª‚È‚¢ê‡‚Ítrue‚ğ•Ô‚·
+        return true; // ï¿½dï¿½È‚è‚ªï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½trueï¿½ï¿½Ô‚ï¿½
     }
     public void BallStopper()
     {
         Vector3 lastPos = Strings[^1].transform.position;
-        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//‰Šú‰»
+        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         switch (m_LastDirection)
         {
             case RIGHT:
-                // ‰E‚É‚½‚Ü‚ğ~‚ß‚éˆ—
-                newPos = lastPos + (Vector3)m_Offset_X / 2;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä‰E‘¤‚É
+                // ï¿½Eï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½
+                newPos = lastPos + (Vector3)m_Offset_X / 2;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Ä‰Eï¿½ï¿½ï¿½ï¿½
                 break;
             case LEFT:
-                // ¶‚É‚½‚Ü‚ğ~‚ß‚éˆ—
-                newPos = lastPos - (Vector3)m_Offset_X / 2;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä‰E‘¤‚É
+                // ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½
+                newPos = lastPos - (Vector3)m_Offset_X / 2;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Ä‰Eï¿½ï¿½ï¿½ï¿½
                 break;
             case Up:
-                // ã‚É‚½‚Ü‚ğ~‚ß‚éˆ—
+                // ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½
                 newPos = lastPos - (Vector3)m_Offset_Y / 2;
                 break;
             case Down:
-                // ‰º‚É‚½‚Ü‚ğ~‚ß‚éˆ—
+                // ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½
                 newPos = lastPos + (Vector3)m_Offset_Y / 2;
                 break;
         }
-        // ‚½‚Ü‚ğ~‚ß‚éˆ—
+        // ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½
         GameObject tama = Instantiate(Tamadome, newPos, Quaternion.identity);
         m_StringMode = NoString;
-        m_LastDirection = Middle; // ’¼‘O‚Ì•ûŒü‚ğ‰Šú‰»
+        m_LastDirection = Middle; // ï¿½ï¿½ï¿½Oï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
     void OnKaesiInput()
     {
         Vector3 lastPos = Strings[^1].transform.position;
-        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//‰Šú‰»
+        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         GameObject obj=new GameObject();
         Animator animator=new Animator();
         switch (m_LastDirection)
         {
             case RIGHT:
-                // ‰E‚É‚½‚Ü‚ğ~‚ß‚éˆ—
-                newPos = lastPos - (Vector3)m_Offset_Y / 10;        //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä‰E‘¤‚É
+                // ï¿½Eï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½
+                newPos = lastPos - (Vector3)m_Offset_Y / 10;        //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Ä‰Eï¿½ï¿½ï¿½ï¿½
                 obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
-                obj.transform.rotation = Quaternion.Euler(0, 180, 0); // ¶Œü‚«‚É‰ñ“]
+                obj.transform.rotation = Quaternion.Euler(0, 180, 0); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½]
                 obj.tag = "Kaesi";
                 animator = obj.GetComponent<Animator>();
-                animator.SetTrigger("Play"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶
-                newPos = lastPos;//”z—ñ‚É“ü‚ê‚éêŠ‚Íã‚ÉˆÚ“®‚³‚¹‚½‚­‚È‚¢‚Ì‚ÅŒ³‚É–ß‚·
-                //obj.transform.position = newPos; //‚±‚ê‚ÍêŠ‚Í‚ ‚©‚ñ‚¯‚Çobj‚ª‘‚¦‚È‚¢
-                obj = Instantiate(StringPrefub, newPos, Quaternion.identity);//‚±‚ê‚Ìê‡‚Í—v‚ç‚È‚¢Obj‚ª‘‚¦‚é‚¯‚ÇêŠ‚Í‚¢‚¢Š´‚¶
+                animator.SetTrigger("Play"); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½
+                newPos = lastPos;//ï¿½zï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½êŠï¿½Íï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÅŒï¿½ï¿½É–ß‚ï¿½
+                //obj.transform.position = newPos; //ï¿½ï¿½ï¿½ï¿½ÍêŠï¿½Í‚ï¿½ï¿½ï¿½ï¿½ñ‚¯‚ï¿½objï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
+                obj = Instantiate(StringPrefub, newPos, Quaternion.identity);//ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Í—vï¿½ï¿½È‚ï¿½Objï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚¯ï¿½ÇêŠï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Strings.Add(obj);
-                m_LastDirection = LEFT; //•Ô‚µ–D‚È‚Ì‚ÅÀ¿‹t
+                m_LastDirection = LEFT; //ï¿½Ô‚ï¿½ï¿½Dï¿½È‚Ì‚Åï¿½ï¿½ï¿½ï¿½t
                 break;
             case LEFT:
-                // ¶‚É‚½‚Ü‚ğ~‚ß‚éˆ—                  
-                newPos = lastPos - (Vector3)m_Offset_Y / 10;         //offset‚ğƒ}ƒCƒiƒX‚É‚µ‚Ä‰E‘¤‚É
+                // ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½~ï¿½ß‚éˆï¿½ï¿½                  
+                newPos = lastPos - (Vector3)m_Offset_Y / 10;         //offsetï¿½ï¿½ï¿½}ï¿½Cï¿½iï¿½Xï¿½É‚ï¿½ï¿½Ä‰Eï¿½ï¿½ï¿½ï¿½
                 obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
                 obj.tag = "Kaesi";
                 animator = obj.GetComponent<Animator>();
-                animator.SetTrigger("Play"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶
-                newPos = lastPos;//”z—ñ‚É“ü‚ê‚éêŠ‚Íã‚ÉˆÚ“®‚³‚¹‚½‚­‚È‚¢‚Ì‚ÅŒ³‚É–ß‚·
-                //obj.transform.position = newPos; // ˆÊ’u‚ğŒ³‚É–ß‚·
-                 obj = Instantiate(StringPrefub, newPos, Quaternion.identity);//‚±‚ê‚Ìê‡‚Í—v‚ç‚È‚¢Obj‚ª‘‚¦‚é‚¯‚ÇêŠ‚Í‚¢‚¢Š´‚¶
+                animator.SetTrigger("Play"); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½
+                newPos = lastPos;//ï¿½zï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½êŠï¿½Íï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÅŒï¿½ï¿½É–ß‚ï¿½
+                //obj.transform.position = newPos; // ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
+                 obj = Instantiate(StringPrefub, newPos, Quaternion.identity);//ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Í—vï¿½ï¿½È‚ï¿½Objï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚¯ï¿½ÇêŠï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Strings.Add(obj);
-                m_LastDirection = RIGHT; //•Ô‚µ–D‚È‚Ì‚ÅÀ¿‹t
+                m_LastDirection = RIGHT; //ï¿½Ô‚ï¿½ï¿½Dï¿½È‚Ì‚Åï¿½ï¿½ï¿½ï¿½t
                 break;
             case Up:
                 return;
@@ -523,12 +518,12 @@ public class StringManager : MonoBehaviour
                 return;
         }
                                                            
-                                // ‘ÎÛ—v‘f‚ğ1Œ¸‚ç‚·
+                                // ï¿½ÎÛ—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚·
         StringNum[currentIndex]--;
 
-        Debug.Log($"Index {currentIndex} ‚Ì—v‘f‚ğ1Œ¸‚ç‚µ‚Ü‚µ‚½Bc‚è: {StringNum[currentIndex]}");
+        Debug.Log($"Index {currentIndex} ï¿½Ì—vï¿½fï¿½ï¿½1ï¿½ï¿½ï¿½ç‚µï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½cï¿½ï¿½: {StringNum[currentIndex]}");
 
-        listDisplay.UpdateDisplay(StringNum);// Text•\¦‚ğXV
+        listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
     }
     void OnEnable()
     {
