@@ -10,4 +10,7 @@ public enum StageID
 
     Stage3_1,
     Stage3_2,
+
+    Stage1_1_Test, //テスト用ステージ
+
 }

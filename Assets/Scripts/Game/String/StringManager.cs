@@ -26,7 +26,12 @@ public class StringManager : MonoBehaviour
     [SerializeField] List<int> CopyStringNum;
     private int currentIndex = 0;
 
+<<<<<<< HEAD
     [SerializeField] private ShowStringNum listDisplay; // �\���N���X���C���X�y�N�^�[�ŃZ�b�g
+=======
+    [SerializeField] private float mirrorOffsetX = 5.0f;
+    [SerializeField] private ShowStringNum listDisplay; // �\���N���X���C���X�y�N�^�[�ŃZ�b�g
+>>>>>>> origin/Work_Taniguchi
     [SerializeField] GameObject Tamadome;
     [SerializeField] GameObject StringCursol;
     private InputSystem_Actions inputActions;
@@ -197,6 +202,7 @@ public class StringManager : MonoBehaviour
             animator.SetTrigger("Play"); // �A�j���[�V�������Đ�
             Strings.Add(obj);
 
+<<<<<<< HEAD
             // --- ���Α��̃I�u�W�F�N�g�i�~���[�Ώ́j ---
             Vector3 mirrorPos = newPos;
             float mirrorCenterX = 0.0f; // �~���[�̒��S�ʒu���v�Z
@@ -204,6 +210,11 @@ public class StringManager : MonoBehaviour
             mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
 
             // Y/Z �͂��̂܂�
+=======
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f;
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+>>>>>>> origin/Work_Taniguchi
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 180, 0));
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
@@ -257,6 +268,7 @@ public class StringManager : MonoBehaviour
             animator.SetTrigger("Play"); // �A�j���[�V�������Đ�
             Strings.Add(obj);
 
+<<<<<<< HEAD
             // --- ���Α��̃I�u�W�F�N�g�i�~���[�Ώ́j ---
             Vector3 mirrorPos = newPos;
             float mirrorCenterX = 0.0f; // �~���[�̒��S�ʒu���v�Z
@@ -265,6 +277,12 @@ public class StringManager : MonoBehaviour
 
             // Y/Z �͂��̂܂�
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.identity);
+=======
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f;
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+            GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 180, 0));
+>>>>>>> origin/Work_Taniguchi
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
             mirrorAnimator.SetTrigger("Play");
@@ -322,6 +340,7 @@ public class StringManager : MonoBehaviour
             animator.SetTrigger("Play"); // �A�j���[�V�������Đ�
             Strings.Add(obj);
 
+<<<<<<< HEAD
             // --- ���Α��̃I�u�W�F�N�g�i�~���[�Ώ́j ---
             Vector3 mirrorPos = newPos;
             float mirrorCenterX = 0.0f; // �~���[�̒��S�ʒu���v�Z
@@ -330,12 +349,21 @@ public class StringManager : MonoBehaviour
 
             // Y/Z �͂��̂܂�
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 0, 90));
+=======
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f;
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+            GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 180, 0));
+>>>>>>> origin/Work_Taniguchi
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
             mirrorAnimator.SetTrigger("Play");
             MirrorStrings.Add(mirrorObj);
 
+<<<<<<< HEAD
             //��[�A�O��̓����蔻����擾
+=======
+>>>>>>> origin/Work_Taniguchi
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
             FrontStrings.Add(frontobj);
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);
@@ -388,6 +416,7 @@ public class StringManager : MonoBehaviour
             animator.SetTrigger("Play"); // �A�j���[�V�������Đ�
             Strings.Add(obj);
 
+<<<<<<< HEAD
 
             // --- ���Α��̃I�u�W�F�N�g�i�~���[�Ώ́j ---
             Vector3 mirrorPos = newPos;
@@ -397,12 +426,21 @@ public class StringManager : MonoBehaviour
 
             // Y/Z �͂��̂܂�
             GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 0, 270));
+=======
+            Vector3 mirrorPos = newPos;
+            float mirrorCenterX = 0.0f;
+            mirrorPos.x = mirrorCenterX - (newPos.x - mirrorCenterX);
+            GameObject mirrorObj = Instantiate(StringPrefub, mirrorPos, Quaternion.Euler(0, 180, 0));
+>>>>>>> origin/Work_Taniguchi
             mirrorObj.tag = "Nami_Mirror";
             Animator mirrorAnimator = mirrorObj.GetComponent<Animator>();
             mirrorAnimator.SetTrigger("Play");
             MirrorStrings.Add(mirrorObj);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/Work_Taniguchi
             GameObject frontobj = Instantiate(StringPrefub, FrontlastPos, Quaternion.identity);
             FrontStrings.Add(frontobj);
             GameObject backobj = Instantiate(StringPrefub, BacklastPos, Quaternion.identity);

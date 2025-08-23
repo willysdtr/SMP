@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     //プレイヤーのステートをいじる
-
+    private InputSystem_Actions inputActions;
     PlayerMove move;
     PlayerState state;
     private Animator anim = null;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);
     [SerializeField] private LayerMask climbLayer;
     public Vector2 hitobj_pos { get; private set; } = new Vector2(0.0f, 0.0f);
+    private Vector2 start_pos = Vector2.zero;
     private bool ishit;
 
     private int direction = (int)PlayerState.Direction.RIGHT;
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private RectTransform rect;
+    private bool start = false;
 
     void Awake()
     {
@@ -35,11 +38,14 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         rect = GetComponent<RectTransform>();
+        anim.speed = 0;
+        inputActions = new InputSystem_Actions();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!start) { return; }
         ChangeState();
         HandleState();
         //OverlapBoxの作成、Climb処理に使用
@@ -232,5 +238,37 @@ public class PlayerController : MonoBehaviour
 
         BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
         collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);
+    }
+
+    void OnEnable()
+    {
+        // InputSystem 有効化
+        inputActions.Enable();
+
+        inputActions.Player.Attack.performed += OnStartPerformed;
+    }
+
+    void OnDisable()
+    {
+        // 無効化 & イベント解除
+        inputActions.Player.Attack.performed -= OnStartPerformed;
+        inputActions.Disable();
+    }
+
+    private void OnStartPerformed(InputAction.CallbackContext ctx)
+    {
+        if (!start)
+        {
+            start = true;
+            start_pos = transform.position;
+        }
+        else
+        {
+            start = false;
+            transform.position = start_pos;
+            move.Stop();
+            state.currentstate = PlayerState.State.STOP;
+            anim.speed = 0;
+        }
     }
 }
