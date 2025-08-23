@@ -17,12 +17,14 @@ public class StringManager_Canvas : MonoBehaviour
     [SerializeField] private RectTransform StringCursol;
     [SerializeField] private RectTransform canvasTransform; // CanvasのRectTransform
 
+    [SerializeField] private float mirrorOffsetX = 5.0f;
     private Vector2 m_StrinngScale = new Vector2(100f, 100f); // UIサイズに合わせて単位変更
     private Vector2 HitBoxScale = new(1, 1);
     private Vector2 m_Offset_X;
     private Vector2 m_Offset_Y;
 
     private List<RectTransform> Strings = new List<RectTransform>();
+    private List<RectTransform> MirrorStrings = new List<RectTransform>();
     private List<RectTransform> FrontStrings = new List<RectTransform>();
     private List<RectTransform> BackStrings = new List<RectTransform>();
     [SerializeField] List<int> StringNum;
@@ -188,6 +190,33 @@ public class StringManager_Canvas : MonoBehaviour
             col.size *= HitBoxScale; // RectTransformに合わせて拡縮
         }
         Strings.Add(mainStr);
+
+        Vector3 mirrorPos = main;
+        float mirrorCenterX = 0.0f;
+        mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
+        RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
+        mirrorStr.anchoredPosition = mirrorPos;
+        mirrorStr.sizeDelta = m_StrinngScale;//サイズ変更
+        mirrorStr.rotation = rot;
+        if (Mathf.Abs(rot.y) > 0.5f)//縦の場合は反転させない
+        {
+            mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// 元の回転 rot に対して Y軸に180度反転を追加する
+        }
+
+        mirrorStr.tag = "Nami_Mirror";
+        Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
+        mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
+        anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
+        if (anim != null)
+        {
+            anim.SetCanvas(canvasTransform);
+        }
+        col = mirrorStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        }
+        MirrorStrings.Add(mirrorStr);
 
         RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
         frontStr.sizeDelta = m_StrinngScale;//サイズ変更
