@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);
     [SerializeField] private LayerMask climbLayer;
     public Vector2 hitobj_pos { get; private set; } = new Vector2(0.0f, 0.0f);
+    private Vector2 start_pos = Vector2.zero;
     private bool ishit;
 
     private int direction = (int)PlayerState.Direction.RIGHT;
@@ -259,6 +260,15 @@ public class PlayerController : MonoBehaviour
         if (!start)
         {
             start = true;
+            start_pos = transform.position;
+        }
+        else
+        {
+            start = false;
+            transform.position = start_pos;
+            move.Stop();
+            state.currentstate = PlayerState.State.STOP;
+            anim.speed = 0;
         }
     }
 }

@@ -71,6 +71,10 @@ public class StageUICanvasLoader2 : MonoBehaviour
             case StageID.Stage3_2:
                 stage = Stage3.Stage3_2;
                 break;
+
+            case StageID.Stage1_1_Test://テスト用ステージ
+                stage = Stage1_Test.Stage1_1_Test;
+                break;
         }
 
         GenerateStageGridObjects();
