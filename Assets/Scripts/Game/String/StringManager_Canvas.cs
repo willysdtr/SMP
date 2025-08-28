@@ -28,6 +28,9 @@ public class StringManager_Canvas : MonoBehaviour
     private List<RectTransform> FrontStrings = new List<RectTransform>();
     private List<RectTransform> BackStrings = new List<RectTransform>();
     [SerializeField] List<int> StringNum;
+    [SerializeField] List<int> CopyStringNum;
+
+    [SerializeField] private ShowStringNum listDisplay; // 表示クラスをインスペクターでセット
 
     private InputSystem_Actions inputActions;
     private float m_PauseDirection;
@@ -81,6 +84,8 @@ public class StringManager_Canvas : MonoBehaviour
     {
         m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
+        listDisplay.UpdateDisplay(StringNum);// Text表示を更新
+        CopyStringNum = new List<int>(StringNum);
     }
 
     void OnEnable()

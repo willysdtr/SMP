@@ -16,6 +16,7 @@ TagManager:
   - String
   - Kaesi
   - Nami
+  - Nami_Mirror
   layers:
   - Default
   - TransparentFX
