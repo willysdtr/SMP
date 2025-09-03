@@ -210,7 +210,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
         setScale = new(setScale.x * 5.900001f, setScale.y * 5.900001f);
         myStr.SetStringSize(size, setScale);
 
-        size = new Vector2(tileSize * 6, tileSize * 8);
+        size = new Vector2(tileSize * 4.8f, tileSize * 6);
 
         gridLayout.cellSize = new Vector2(tileSize, tileSize);
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;

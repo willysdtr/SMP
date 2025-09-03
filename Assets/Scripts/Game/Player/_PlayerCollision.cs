@@ -51,6 +51,16 @@ public class PlayerCollision : MonoBehaviour
         
         if (((1 << collision.gameObject.layer) & state_ma.groundlayers) != 0)//インスペクターで設定したLayerとのみ判定を取る
         {
+            if(collision.gameObject.tag == "String")
+            {
+                bool isVertical = Mathf.Abs(collision.transform.up.y) > 0.9f;
+                if (isVertical)
+                {
+                    // 縦のStringならTriggerに切り替え
+                    GetComponent<BoxCollider2D>().isTrigger = true;
+                }
+            }
+
 
             if (collision.gameObject.tag == "Spring")//ばねに当たった時の処理
             {
@@ -126,6 +136,7 @@ public class PlayerCollision : MonoBehaviour
                 state_ma.SetClimbFg(false);
                 rb.bodyType = RigidbodyType2D.Dynamic;
                 rb.linearVelocity = Vector2.zero;
+                GetComponent<BoxCollider2D>().isTrigger = false;
             }
         }
         
