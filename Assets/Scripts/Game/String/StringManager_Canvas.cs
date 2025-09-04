@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 public class StringManager_Canvas : MonoBehaviour
 {
@@ -27,6 +30,8 @@ public class StringManager_Canvas : MonoBehaviour
     private List<RectTransform> MirrorStrings = new List<RectTransform>();
     private List<RectTransform> FrontStrings = new List<RectTransform>();
     private List<RectTransform> BackStrings = new List<RectTransform>();
+    private List<StringAnimation_Canvas> AnimStrings = new List<StringAnimation_Canvas>();
+    private List<StringAnimation_Canvas> MirrorAnimStrings = new List<StringAnimation_Canvas>();
     [SerializeField] List<int> StringNum;
     [SerializeField] List<int> CopyStringNum;
 
@@ -36,6 +41,10 @@ public class StringManager_Canvas : MonoBehaviour
     private float m_PauseDirection;
     private int m_LastDirection;
     private bool m_StringMode = NoString;
+
+    //StringAnimation_Canvas anim;
+
+
 
     void Awake()
     {
@@ -78,6 +87,11 @@ public class StringManager_Canvas : MonoBehaviour
             Strings.Add(dummy);
             m_StringMode = isString;
         };
+        inputActions.Stirng.cutstring.performed += ctx =>
+        {
+            Debug.Log("sfodkok");
+            CutString(0);
+        };
     }
 
     void Start()
@@ -98,6 +112,24 @@ public class StringManager_Canvas : MonoBehaviour
         inputActions.Stirng.Disable();
     }
 
+    void CutString(int index)
+    {
+             // é¿ëÃÇçÌèú
+        Destroy(MirrorStrings[index].gameObject);
+        Destroy(Strings[index].gameObject);
+        Destroy(FrontStrings[index].gameObject);
+        Destroy(BackStrings[index].gameObject);
+
+        AnimStrings[index].DeleteImage(0);
+        MirrorAnimStrings[index].DeleteImage(0);
+        // ÉäÉXÉgÇ©ÇÁÇ‡çÌèú
+        MirrorStrings.RemoveAt(index);
+         Strings.RemoveAt(index);
+         FrontStrings.RemoveAt(index);
+         BackStrings.RemoveAt(index);
+        AnimStrings.RemoveAt(index);
+        MirrorAnimStrings.RemoveAt(index);
+    }
     void OnRightInput()
     {
         if (m_LastDirection == LEFT) return;
@@ -189,6 +221,7 @@ public class StringManager_Canvas : MonoBehaviour
         {
             anim.SetCanvas(canvasTransform);
         }
+        AnimStrings.Add(anim);
         BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
         if (col != null)
         {
@@ -216,6 +249,7 @@ public class StringManager_Canvas : MonoBehaviour
         {
             anim.SetCanvas(canvasTransform);
         }
+        MirrorAnimStrings.Add(anim);
         col = mirrorStr.GetComponent<BoxCollider2D>();
         if (col != null)
         {
@@ -252,6 +286,7 @@ public class StringManager_Canvas : MonoBehaviour
             col.size *= HitBoxScale; // RectTransformÇ…çáÇÌÇπÇƒägèk
         }
         BackStrings.Add(backStr);
+
     }
 
     bool CheckString(Vector2 pos, Vector2 front, Vector2 back)

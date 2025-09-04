@@ -1,9 +1,11 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StringAnimation_Canvas : MonoBehaviour
 {
-    private RectTransform canvasTransform;
-
+    public RectTransform canvasTransform;
+    public  List<Transform> ImageList=new List<Transform>();
     // 親Canvasを登録する関数（生成直後に呼び出す）
     public void SetCanvas(RectTransform canvas)
     {
@@ -13,7 +15,6 @@ public class StringAnimation_Canvas : MonoBehaviour
 
     public void EndAnimarion()
     {
-        Debug.Log("アニメーション終了しました");
         foreach (Transform child in transform)
         {
             var rect = child as RectTransform;
@@ -29,6 +30,7 @@ public class StringAnimation_Canvas : MonoBehaviour
             rect.rotation = worldRot;
             SetWorldScale(rect, worldScale);
             child.gameObject.SetActive(true);
+            ImageList.Add(child);
         }
     }
 
@@ -48,5 +50,9 @@ public class StringAnimation_Canvas : MonoBehaviour
                 desiredWorldScale.z / parentScale.z
             );
         }
+    }
+    public void DeleteImage(int i)
+    {
+        ImageList[i].gameObject.SetActive(false);
     }
 }

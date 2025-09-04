@@ -1459,6 +1459,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""cutstring"",
+                    ""type"": ""Button"",
+                    ""id"": ""082de92d-5688-4290-a1cd-2145cee2b8de"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1536,6 +1545,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2451cdb7-1775-42e1-bd05-bdd2f23e341d"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""cutstring"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1772,6 +1792,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Stirng_kaesi = m_Stirng.FindAction("kaesi", throwIfNotFound: true);
         m_Stirng_tama = m_Stirng.FindAction("tama", throwIfNotFound: true);
         m_Stirng_start = m_Stirng.FindAction("start", throwIfNotFound: true);
+        m_Stirng_cutstring = m_Stirng.FindAction("cutstring", throwIfNotFound: true);
         // PrefubCursol
         m_PrefubCursol = asset.FindActionMap("PrefubCursol", throwIfNotFound: true);
         m_PrefubCursol_catch = m_PrefubCursol.FindAction("catch", throwIfNotFound: true);
@@ -2623,6 +2644,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Stirng_kaesi;
     private readonly InputAction m_Stirng_tama;
     private readonly InputAction m_Stirng_start;
+    private readonly InputAction m_Stirng_cutstring;
     /// <summary>
     /// Provides access to input actions defined in input action map "Stirng".
     /// </summary>
@@ -2650,6 +2672,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Stirng/start".
         /// </summary>
         public InputAction @start => m_Wrapper.m_Stirng_start;
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/cutstring".
+        /// </summary>
+        public InputAction @cutstring => m_Wrapper.m_Stirng_cutstring;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2688,6 +2714,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @start.started += instance.OnStart;
             @start.performed += instance.OnStart;
             @start.canceled += instance.OnStart;
+            @cutstring.started += instance.OnCutstring;
+            @cutstring.performed += instance.OnCutstring;
+            @cutstring.canceled += instance.OnCutstring;
         }
 
         /// <summary>
@@ -2711,6 +2740,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @start.started -= instance.OnStart;
             @start.performed -= instance.OnStart;
             @start.canceled -= instance.OnStart;
+            @cutstring.started -= instance.OnCutstring;
+            @cutstring.performed -= instance.OnCutstring;
+            @cutstring.canceled -= instance.OnCutstring;
         }
 
         /// <summary>
@@ -3223,6 +3255,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnStart(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "cutstring" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCutstring(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PrefubCursol" which allows adding and removing callbacks.

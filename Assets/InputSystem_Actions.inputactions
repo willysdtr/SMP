@@ -1373,6 +1373,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "cutstring",
+                    "type": "Button",
+                    "id": "082de92d-5688-4290-a1cd-2145cee2b8de",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1450,6 +1459,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2451cdb7-1775-42e1-bd05-bdd2f23e341d",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "cutstring",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

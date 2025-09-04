@@ -12,7 +12,7 @@ public class StringAnimation : MonoBehaviour
         // 子オブジェクトを親から外してアクティブにする
         foreach (Transform child in transform)
         {
-
+            Debug.Log(child, m_StringManager);
             // 先にワールド座標を保存しておく
             Vector3 worldPos = child.position;
             Quaternion worldRot = child.rotation;
