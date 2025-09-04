@@ -68,10 +68,9 @@ public class PlayerMove : MonoBehaviour
     public bool Goal(Vector2 goalpos)
     {
         int direction = 0;
-
-        if (Mathf.Abs(goalpos.x - transform.position.x) < PlayerState.MAX_SPEED / 10)
+        AllStop();
+        if (Mathf.Abs(goalpos.x) - Mathf.Abs(transform.position.x) < PlayerState.MAX_SPEED / 10)
         {
-            Stop();
             return true;//ƒS[ƒ‹‰‰o‚ªI‚í‚Á‚½‚çtrue‚ð•Ô‚·
         }
         else
@@ -86,8 +85,9 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        currentspeed = (PlayerState.MAX_SPEED / 10) * Time.deltaTime;
+        currentspeed = (PlayerState.MAX_SPEED * Time.deltaTime) / 10;
         rb.linearVelocity = new Vector2(direction * currentspeed, 0);
+        Debug.Log("GOAL");
         return false;
     }
 
@@ -99,6 +99,7 @@ public class PlayerMove : MonoBehaviour
     public void AllStop()
     {
         //“®‚«‚ðŠ®‘S‚ÉŽ~‚ß‚é
+        currentspeed = 0f;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = 0f;
     }
