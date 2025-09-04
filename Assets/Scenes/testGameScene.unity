@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useDataFromDropdown: 1
-  stageId: 6
+  stageId: 0
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
@@ -1832,7 +1832,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8000182b59d048a409924b8babd2589b, type: 3}
     prefab: {fileID: 7296938410568890891, guid: 584d4985337303e479cb431df2da8d7e, type: 3}
   - id: 5
-    tag: Untagged
+    tag: Wrinkle
     sprite: {fileID: 21300000, guid: a999b30b186eb4543966529e057f3228, type: 3}
     prefab: {fileID: 0}
   - id: 0
@@ -1844,9 +1844,17 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 54108e1555e2c7f479ef7cc4eff15e95, type: 3}
     prefab: {fileID: 0}
   - id: 8
-    tag: Untagged
+    tag: Void
     sprite: {fileID: 21300000, guid: 62c87409786effb45870c170878f8efc, type: 3}
     prefab: {fileID: 0}
+  - id: 10
+    tag: Seesaw
+    sprite: {fileID: 21300000, guid: 429dbb6b42159934da808d9a3c17bdf8, type: 3}
+    prefab: {fileID: 7296938410568890891, guid: fbda8f953f9916c468e4742dc86ba74b, type: 3}
+  - id: 11
+    tag: SeesawF
+    sprite: {fileID: 21300000, guid: 573b62a0db660ee4faa5dcbb7222d2e6, type: 3}
+    prefab: {fileID: 7296938410568890891, guid: 637484ca23fae0f49bcfaee6f24831c8, type: 3}
   king: {fileID: 1098702340}
   queen: {fileID: 857900052}
 --- !u!114 &563705529

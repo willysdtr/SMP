@@ -159,6 +159,9 @@ public class StageUICanvasLoader2 : MonoBehaviour
         SetObjFromWind(stageGrid, 6, stage.WIND_front, false, offset);
         SetObjFromWind(stageGrid, 6, stage.WIND_back, true, offset);
 
+        // シーソー
+        SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_front, false, offset);
+        SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_back, true, offset);
     }
 
     private void SetObjFromInt2(List<List<int>> grid, int id, IReadOnlyList<StageInfo.Int2> positions, bool isBack, int offset)
@@ -183,6 +186,20 @@ public class StageUICanvasLoader2 : MonoBehaviour
             if (y >= 0 && y < grid.Count && x >= 0 && x < grid[0].Count)
             {
                 grid[y][x] = id + (int)pos.Dir; // 風穴だから、向きを付ける
+            }
+        }
+    }
+
+    private void SetObjFromSeeSaw(List<List<int>> grid, int id, IReadOnlyList<StageInfo.SeeSaw> positions, bool isBack, int offset)
+    {
+        foreach (var pos in positions)
+        {
+            int x = pos.X + (isBack ? offset : 0);
+            int y = pos.Y;
+            if (y >= 0 && y < grid.Count && x >= 0 && x < grid[0].Count)
+            {
+                // encode left/right into the grid (0 = false/left, 1 = true/right)
+                grid[y][x] = id + (pos.isLeftRight ? 1 : 0);
             }
         }
     }

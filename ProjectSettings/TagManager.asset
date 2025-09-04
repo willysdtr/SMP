@@ -17,6 +17,7 @@ TagManager:
   - Kaesi
   - Nami
   - Nami_Mirror
+  - SeeSaw
   layers:
   - Default
   - TransparentFX
