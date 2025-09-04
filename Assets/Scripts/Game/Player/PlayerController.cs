@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,17 +20,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask climbLayer;
     public Vector2 hitobj_pos { get; private set; } = new Vector2(0.0f, 0.0f);
     private Vector2 start_pos = Vector2.zero;
+    private Vector2 goal_pos = Vector2.zero;
     private bool ishit;
 
     private int direction = (int)PlayerState.Direction.RIGHT;
 
-    [SerializeField] private LayerMask groundlayers; // プレイヤーごとの設定
+    [SerializeField] public LayerMask groundlayers;
 
     Vector2 initialVelocity;
 
     private Rigidbody2D rb;
     private RectTransform rect;
     private bool start = false;
+    public bool goal = false;
 
     void Awake()
     {
@@ -40,12 +43,13 @@ public class PlayerController : MonoBehaviour
         rect = GetComponent<RectTransform>();
         anim.speed = 0;
         inputActions = new InputSystem_Actions();
+        checkSize = new Vector2(checkSize.x * rect.sizeDelta.x, checkSize.y * rect.sizeDelta.y);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!start) { return; }
+        if (!start || goal) { return; }
         ChangeState();
         HandleState();
         //OverlapBoxの作成、Climb処理に使用
@@ -67,7 +71,7 @@ public class PlayerController : MonoBehaviour
         switch (state.currentstate)//現在の状態から停止に移行するか
         {
             case PlayerState.State.WALK://WALK
-                if (!state.IS_GROUND || !state.IS_CLIMB || !!state.IS_MOVE) { state.currentstate = PlayerState.State.STOP; move.Stop(); }
+                if (!state.IS_GROUND || !state.IS_CLIMB || !state.IS_MOVE) { state.currentstate = PlayerState.State.STOP; move.Stop(); }
                 break;
             case PlayerState.State.CLIMB://CLIMB
                 if (!state.IS_CLIMB) { state.currentstate = PlayerState.State.STOP; }
@@ -123,7 +127,7 @@ public class PlayerController : MonoBehaviour
             case PlayerState.State.JUMP: anim.speed = 0; move.Jump(); jumptime += Time.deltaTime; break;
             case PlayerState.State.FALL: anim.speed = 0; break;
             case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); break;
-            case PlayerState.State.GOAL: anim.speed = 1; break;
+            case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
             case PlayerState.State.DEATH: anim.speed = 1; break;
         }
         anim.SetInteger("State", (int)state.currentstate);
@@ -156,6 +160,11 @@ public class PlayerController : MonoBehaviour
                     state.IS_MOVE = false;
                 }
             }
+            else if(collision.gameObject.tag == "Goal")
+            {
+                state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
+                goal_pos = collision.transform.position;
+            }
             else
             {
                 foreach (ContactPoint2D contact in collision.contacts)
@@ -165,14 +174,34 @@ public class PlayerController : MonoBehaviour
                     if (contact.normal == Vector2.up)
                     {
                         state.IS_GROUND = true;
+                        state.IS_MOVE = true;
                         ground_obj.Add(collision.gameObject);
-
                     }
                     // 横向きに接触した場合のみカウント
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)
                     {
-                        wall_obj.Add(collision.gameObject);
-                        state.IS_MOVE = false;
+                        if (collision.gameObject.tag == "String" && state.IS_CLIMB_NG == false)
+                        {
+                            bool isVertical = collision.transform.rotation.z != 0;
+                            if (isVertical)
+                            {
+                                // 縦の糸ならTriggerに切り替え
+                                GetComponent<BoxCollider2D>().isTrigger = true;
+                                //糸に当たった時の処理
+                                state.IS_MOVE = false;
+                                state.IS_CLIMB = true;
+                                hitobj_pos = collision.transform.position;
+                                rb.linearVelocity = Vector2.zero;
+                                rb.bodyType = RigidbodyType2D.Kinematic;
+                            }
+                        }
+                        else
+                        {
+                            wall_obj.Add(collision.gameObject);
+                            state.IS_MOVE = false;
+                            Debug.Log("n");
+                            
+                        }
                     }
                 }
             }
@@ -214,9 +243,11 @@ public class PlayerController : MonoBehaviour
         {//OverlapBoxが重なってないときに実行(誤作動するため)
             if (collider.gameObject.tag == "String")
             {//糸から離れた時の処理
+                state.IS_MOVE = true;
                 state.IS_CLIMB = false;
                 rb.bodyType = RigidbodyType2D.Dynamic;
                 rb.linearVelocity = Vector2.zero;
+                GetComponent<BoxCollider2D>().isTrigger = false;//Trigger解除
             }
         }
 
@@ -265,10 +296,28 @@ public class PlayerController : MonoBehaviour
         else
         {
             start = false;
+            goal = false;
             transform.position = start_pos;
             move.Stop();
             state.currentstate = PlayerState.State.STOP;
             anim.speed = 0;
+            ResetFlag();
         }
+    }
+
+    private void ResetFlag()
+    {
+        state.IS_MOVE = false;
+        state.IS_CEILING_HIT = false;
+        state.IS_CLIMB = false;
+        state.IS_DOWN = false;
+        state.IS_CLIMB_NG = false;
+        state.IS_GROUND = false;
+        state.IS_JUMP = false;
+    }
+
+    public void SetClimbNG(bool fg)
+    {
+        state.IS_CLIMB_NG = fg;
     }
 }

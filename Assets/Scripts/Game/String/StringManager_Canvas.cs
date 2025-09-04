@@ -241,7 +241,7 @@ public class StringManager_Canvas : MonoBehaviour
             mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// Œ³‚Ì‰ñ“] rot ‚É‘Î‚µ‚Ä YŽ²‚É180“x”½“]‚ð’Ç‰Á‚·‚é
         }
 
-        mirrorStr.tag = "Nami_Mirror";
+        //mirrorStr.tag = "Nami_Mirror";
         Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
         mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
         anim = mirrorStr.GetComponent<StringAnimation_Canvas>();

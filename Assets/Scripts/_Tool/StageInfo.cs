@@ -51,6 +51,20 @@ namespace StageInfo
         }
     }
 
+    public struct SeeSaw
+    {
+        public readonly bool isLeftRight;
+        public readonly int X;
+        public readonly int Y;
+
+        public SeeSaw(bool dir, int x, int y)
+        {
+            isLeftRight = dir;
+            X = x; 
+            Y = y;
+        }
+    }
+
     public class StageData
     {
         // フィールド宣言
@@ -75,6 +89,8 @@ namespace StageInfo
         public IReadOnlyList<Int2> WRINKLE_back { get; }
         public IReadOnlyList<WindPos> WIND_front { get; }
         public IReadOnlyList<WindPos> WIND_back { get; }
+        public IReadOnlyList<SeeSaw> seeSaw_front { get; }
+        public IReadOnlyList<SeeSaw> seeSaw_back { get; }
 
         // シグネチャコンストラクタ
         public StageData(int stage_width, int stage_height,
@@ -87,7 +103,8 @@ namespace StageInfo
             int[] string_count,
             Int2[] steel_front, Int2[] steel_back,
             Int2[] wrinkle_front, Int2[] wrinkle_back,
-            WindPos[] wind_front, WindPos[] wind_back
+            WindPos[] wind_front, WindPos[] wind_back,
+            SeeSaw[] seesaw_front, SeeSaw[] seesaw_back
         )
         {
             STAGE_WIDTH = stage_width;
@@ -109,6 +126,8 @@ namespace StageInfo
             WRINKLE_back = Array.AsReadOnly(wrinkle_back ?? Array.Empty<Int2>());
             WIND_front = Array.AsReadOnly(wind_front ?? Array.Empty<WindPos>());
             WIND_back = Array.AsReadOnly(wind_back ?? Array.Empty<WindPos>());
+            seeSaw_front = Array.AsReadOnly(seesaw_front ?? Array.Empty<SeeSaw>());
+            seeSaw_back = Array.AsReadOnly(seesaw_back ?? Array.Empty<SeeSaw>());
         }
     }
 }

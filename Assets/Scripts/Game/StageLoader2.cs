@@ -159,6 +159,9 @@ public class StageUICanvasLoader2 : MonoBehaviour
         SetObjFromWind(stageGrid, 6, stage.WIND_front, false, offset);
         SetObjFromWind(stageGrid, 6, stage.WIND_back, true, offset);
 
+        // シーソー
+        SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_front, false, offset);
+        SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_back, true, offset);
     }
 
     private void SetObjFromInt2(List<List<int>> grid, int id, IReadOnlyList<StageInfo.Int2> positions, bool isBack, int offset)
@@ -187,6 +190,20 @@ public class StageUICanvasLoader2 : MonoBehaviour
         }
     }
 
+    private void SetObjFromSeeSaw(List<List<int>> grid, int id, IReadOnlyList<StageInfo.SeeSaw> positions, bool isBack, int offset)
+    {
+        foreach (var pos in positions)
+        {
+            int x = pos.X + (isBack ? offset : 0);
+            int y = pos.Y;
+            if (y >= 0 && y < grid.Count && x >= 0 && x < grid[0].Count)
+            {
+                // encode left/right into the grid (0 = false/left, 1 = true/right)
+                grid[y][x] = id + (pos.isLeftRight ? 1 : 0);
+            }
+        }
+    }
+
     void SetupGrid(RectTransform panel, int colStart, int colEnd)
     {
         int gridCols = colEnd - colStart;
@@ -210,7 +227,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
         setScale = new(setScale.x * 5.900001f, setScale.y * 5.900001f);
         myStr.SetStringSize(size, setScale);
 
-        size = new Vector2(tileSize * 6, tileSize * 8);
+        size = new Vector2(tileSize * 4.8f, tileSize * 6);
 
         gridLayout.cellSize = new Vector2(tileSize, tileSize);
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;

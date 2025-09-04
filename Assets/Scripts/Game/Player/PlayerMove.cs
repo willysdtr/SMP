@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -62,6 +63,32 @@ public class PlayerMove : MonoBehaviour
     public void Climb(float speed)//speedの値だけ上に移動する
     {
         rb.position += new Vector2(0, speed * Time.deltaTime);
+    }
+
+    public bool Goal(Vector2 goalpos)
+    {
+        int direction = 0;
+
+        if (Mathf.Abs(goalpos.x - transform.position.x) < PlayerState.MAX_SPEED / 10)
+        {
+            Stop();
+            return true;//ゴール演出が終わったらtrueを返す
+        }
+        else
+        {
+            if (goalpos.x > transform.position.x)
+            {
+                direction = (int)PlayerState.Direction.RIGHT;//右
+            }
+            else if (goalpos.x < transform.position.x)
+            {
+                direction = (int)PlayerState.Direction.LEFT;//左
+            }
+        }
+
+        currentspeed = (PlayerState.MAX_SPEED / 10) * Time.deltaTime;
+        rb.linearVelocity = new Vector2(direction * currentspeed, 0);
+        return false;
     }
 
     public void Stop()

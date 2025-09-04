@@ -53,6 +53,16 @@ public static class Stage3
         {
             new WindPos(Facing.Left, 4, 10),
             new WindPos(Facing.Up,   3, 3),
+        },
+
+        /*======== シーソー の位置 ========*/
+        new SeeSaw[]
+        {
+
+        },
+        new SeeSaw[]
+        {
+
         }
     );
 
@@ -108,6 +118,16 @@ public static class Stage3
     {
             new WindPos(Facing.Left, 4, 0),
             new WindPos(Facing.Up,   13, 3),
+    },
+
+    /*======== シーソー の位置 ========*/
+    new SeeSaw[]
+    {
+
+    },
+    new SeeSaw[]
+    {
+
     }
 );
 }
