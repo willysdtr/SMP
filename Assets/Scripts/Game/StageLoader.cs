@@ -187,6 +187,7 @@ public class StageUICanvasLoader : MonoBehaviour
         // ステージオブジェクト作成（仮に色づき四角出す）
         for (int y = 0; y < gridRows; y++)
         {
+            Debug.Log($"Row {y} / {gridRows}");
             for (int x = 0; x < gridCols; x++)
             {
                 int tileId = stageGrid[y][colStart + x];

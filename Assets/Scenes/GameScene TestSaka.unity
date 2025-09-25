@@ -1767,7 +1767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StringPrefub: {fileID: 5777233302591922959, guid: d56e34dd06bd0ba4983ddcfab5976ce9, type: 3}
-  Tamadome: {fileID: 0}
+  Tamadome: {fileID: 794793950}
   StringCursol: {fileID: 214518381}
   canvasTransform: {fileID: 563705522}
   mirrorOffsetX: 5

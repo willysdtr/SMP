@@ -34,7 +34,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
     private int cols;
 
     private List<List<int>> stageGrid;
-    private StageData stage;
+    public static StageData stage;
 
     void Start()
     {
@@ -76,9 +76,8 @@ public class StageUICanvasLoader2 : MonoBehaviour
                 stage = Stage1_Test.Stage1_1_Test;
                 break;
         }
-
         GenerateStageGridObjects();
-
+        Debug.Log($"[StageUICanvasLoader2] Loaded stage After: {stageGrid.Count}");
         if (stageGrid == null || stageGrid.Count == 0)
         {
             Debug.LogWarning("ステージグリッドが空");
@@ -238,6 +237,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
         // ステージオブジェクト作成（仮に色づき四角出す）
         for (int y = 0; y < gridRows; y++)
         {
+            Debug.Log($"Row {y} / {gridRows}");
             for (int x = 0; x < gridCols; x++)
             {
                 int tileId = stageGrid[y][colStart + x];

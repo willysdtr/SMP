@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace StageInfo
 {
@@ -20,6 +21,11 @@ namespace StageInfo
         {
             X = x;
             Y = y;
+        }
+
+        internal Vector2 ToVector2()
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -1,6 +1,8 @@
+using StageInfo;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -16,7 +18,7 @@ public class StringManager_Canvas : MonoBehaviour
     private const bool isString = true;
 
     [SerializeField] private RectTransform StringPrefub; // UI用にRectTransformへ変更
-    [SerializeField] private RectTransform Tamadome;
+    [SerializeField] private RectTransform Tamadome;//  どーやって玉止めすんねん
     [SerializeField] private RectTransform StringCursol;
     [SerializeField] private RectTransform canvasTransform; // CanvasのRectTransform
 
@@ -41,6 +43,10 @@ public class StringManager_Canvas : MonoBehaviour
     private float m_PauseDirection;
     private int m_LastDirection;
     private bool m_StringMode = NoString;
+
+    private int StageWidth=0;
+    private int StageHeight=0;
+    private StageData stage;
 
     //StringAnimation_Canvas anim;
 
@@ -81,6 +87,7 @@ public class StringManager_Canvas : MonoBehaviour
 
         inputActions.Stirng.start.performed += ctx =>
         {
+            if (m_StringMode == isString) return;
             RectTransform dummy = new GameObject("FirstPoint", typeof(RectTransform)).GetComponent<RectTransform>();
             dummy.SetParent(canvasTransform, false);
             dummy.anchoredPosition = StringCursol.anchoredPosition;
@@ -100,6 +107,7 @@ public class StringManager_Canvas : MonoBehaviour
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
         listDisplay.UpdateDisplay(StringNum);// Text表示を更新
         CopyStringNum = new List<int>(StringNum);
+        //StringCursol.anchoredPosition=stage.START_POS_front.ToVector2()*m_StrinngScale;グリッドの右端とれるならこれで
     }
 
     void OnEnable()
@@ -142,10 +150,12 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_X / 2;
         Vector2 backPos = newPos - m_Offset_X / 2;
 
-        if (CheckString(newPos, frontPos, backPos))
+        if (CheckString(newPos, frontPos, backPos)&&StageWidth < StageUICanvasLoader2.stage.STAGE_WIDTH)
         {
+
             AddString(newPos, frontPos, backPos, Quaternion.identity);
             m_LastDirection = RIGHT;
+            StageWidth++;
         }
     }
 
@@ -161,10 +171,12 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos - m_Offset_X / 2;
         Vector2 backPos = newPos + m_Offset_X / 2;
 
-        if (CheckString(newPos, frontPos, backPos))
+
+        if (CheckString(newPos, frontPos, backPos)&& StageWidth > 0)
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 180, 0));
             m_LastDirection = LEFT;
+            StageWidth--;
         }
     }
 
@@ -181,10 +193,11 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos - m_Offset_Y / 2;
         Vector2 backPos = newPos + m_Offset_Y / 2;
 
-        if (CheckString(newPos, frontPos, backPos))
+        if (CheckString(newPos, frontPos, backPos) && StageHeight > 0)
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 90));
             m_LastDirection = UP;
+            StageHeight--;
         }
     }
 
@@ -201,10 +214,11 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_Y / 2;
         Vector2 backPos = newPos - m_Offset_Y / 2;
 
-        if (CheckString(newPos, frontPos, backPos))
+        if (CheckString(newPos, frontPos, backPos)&& StageHeight< StageUICanvasLoader2.stage.STAGE_HEIGHT)
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 270));
             m_LastDirection = DOWN;
+            StageHeight++;
         }
     }
 
@@ -307,7 +321,6 @@ public class StringManager_Canvas : MonoBehaviour
     {
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos;
-
         switch (m_LastDirection)
         {
             case RIGHT: newPos += m_Offset_X / 2; break;
