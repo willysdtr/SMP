@@ -1,3 +1,4 @@
+using StageInfo;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -52,6 +53,19 @@ public class PlayerMove : MonoBehaviour
         Vector2 displacement = velocity * Time.deltaTime;
         transform.position += (Vector3)displacement;
 
+    }
+
+    public void Jump(float posX, float posY, bool isDirection)
+    {
+        const int endDistance = 2;
+        const float blocksize = 50.0f;
+        Vector2 playerPos = new (posX, posY);
+        int direction = 0;
+        if (isDirection)
+            direction = 1;
+        else
+            direction = -1;
+        Vector2 endPos = playerPos + new Vector2(direction * blocksize * endDistance, 0);
     }
 
     public void EndJump()//ÉWÉÉÉìÉvèIóπèàóù

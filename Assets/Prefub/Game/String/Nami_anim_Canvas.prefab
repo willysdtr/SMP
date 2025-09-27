@@ -83,6 +83,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a534a907301f343a3bf72ab491defd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasTransform: {fileID: 0}
+  ImageList: []
 --- !u!114 &8725361922372436130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +159,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 30, y: 10}
+  m_Size: {x: 50, y: 8}
   m_EdgeRadius: 0
 --- !u!1 &6527325876537924140
 GameObject:

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerJump : MonoBehaviour
+public class _PlayerJump : MonoBehaviour
 {
     //プレイヤーのジャンプ処理スクリプト
     private Rigidbody2D rb;
