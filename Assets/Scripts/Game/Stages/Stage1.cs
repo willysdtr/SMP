@@ -26,33 +26,22 @@ public static class Stage1
         },
         new Int2[]                // 裏
         {
-            new Int2(4, 4),
         },
 
         /*========== しわ の位置 ==========*/
         new Int2[]                // 裏
         {
-            new Int2(5, 2),
-            new Int2(4, 4),
-            new Int2(4, 4),
-            new Int2(4, 4),
         },
         new Int2[]                // 裏
         {
-            new Int2(3, 2),
-            new Int2(2, 4),
         },
 
         /*========== 風穴 の位置 ==========*/
         new WindPos[]               // 表
         {
-            new WindPos(Facing.Right, 3, 3),
-            new WindPos(Facing.Down,  3, 0),
         },
         new WindPos[]               // 裏
         {
-            new WindPos(Facing.Left, 4, 0),
-            new WindPos(Facing.Up,   3, 3),
         },
 
         /*======== シーソー の位置 ========*/
