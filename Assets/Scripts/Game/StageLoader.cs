@@ -13,6 +13,7 @@ public class StageUICanvasLoader : MonoBehaviour
     [Header("UI References")]
     public RectTransform leftPanel;     //左のステージ配置する場所
     public RectTransform rightPanel;    //右のステージ配置する場所
+    [SerializeField] private RectTransform canvasRect;
 
     [Header("Tile Setup")]
     public GameObject tileUIPrefab;     //ステージオブジェクトのPrefab（後もっと増やす）
@@ -26,6 +27,15 @@ public class StageUICanvasLoader : MonoBehaviour
 
     private float tilesize;
     public float TileSize => tilesize;
+
+    private RectTransform m_FrontStartPos;
+    private RectTransform m_FrontGoalPos;
+    private RectTransform m_BackStartPos;
+    private RectTransform m_BackGoalPos;
+    public RectTransform FrontStartPos => m_FrontStartPos;
+    public RectTransform FrontGoalPos => m_FrontGoalPos;
+    public RectTransform BackStartPos => m_BackStartPos;
+    public RectTransform BackGoalPos => m_BackGoalPos;
 
     void Start()
     {
@@ -75,8 +85,8 @@ public class StageUICanvasLoader : MonoBehaviour
         rows = stageGrid.Count;
         cols = stageGrid[0].Count;
 
-        SetupGrid(leftPanel, 0, cols / 2);
-        SetupGrid(rightPanel, cols / 2, cols);
+        SetupGrid(leftPanel, 0, cols / 2, true);
+        SetupGrid(rightPanel, cols / 2, cols, false);
     }
 
     private void GenerateStageGridObjects()
@@ -158,7 +168,7 @@ public class StageUICanvasLoader : MonoBehaviour
         }
     }
 
-    void SetupGrid(RectTransform panel, int colStart, int colEnd)
+    void SetupGrid(RectTransform panel, int colStart, int colEnd, bool isFront)
     {
         int gridCols = colEnd - colStart;
         int gridRows = rows;
@@ -191,6 +201,7 @@ public class StageUICanvasLoader : MonoBehaviour
             for (int x = 0; x < gridCols; x++)
             {
                 int tileId = stageGrid[y][colStart + x];
+
                 GameObject tile = Instantiate(tileUIPrefab, panel);
                 tile.name = $"Tile_{x}_{y}";
 
@@ -218,9 +229,23 @@ public class StageUICanvasLoader : MonoBehaviour
                             tileImage.color = Color.clear;
                         
                     }
+                }
 
-                }                   
-                
+                if (tile.tag == "Start")
+                {
+                    if (isFront)
+                        m_FrontStartPos = tile.GetComponent<RectTransform>();
+                    else
+                        m_BackStartPos = tile.GetComponent<RectTransform>();
+                }
+
+                if (tile.tag == "Goal")
+                {
+                    if (isFront)
+                        m_FrontGoalPos = tile.GetComponent<RectTransform>();
+                    else
+                        m_BackGoalPos = tile.GetComponent<RectTransform>();
+                }
             }
         }
     }
@@ -243,6 +268,8 @@ public class StageUICanvasLoader : MonoBehaviour
         return new TileData { tag = "Untagged", sprite = null };
     }
 }
+
+
 
 
 [System.Serializable]
