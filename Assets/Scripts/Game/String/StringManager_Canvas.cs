@@ -48,6 +48,8 @@ public class StringManager_Canvas : MonoBehaviour
     private int StageHeight=0;
     private StageData stage;
 
+    //[SerializeField] public  BoxCollider2D stageCollider;
+
     //StringAnimation_Canvas anim;
 
 
@@ -264,11 +266,11 @@ public class StringManager_Canvas : MonoBehaviour
             anim.SetCanvas(canvasTransform);
         }
         MirrorAnimStrings.Add(anim);
-        col = mirrorStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-        }
+        //col = mirrorStr.GetComponent<BoxCollider2D>();
+        //if (col != null)
+        //{
+        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        //}
         MirrorStrings.Add(mirrorStr);
 
         RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
@@ -279,11 +281,11 @@ public class StringManager_Canvas : MonoBehaviour
         {
             anim.SetCanvas(canvasTransform);
         }
-        col = frontStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-        }
+        //col = frontStr.GetComponent<BoxCollider2D>();
+        //if (col != null)
+        //{
+        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        //}
         FrontStrings.Add(frontStr);
 
         RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
@@ -294,15 +296,40 @@ public class StringManager_Canvas : MonoBehaviour
         {
             anim.SetCanvas(canvasTransform);
         }
-        col = backStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-        }
+        //col = backStr.GetComponent<BoxCollider2D>();
+        //if (col != null)
+        //{
+        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        //}
         BackStrings.Add(backStr);
-
+        //当たり判定
+        AddColliderToPrefab(mainStr);
+        AddColliderToPrefab(mirrorStr);
+        AddColliderToPrefab(frontStr);
+        AddColliderToPrefab(backStr);
     }
 
+
+    void AddColliderToPrefab(RectTransform targetRect)//BoxCollider2Dを使う都合上結局やってること谷口と変わらん
+    {
+        //if (stageCollider == null) return;
+
+        // 新しいオブジェクトを生成（Colliderだけ持つ）
+        GameObject colObj = new GameObject("StringCollider", typeof(BoxCollider2D));
+        colObj.transform.SetParent(targetRect, false);
+
+        // RectTransformに合わせて位置とサイズを調整
+        BoxCollider2D col = colObj.GetComponent<BoxCollider2D>();
+
+        // UIの中心を基準にコライダーを置く
+        col.offset = Vector2.zero;
+
+        // サイズはUIのサイズにスケールを掛けて変換
+        Vector2 size = targetRect.sizeDelta/2;
+        size.x *= targetRect.lossyScale.x/2;
+        size.y *= targetRect.lossyScale.y / 2;
+        col.size = size/2;
+    }
     bool CheckString(Vector2 pos, Vector2 front, Vector2 back)
     {
         foreach (var str in Strings)
