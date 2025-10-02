@@ -15,9 +15,14 @@ public class StageUICanvasLoader : MonoBehaviour
     public RectTransform rightPanel;    //右のステージ配置する場所
     [SerializeField] private RectTransform canvasRect;
 
+    [Header("Player Objects")]
+    [SerializeField] private GameObject kingPrefab;
+    [SerializeField] private GameObject queenPrefab;
+
     [Header("Tile Setup")]
     public GameObject tileUIPrefab;     //ステージオブジェクトのPrefab（後もっと増やす）
     public TileData[] tileDataArray;
+
 
     private int rows;
     private int cols;
@@ -28,14 +33,8 @@ public class StageUICanvasLoader : MonoBehaviour
     private float tilesize;
     public float TileSize => tilesize;
 
-    private RectTransform m_FrontStartPos;
-    private RectTransform m_FrontGoalPos;
-    private RectTransform m_BackStartPos;
-    private RectTransform m_BackGoalPos;
-    public RectTransform FrontStartPos => m_FrontStartPos;
-    public RectTransform FrontGoalPos => m_FrontGoalPos;
-    public RectTransform BackStartPos => m_BackStartPos;
-    public RectTransform BackGoalPos => m_BackGoalPos;
+    RectTransform startTileF = null;
+    RectTransform startTileB = null;
 
     void Start()
     {
@@ -87,6 +86,23 @@ public class StageUICanvasLoader : MonoBehaviour
 
         SetupGrid(leftPanel, 0, cols / 2, true);
         SetupGrid(rightPanel, cols / 2, cols, false);
+
+        if (startTileF != null && kingPrefab != null)
+        {
+            GameObject king = Instantiate(kingPrefab, canvasRect);
+            RectTransform kingRT = king.GetComponent<RectTransform>();
+
+            // Copy world position directly
+            kingRT.position = startTileF.position;
+        }
+
+        if (startTileB != null && queenPrefab != null)
+        {
+            GameObject queen = Instantiate(queenPrefab, canvasRect);
+            RectTransform queenRT = queen.GetComponent<RectTransform>();
+
+            queenRT.position = startTileB.position;
+        }
     }
 
     private void GenerateStageGridObjects()
@@ -228,22 +244,14 @@ public class StageUICanvasLoader : MonoBehaviour
                             tileImage.color = Color.clear;
                         
                     }
-                }
-
-                if (tile.tag == "Start")
-                {
-                    if (isFront)
-                        m_FrontStartPos = tile.GetComponent<RectTransform>();
-                    else
-                        m_BackStartPos = tile.GetComponent<RectTransform>();
-                }
-
-                if (tile.tag == "Goal")
-                {
-                    if (isFront)
-                        m_FrontGoalPos = tile.GetComponent<RectTransform>();
-                    else
-                        m_BackGoalPos = tile.GetComponent<RectTransform>();
+                    if (tile.tag == "Start")
+                    {
+                        if (isFront)
+                            startTileF = tile.GetComponent<RectTransform>();
+                        else
+                            startTileB = tile.GetComponent<RectTransform>();
+                        Debug.LogWarning("start found");
+                    }
                 }
             }
         }
