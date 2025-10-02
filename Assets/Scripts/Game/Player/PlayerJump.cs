@@ -39,7 +39,7 @@ public class PlayerJump : MonoBehaviour
         }
     }
 
-    void Jump(float posX, float posY, bool isDirection)
+    public bool Jump(float posX, float posY, bool isDirection)// ジャンプ処理、着地するとtrueを返す
     {
         if (!isJumping) // ジャンプ開始
         {
@@ -76,7 +76,13 @@ public class PlayerJump : MonoBehaviour
 
             transform.position = new Vector2(x, y);
 
-            if (t >= 1f) isJumping = false;
+            if (t >= 1f)
+            {
+                isJumping = false;
+                return true;//ジャンプ終了
+            }
         }
+
+        return false;
     }
 }

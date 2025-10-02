@@ -199,7 +199,6 @@ public class PlayerController : MonoBehaviour
                         {
                             wall_obj.Add(collision.gameObject);
                             state.IS_MOVE = false;
-                            Debug.Log("n");
                             
                         }
                     }
