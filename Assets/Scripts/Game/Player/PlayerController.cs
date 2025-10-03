@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour
     private bool ishit;
 
     private int direction = (int)PlayerState.Direction.RIGHT;
+    private float blocksize = 50;
+    private float fall_distance;//落下距離
+    private float fallstart_y;//落下開始位置
+    private float fallend_y;//落下終了位置
 
     [SerializeField] public LayerMask groundlayers;
 
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private RectTransform rect;
     private bool start = false;
     public bool goal = false;
+    private bool jumpFg = false;
 
     void Awake()
     {
@@ -71,20 +76,21 @@ public class PlayerController : MonoBehaviour
         switch (state.currentstate)//現在の状態から停止に移行するか
         {
             case PlayerState.State.WALK://WALK
-                if (!state.IS_GROUND || !state.IS_CLIMB || !state.IS_MOVE) { state.currentstate = PlayerState.State.STOP; move.Stop(); }
+                if (!state.IS_GROUND || !state.IS_CLIMB || !state.IS_MOVE) { state.currentstate = PlayerState.State.STOP; move.Stop();}
                 break;
             case PlayerState.State.CLIMB://CLIMB
                 if (!state.IS_CLIMB) { state.currentstate = PlayerState.State.STOP; }
                 break;
             case PlayerState.State.JUMP://JUMP
-                if (state.IS_CEILING_HIT || (state.IS_GROUND && jumptime > PlayerState.jumptime_max)) { state.currentstate = PlayerState.State.STOP; move.EndJump();}
+                if (state.IS_CEILING_HIT || state.IS_GROUND || !state.IS_JUMP) { state.currentstate = PlayerState.State.STOP; move.EndJump(); }
                 break;
             case PlayerState.State.FALL://FALL
-                if (state.IS_GROUND) { state.currentstate = PlayerState.State.STOP; }
+                if (state.IS_GROUND || state.IS_JUMP) { state.currentstate = PlayerState.State.STOP; if (fallstart_y - transform.position.y >= blocksize * 2.9 && !state.IS_JUMP) { state.currentstate = PlayerState.State.DEATH; } }
                 break;
         }
 
         if (state.currentstate != PlayerState.State.STOP) { return; }//停止状態でなければ状態変化処理を行わない
+        //停止状態からの状態変化処理
         if (!state.IS_CLIMB_NG)
         {//移動不可フラグがオンなら、停止後、落下状態以外に移行しない
             if (state.IS_CLIMB)//CLIMB状態への移行
@@ -96,12 +102,10 @@ public class PlayerController : MonoBehaviour
             {
                 if (state.IS_JUMP && !state.IS_CEILING_HIT)//JUMP状態への移行
                 {
-                    //ジャンプ初期化を行い、フラグをオフにする事で、一度だけ実行する様にしている
+                    //ジャンプ初期化を行い、フラグをオフにする事で、一度だけ実行するようにしている
                     move.Stop();
-                    move.InitJump(initialVelocity);
+                    move.InitJump(direction,blocksize);
                     state.currentstate = PlayerState.State.JUMP;
-                    jumptime = 0.0f;
-                    state.IS_JUMP = false;
 
                 }
                 else if (state.IS_MOVE)//WALK状態への移行
@@ -111,10 +115,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //落下フラグがオンで、落下中でなく、ジャンプ中でもなければ
-        if (!state.IS_GROUND)
+        //地面に接触しておらず、ジャンプ中でもなければ
+        if (!state.IS_GROUND && !state.IS_JUMP)
         {
             state.currentstate = PlayerState.State.FALL;// 落下開始
+            fallstart_y = transform.position.y;
         }
     }
 
@@ -124,7 +129,7 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerState.State.STOP: anim.speed = 0; move.Stop(); break;
             case PlayerState.State.WALK: anim.speed = 1; move.Move(direction); break;
-            case PlayerState.State.JUMP: anim.speed = 0; move.Jump(); jumptime += Time.deltaTime; break;
+            case PlayerState.State.JUMP: anim.speed = 0; state.IS_JUMP = !move.Jump(); break;
             case PlayerState.State.FALL: anim.speed = 0; break;
             case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); break;
             case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
@@ -147,20 +152,8 @@ public class PlayerController : MonoBehaviour
         if (((1 << collision.gameObject.layer) & groundlayers) != 0)//インスペクターで設定したLayerとのみ判定を取る
         {
 
-            if (collision.gameObject.tag == "Spring")//ばねに当たった時の処理
-            {
-                //予測線スクリプトがあれば、処理を実行
-                JumpLine pad = collision.gameObject.GetComponent<JumpLine>();
-                if (pad != null)
-                {
-                    initialVelocity = pad.GetInitialVelocity();
-                    transform.position = new Vector3(collision.transform.position.x, transform.position.y, 0);
-                    state.IS_JUMP = true;
-                    state.IS_GIMJUMP = true;
-                    state.IS_MOVE = false;
-                }
-            }
-            else if(collision.gameObject.tag == "Goal")
+            
+            if(collision.gameObject.tag == "Goal")
             {
                 state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
                 goal_pos = collision.transform.position;
@@ -171,17 +164,30 @@ public class PlayerController : MonoBehaviour
                 {
 
                     // 上向きに接触した場合のみカウント
-                    if (contact.normal == Vector2.up)
+                    if (Vector2.Angle(contact.normal, Vector2.up) < 20f)
                     {
-                        state.IS_GROUND = true;
-                        state.IS_MOVE = true;
-                        ground_obj.Add(collision.gameObject);
-                    }
-                    // 横向きに接触した場合のみカウント
+                        if (collision.gameObject.tag == "Spring")//ばねに当たった時の処理
+                        {
+                            transform.position = new Vector2(collision.transform.position.x, transform.position.y);
+                            state.IS_JUMP = true;
+                            state.IS_MOVE = false;
+                            state.IS_GROUND = false;
+
+                        }
+                        else // 通常の地面に当たった時の処理
+                        {
+                            state.IS_GROUND = true;
+                            state.IS_MOVE = true;
+                            ground_obj.Add(collision.gameObject);
+                        }
+                     }
+                        // 横向きに接触した場合のみカウント
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)
-                    {
+                        {
+
                         if (collision.gameObject.tag == "String" && state.IS_CLIMB_NG == false)
                         {
+          
                             bool isVertical = collision.transform.rotation.z != 0;
                             if (isVertical)
                             {
@@ -253,7 +259,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // プレイヤーをCanvasに、アンカー位置とサイズで配置する関数
-    public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size)
+    public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size,float _blocksize = 10)
     {
         // 親を設定（第2引数falseでローカル座標維持なし、完全に親基準で位置設定）
         rect.SetParent(parent, false);
@@ -262,6 +268,8 @@ public class PlayerController : MonoBehaviour
         rect.anchoredPosition = anchoredPos;
 
         Vector2 setScale = new ( size.x / rect.sizeDelta.x, size.y / rect.sizeDelta.y );
+
+        blocksize = _blocksize;
 
         // サイズを合わせる
         rect.sizeDelta = size;

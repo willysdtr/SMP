@@ -36,6 +36,8 @@ public class StageUICanvasLoader2 : MonoBehaviour
     private List<List<int>> stageGrid;
     public static StageData stage;
 
+    private float blocksize = 10.0f;    // 1ブロックの大きさ
+
     void Start()
     {
         //チェックマーク付いたら、StageIDから、ステージロード・付けないならばステージセレクトからステージIDを設定する
@@ -97,13 +99,13 @@ public class StageUICanvasLoader2 : MonoBehaviour
         playerController = king.GetComponent<PlayerController>();
         if (playerController != null)
         {
-            playerController.PlaceAtPosition(myRect, kingPos, size);
+            playerController.PlaceAtPosition(myRect, kingPos, size,blocksize);
         }
 
         playerController = queen.GetComponent<PlayerController>();
         if (playerController != null)
         {
-            playerController.PlaceAtPosition(myRect, queenPos, size);
+            playerController.PlaceAtPosition(myRect, queenPos, size, blocksize);
         }
 
     }
@@ -226,7 +228,8 @@ public class StageUICanvasLoader2 : MonoBehaviour
         setScale = new(setScale.x * 5.900001f, setScale.y * 5.900001f);
         myStr.SetStringSize(size, setScale);
 
-        size = new Vector2(tileSize * 4.8f, tileSize * 6);
+        blocksize = tileSize * 5.627693f;
+        size = new Vector2(tileSize * 4.8f, tileSize * 6);//player用に調整
 
         gridLayout.cellSize = new Vector2(tileSize, tileSize);
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;

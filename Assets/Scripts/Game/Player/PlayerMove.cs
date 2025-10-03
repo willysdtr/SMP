@@ -14,6 +14,14 @@ public class PlayerMove : MonoBehaviour
     private Vector2 velocity;
     private float gravity = -9.81f;
 
+    public int jumpHeight = 2;  // ジャンプの高さ(ブロック単位)
+    public float duration = 2f;   // ジャンプにかかる時間
+
+    private float elapsed;//ジャンプにかかった時間
+    private Vector2 startPos;
+    private Vector2 endPos;
+    private Vector2 controlPos;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -42,36 +50,63 @@ public class PlayerMove : MonoBehaviour
         velocity = initialVelocity;
     }
 
-    public void Jump()//ジャンプ処理
-    {
-        //放物線の起動で移動する
+    //public void Jump()//ジャンプ処理
+    //{
+    //    //放物線の起動で移動する
 
-        // 重力を速度に加える
-        velocity += Vector2.down * Mathf.Abs(gravity) * Time.deltaTime;
+    //    // 重力を速度に加える
+    //    velocity += Vector2.down * Mathf.Abs(gravity) * Time.deltaTime;
 
-        // 移動する
-        Vector2 displacement = velocity * Time.deltaTime;
-        transform.position += (Vector3)displacement;
+    //    // 移動する
+    //    Vector2 displacement = velocity * Time.deltaTime;
+    //    transform.position += (Vector3)displacement;
 
-    }
+    //}
 
-    public void Jump(float posX, float posY, bool isDirection)
+    public void InitJump(int direction, float blocksize)
     {
         const int endDistance = 2;
-        const float blocksize = 50.0f;
-        Vector2 playerPos = new (posX, posY);
-        int direction = 0;
-        if (isDirection)
-            direction = 1;
-        else
-            direction = -1;
-        Vector2 endPos = playerPos + new Vector2(direction * blocksize * endDistance, 0);
+        startPos = new(transform.position.x, transform.position.y);
+
+        // 2ブロック先を計算
+        endPos = startPos + new Vector2(direction * blocksize * endDistance, 0);
+
+        // 制御点（中間地点 + 高さ）
+        Vector2 mid = (startPos + endPos) / 2f;
+        controlPos = mid + Vector2.up * jumpHeight * blocksize;
+
+        elapsed = 0f;
+        rb.gravityScale = 0;
+    }
+
+    public bool Jump()
+    {
+        elapsed += Time.deltaTime;
+        float t = Mathf.Clamp01(elapsed / duration);
+
+        // ベジェ曲線
+        float x = Mathf.Pow(1 - t, 2) * startPos.x +
+                  2 * (1 - t) * t * controlPos.x +
+                  Mathf.Pow(t, 2) * endPos.x;
+
+        float y = Mathf.Pow(1 - t, 2) * startPos.y +
+                  2 * (1 - t) * t * controlPos.y +
+                  Mathf.Pow(t, 2) * endPos.y;
+
+        transform.position = new Vector2(x, y);
+
+        if (t >= 1f)
+        {
+            EndJump();
+            return true;
+        }
+
+        return false;
     }
 
     public void EndJump()//ジャンプ終了処理
     {
-        rb.gravityScale = 1;
-        rb.linearVelocity = new Vector2(velocity.x, 0);
+        rb.gravityScale = 30;
     }
 
     public void Climb(float speed)//speedの値だけ上に移動する
