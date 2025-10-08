@@ -44,29 +44,11 @@ public class PlayerMove : MonoBehaviour
         rb.linearVelocity = new Vector2(direction * currentspeed, rb.linearVelocity.y);//速度を代入
     }
 
-    public void InitJump(Vector2 initialVelocity)//ジャンプ初期化
+    public void InitJump(int direction, float blocksize)//ジャンプの初期化
     {
-        rb.gravityScale = 0;
-        velocity = initialVelocity;
-    }
-
-    //public void Jump()//ジャンプ処理
-    //{
-    //    //放物線の起動で移動する
-
-    //    // 重力を速度に加える
-    //    velocity += Vector2.down * Mathf.Abs(gravity) * Time.deltaTime;
-
-    //    // 移動する
-    //    Vector2 displacement = velocity * Time.deltaTime;
-    //    transform.position += (Vector3)displacement;
-
-    //}
-
-    public void InitJump(int direction, float blocksize)
-    {
+        Stop();
         const int endDistance = 2;
-        startPos = new(transform.position.x, transform.position.y);
+        startPos = new(transform.position.x, transform.position.y); // 開始位置
 
         // 2ブロック先を計算
         endPos = startPos + new Vector2(direction * blocksize * endDistance, 0);
@@ -75,14 +57,14 @@ public class PlayerMove : MonoBehaviour
         Vector2 mid = (startPos + endPos) / 2f;
         controlPos = mid + Vector2.up * jumpHeight * blocksize;
 
-        elapsed = 0f;
-        rb.gravityScale = 0;
+        elapsed = 0f; // 経過時間をリセット
+        rb.gravityScale = 0; // 重力を無効化
     }
 
-    public bool Jump()
+    public bool Jump() //ジャンプ処理
     {
-        elapsed += Time.deltaTime;
-        float t = Mathf.Clamp01(elapsed / duration);
+        elapsed += Time.deltaTime; // 経過時間を更新
+        float t = Mathf.Clamp01(elapsed / duration); // 0から1の範囲に正規化
 
         // ベジェ曲線
         float x = Mathf.Pow(1 - t, 2) * startPos.x +
@@ -95,7 +77,7 @@ public class PlayerMove : MonoBehaviour
 
         transform.position = new Vector2(x, y);
 
-        if (t >= 1f)
+        if (t >= 1f) // 規定時間が経過していれば、ジャンプ終了
         {
             EndJump();
             return true;
@@ -114,7 +96,7 @@ public class PlayerMove : MonoBehaviour
         rb.position += new Vector2(0, speed * Time.deltaTime);
     }
 
-    public bool Goal(Vector2 goalpos)
+    public bool Goal(Vector2 goalpos)//ゴール処理、ゴールに向かって移動する
     {
         int direction = 0;
         AllStop();

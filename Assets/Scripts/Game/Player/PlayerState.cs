@@ -12,13 +12,13 @@ public class PlayerState
     public const float MAX_SPEED = 100f;
 
     public bool IS_MOVE = true;
-    public bool IS_JUMP;
-    public bool IS_GROUND;
-    public bool IS_DOWN;
+    public bool IS_JUMP = false;
+    public bool IS_GROUND = false;
+    public bool IS_DOWN = false;
     public bool IS_CEILING_HIT = false;
-    public bool IS_CLIMB_NG;
-    public bool IS_CLIMB;
-    public bool IS_GIMJUMP;
+    public bool IS_CLIMB_NG = false;
+    public bool IS_CLIMB = false;
+    public bool IS_GIMJUMP = false;
 
     public Vector2 hitobj_pos;
     public Vector2 initialVelocity;//ƒWƒƒƒ“ƒv‚Å“n‚·—p

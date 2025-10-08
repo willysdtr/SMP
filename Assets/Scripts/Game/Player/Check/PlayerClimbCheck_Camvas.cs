@@ -16,7 +16,7 @@ public class PlayerClimbCheck_Canvas : MonoBehaviour
         if (((1 << collider.gameObject.layer) & m_cont.groundlayers) != 0)//当たったオブジェクトの数を記録し、障害物判定をオンにする
         {
             ++contactcount;
-            m_cont.SetClimbNG(true);
+            m_cont.state.IS_CLIMB_NG = true;
 
         }
     }
@@ -29,7 +29,7 @@ public class PlayerClimbCheck_Canvas : MonoBehaviour
 
             if (contactcount <= 0) {
                 contactcount = 0;
-                m_cont.SetClimbNG(false);
+                m_cont.state.IS_CLIMB_NG = false;
             }
         }
     }

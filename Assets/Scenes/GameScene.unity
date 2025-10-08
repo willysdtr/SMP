@@ -3149,6 +3149,23 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5996354903248705729, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
   m_PrefabInstance: {fileID: 8391314842415761403}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1098702342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098702340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e8ae73467687a4993afc106c06b615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkSize: {x: 0.3, y: 0.4}
+  checkOffset: {x: 0, y: 0}
+  climbLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1152716692
 GameObject:
   m_ObjectHideFlags: 0
@@ -6940,7 +6957,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5996354903248705729, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 53495090}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8116007354386631325, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1098702342}
   m_SourcePrefab: {fileID: 100100000, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

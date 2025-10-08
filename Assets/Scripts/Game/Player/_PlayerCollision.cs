@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class PlayerCollision : MonoBehaviour
+public class _PlayerCollision : MonoBehaviour
 {
     //プレイヤー本体部分の当たり判定管理スクリプト
 
