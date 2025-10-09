@@ -47,10 +47,10 @@ public class PlayerMove : MonoBehaviour
     public void InitJump(int direction, float blocksize)//ジャンプの初期化
     {
         Stop();
-        const int endDistance = 2;
+        const int endDistance = 1; // ジャンプの終点までの横の距離(ブロック単位)
         startPos = new(transform.position.x, transform.position.y); // 開始位置
 
-        // 2ブロック先を計算
+        // endDistance分のブロック先を計算
         endPos = startPos + new Vector2(direction * blocksize * endDistance, 0);
 
         // 制御点（中間地点 + 高さ）
