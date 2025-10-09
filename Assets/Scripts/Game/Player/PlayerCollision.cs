@@ -14,12 +14,16 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private LayerMask climbLayer;
 
     private Rigidbody2D rb;
+    private RectTransform rect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cont = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
+        rect = GetComponent<RectTransform>();
+        // 判定サイズをRectTransformのサイズに合わせる
+        checkSize = new Vector2(checkSize.x * rect.sizeDelta.x, checkSize.y * rect.sizeDelta.y);
     }
 
     // Update is called once per frame
@@ -47,6 +51,11 @@ public class PlayerCollision : MonoBehaviour
         if (((1 << collision.gameObject.layer) & cont.groundlayers) != 0)//インスペクターで設定したLayerとのみ判定を取る
         {
 
+            if (collision.gameObject.tag == "Kaesi")//返し縫いに当たった時の処理
+            {
+                cont.PlayerReturn(collision.transform.rotation.y);//プレイヤーの向きを変える
+
+            }
 
             if (collision.gameObject.tag == "Goal")
             {
@@ -75,6 +84,7 @@ public class PlayerCollision : MonoBehaviour
                             cont.state.IS_MOVE = true;
                             ground_obj.Add(collision.gameObject);
                         }
+
                     }
                     // 横向きに接触した場合のみカウント
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)

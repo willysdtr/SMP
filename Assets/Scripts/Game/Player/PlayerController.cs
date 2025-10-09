@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,14 +16,13 @@ public class PlayerController : MonoBehaviour
     private Vector2 goal_pos = Vector2.zero;
     public bool ishit;
 
-    private int direction = (int)PlayerState.Direction.RIGHT;
     private float blocksize = 50;
     private float fallstart_y;//落下開始位置
 
     [SerializeField] public LayerMask groundlayers;
 
     private RectTransform rect;
-    private bool start = false;
+    public bool start = false;
     public bool goal = false;
 
     void Awake()
@@ -36,8 +34,7 @@ public class PlayerController : MonoBehaviour
         state = new PlayerState(groundlayers);
         anim.speed = 0;
         inputActions = new InputSystem_Actions();
-        // 判定サイズをRectTransformのサイズに合わせる
-        checkSize = new Vector2(checkSize.x * rect.sizeDelta.x, checkSize.y * rect.sizeDelta.y);
+        state.m_direction = (int)PlayerState.Direction.RIGHT;
     }
 
     // Update is called once per frame
@@ -72,7 +69,7 @@ public class PlayerController : MonoBehaviour
             {
                 //ジャンプの初期化を行う
                 
-                move.InitJump(direction,blocksize);
+                move.InitJump(state.m_direction,blocksize);
                 state.currentstate = PlayerState.State.JUMP;
 
             }
@@ -96,7 +93,7 @@ public class PlayerController : MonoBehaviour
         switch (state.currentstate)
         {
             case PlayerState.State.STOP: anim.speed = 0; move.Stop(); break;
-            case PlayerState.State.WALK: anim.speed = 1; move.Move(direction); break;
+            case PlayerState.State.WALK: anim.speed = 1; move.Move(state.m_direction); break;
             case PlayerState.State.JUMP: anim.speed = 0; state.IS_JUMP = !move.Jump(); break;
             case PlayerState.State.FALL: anim.speed = 0; break;
             case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); break;
@@ -130,126 +127,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    //OverlapBoxの描画
-    //    Gizmos.color = Color.red;
-    //    Vector2 center = (Vector2)transform.position + checkOffset;
-    //    Gizmos.DrawWireCube(center, checkSize);
-    //}
-
-    //void OnCollisionEnter2D(Collision2D collision)
-    //{
-
-    //    if (((1 << collision.gameObject.layer) & groundlayers) != 0)//インスペクターで設定したLayerとのみ判定を取る
-    //    {
-
-            
-    //        if(collision.gameObject.tag == "Goal")
-    //        {
-    //            state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
-    //            goal_pos = collision.transform.position;
-    //        }
-    //        else
-    //        {
-    //            foreach (ContactPoint2D contact in collision.contacts)
-    //            {
-
-    //                // 上向きに接触した場合のみカウント
-    //                if (Vector2.Angle(contact.normal, Vector2.up) < 20f)
-    //                {
-    //                    if (collision.gameObject.tag == "Spring")//ばねに当たった時の処理
-    //                    {
-    //                        transform.position = new Vector2(collision.transform.position.x, transform.position.y);
-    //                        state.IS_JUMP = true;
-    //                        state.IS_MOVE = false;
-    //                        state.IS_GROUND = false;
-
-    //                    }
-    //                    else // 通常の地面に当たった時の処理
-    //                    {
-    //                        state.IS_GROUND = true;
-    //                        state.IS_MOVE = true;
-    //                        ground_obj.Add(collision.gameObject);
-    //                    }
-    //                 }
-    //                    // 横向きに接触した場合のみカウント
-    //                if (contact.normal == Vector2.left || contact.normal == Vector2.right)
-    //                    {
-
-    //                    if (collision.gameObject.tag == "String" && state.IS_CLIMB_NG == false)
-    //                    {
-          
-    //                        bool isVertical = collision.transform.rotation.z != 0;
-    //                        if (isVertical)
-    //                        {
-    //                            // 縦の糸ならTriggerに切り替え
-    //                            GetComponent<BoxCollider2D>().isTrigger = true;
-    //                            //糸に当たった時の処理
-    //                            state.IS_MOVE = false;
-    //                            state.IS_CLIMB = true;
-    //                            hitobj_pos = collision.transform.position;
-    //                            rb.linearVelocity = Vector2.zero;
-    //                            rb.bodyType = RigidbodyType2D.Kinematic;
-    //                        }
-    //                    }
-    //                    else
-    //                    {
-    //                        wall_obj.Add(collision.gameObject);
-    //                        state.IS_MOVE = false;
-                            
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
-    //void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    ground_obj.Remove(collision.gameObject);//地面判定したオブジェクトを削除
-    //    wall_obj.Remove(collision.gameObject);//壁判定したオブジェクトを削除
-    //    if (ground_obj.Count == 0)
-    //    {//地面判定したオブジェクトがすべてなくなれば、地面から離れた状態にする
-    //        state.IS_GROUND = false;
-    //    }
-
-    //    if (wall_obj.Count == 0)
-    //    {//壁判定したオブジェクトがすべてなくなれば、移動可能にする
-    //        state.IS_MOVE = true;
-    //    }
-
-    //}
-
-    //private void OnTriggerEnter2D(Collider2D collider)
-    //{
-    //    if (collider.gameObject.tag == "String")
-    //    {
-    //        //糸に当たった時の処理
-    //        state.IS_MOVE= false;
-    //        state.IS_CLIMB= true;
-    //        hitobj_pos = collider.transform.position;
-    //        rb.linearVelocity = Vector2.zero;
-    //        rb.bodyType = RigidbodyType2D.Kinematic;
-    //    }
-    //}
-
-    //private void OnTriggerExit2D(Collider2D collider)
-    //{
-    //    if (!ishit)
-    //    {//OverlapBoxが重なってないときに実行(誤作動するため)
-    //        if (collider.gameObject.tag == "String")
-    //        {//糸から離れた時の処理
-    //            state.IS_MOVE = true;
-    //            state.IS_CLIMB = false;
-    //            rb.bodyType = RigidbodyType2D.Dynamic;
-    //            rb.linearVelocity = Vector2.zero;
-    //            GetComponent<BoxCollider2D>().isTrigger = false;//Trigger解除
-    //        }
-    //    }
-
-    //}
 
     public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size,float _blocksize = 10)  // プレイヤーをCanvasに、アンカー位置とサイズで配置する関数
     {
@@ -297,7 +174,7 @@ public class PlayerController : MonoBehaviour
             start = false;
             goal = false;
             transform.position = start_pos;
-            move.Stop();
+            move.AllStop();
             state.currentstate = PlayerState.State.STOP;
             anim.speed = 0;
             ResetFlag();
@@ -313,11 +190,18 @@ public class PlayerController : MonoBehaviour
         state.IS_CLIMB_NG = false;
         state.IS_GROUND = false;
         state.IS_JUMP = false;
+        state.IS_GIMJUMP = false;
     }
 
     public void Goal(Vector2 pos)
     {
         state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
         goal_pos = pos;//ゴール位置をセット
+    }
+
+    public void PlayerReturn(float angle)
+    {
+        state.m_direction = move.Return(angle);
+        Debug.Log("Direction:" + state.m_direction);
     }
 }

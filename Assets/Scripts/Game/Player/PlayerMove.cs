@@ -134,4 +134,23 @@ public class PlayerMove : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = 0f;
     }
+
+    public int Return(float angle) // 向き変更処理、指定された向きになる
+    {
+        int direction = (int)PlayerState.Direction.STOP;
+        if (angle < 0) // 角度を補正する
+        {
+            // 右向き
+            direction = (int)PlayerState.Direction.RIGHT;
+            angle = -180;
+        }
+        else
+        {
+            // 左向き
+            direction = (int)PlayerState.Direction.LEFT;
+            angle = 0;
+        }
+        transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
+        return direction;
+    }
 }
