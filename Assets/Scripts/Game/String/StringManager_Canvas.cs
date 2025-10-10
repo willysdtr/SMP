@@ -166,7 +166,7 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_X / 2;
         Vector2 backPos = newPos - m_Offset_X / 2;
 
-        if (CheckString(newPos, frontPos, backPos)&&StageWidth < StageUICanvasLoader2.stage.STAGE_WIDTH)
+        if (CheckString(newPos, frontPos, backPos)&&StageWidth < StageUILoader.stage.STAGE_WIDTH)
         {
 
             AddString(newPos, frontPos, backPos, Quaternion.identity);
@@ -188,7 +188,7 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 backPos = newPos + m_Offset_X / 2;
 
 
-        if (CheckString(newPos, frontPos, backPos)&& StageWidth > 0)
+        if (CheckString(newPos, frontPos, backPos) && StageWidth > 0)
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 180, 0));
             m_LastDirection = LEFT;
@@ -230,7 +230,7 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_Y / 2;
         Vector2 backPos = newPos - m_Offset_Y / 2;
 
-        if (CheckString(newPos, frontPos, backPos)&& StageHeight< StageUICanvasLoader2.stage.STAGE_HEIGHT)
+        if (CheckString(newPos, frontPos, backPos)&& StageHeight< StageUILoader.stage.STAGE_HEIGHT)
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 270));
             m_LastDirection = DOWN;
@@ -339,7 +339,7 @@ public class StringManager_Canvas : MonoBehaviour
        //{
        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
        //}
-       FrontStrings.Add(frontStr);
+       //FrontStrings.Add(frontStr);
        
        RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
        backStr.sizeDelta = m_StrinngScale;//サイズ変更
@@ -355,11 +355,12 @@ public class StringManager_Canvas : MonoBehaviour
        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
        //}
        BackStrings.Add(backStr);
-       //当たり判定
-       AddColliderToPrefab(mainStr);
-       AddColliderToPrefab(mirrorStr);
-       AddColliderToPrefab(frontStr);
-       AddColliderToPrefab(backStr);
+
+        //当たり判定 : 判定が邪魔して登れなくなってるので、一旦コメントアウト(谷口のコメント)
+        //AddColliderToPrefab(mainStr);
+        //AddColliderToPrefab(mirrorStr);
+        //AddColliderToPrefab(frontStr);
+        //AddColliderToPrefab(backStr);
     }
 
 
@@ -421,6 +422,7 @@ public class StringManager_Canvas : MonoBehaviour
     {
         m_StrinngScale = size; // UIサイズに合わせて単位変更
         HitBoxScale = BoxScale;
+        Debug.Log("SetStringSize");
     }
 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//StageLoaderの谷口改造版
+//StageLoaderの改造版
 
 public class StageUILoader : MonoBehaviour
 {
@@ -38,7 +38,7 @@ public class StageUILoader : MonoBehaviour
 
     private float blocksize = 10.0f;    // 1ブロックの大きさ
 
-    void Start()
+    void Awake() // Awakeでないと糸のOffSetがおかしくなるので、Startから変更
     {
         //チェックマーク付いたら、StageIDから、ステージロード・付けないならばステージセレクトからステージIDを設定する
         if (!useDataFromDropdown)
@@ -223,7 +223,7 @@ public class StageUILoader : MonoBehaviour
         float tileHeight = panel.rect.height / gridRows;
         float tileSize = Mathf.Min(tileWidth, tileHeight);
 
-        StringManager_Canvas myStr = this.GetComponent<StringManager_Canvas>();
+        StringManager_Canvas myStr = GetComponent<StringManager_Canvas>();
         size = new(tileSize * 5.900001f, tileSize * 5.627693f);//この値は左右のCanvasのScale
         setScale = new(setScale.x * 5.900001f, setScale.y * 5.900001f);
         myStr.SetStringSize(size, setScale);

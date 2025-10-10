@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -25,16 +27,22 @@ public class PlayerController : MonoBehaviour
     public bool start = false;
     public bool goal = false;
 
+    [SerializeField]
+    private AudioClip[] sound; // { 歩行SE、よじ登りSE、落下SE}
+    private AudioSource audiosource;
+
     void Awake()
     { // 各種コンポーネントの取得
         move = GetComponent<PlayerMove>();
         anim = GetComponent<Animator>();
         rect = GetComponent<RectTransform>();
+        audiosource = GetComponent<AudioSource>();
         //　Stateクラスの初期化
         state = new PlayerState(groundlayers);
         anim.speed = 0;
         inputActions = new InputSystem_Actions();
         state.m_direction = (int)PlayerState.Direction.RIGHT;
+       
     }
 
     // Update is called once per frame
@@ -85,6 +93,7 @@ public class PlayerController : MonoBehaviour
         {
             state.currentstate = PlayerState.State.FALL;// 落下開始
             fallstart_y = transform.position.y;
+            PlaySE(2, true);
         }
     }
 
@@ -93,10 +102,10 @@ public class PlayerController : MonoBehaviour
         switch (state.currentstate)
         {
             case PlayerState.State.STOP: anim.speed = 0; move.Stop(); break;
-            case PlayerState.State.WALK: anim.speed = 1; move.Move(state.m_direction); break;
+            case PlayerState.State.WALK: anim.speed = 1; move.Move(state.m_direction); PlaySE(0, false); break;
             case PlayerState.State.JUMP: anim.speed = 0; state.IS_JUMP = !move.Jump(); break;
             case PlayerState.State.FALL: anim.speed = 0; break;
-            case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); break;
+            case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); PlaySE(1, false); break;
             case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
             case PlayerState.State.DEATH: anim.speed = 1; break;
         }
@@ -203,5 +212,23 @@ public class PlayerController : MonoBehaviour
     {
         state.m_direction = move.Return(angle);
         Debug.Log("Direction:" + state.m_direction);
+    }
+
+    private void PlaySE(int no,bool forceplay)//SE再生
+    {
+        if(forceplay)// 強制再生
+        {
+            audiosource.PlayOneShot(sound[no]);
+            return;
+        }
+
+        // 再生が終わった瞬間にすぐ再再生
+        if (!audiosource.isPlaying)
+        {
+            
+            audiosource.clip = sound[no];
+            audiosource.Play();
+
+        }
     }
 }
