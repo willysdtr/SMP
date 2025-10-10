@@ -1797,58 +1797,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8545928488892949791, guid: 1fc1d09210861de44b896782205bb244, type: 3}
   m_PrefabInstance: {fileID: 1427808003}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &563705523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 563705517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9c0a8965ec42554799fcbaaa5ddd1a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useDataFromDropdown: 1
-  stageId: 6
-  leftPanel: {fileID: 642689595}
-  rightPanel: {fileID: 2046700329}
-  tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
-  tileDataArray:
-  - id: 1
-    tag: Start
-    sprite: {fileID: 21300000, guid: 2e4ca92922254d942a0ba20dae070df4, type: 3}
-    prefab: {fileID: 7296938410568890891, guid: 933697ad711275941bc81499875065fc, type: 3}
-  - id: 2
-    tag: Goal
-    sprite: {fileID: 21300000, guid: 49393b0f793bc7542aa5a78d0ad2bd8e, type: 3}
-    prefab: {fileID: 7296938410568890891, guid: 5eb0fe516269ce84386f07ede0a26315, type: 3}
-  - id: 3
-    tag: Soul
-    sprite: {fileID: 21300000, guid: 78048db7f35be2a47933515fbc21a696, type: 3}
-    prefab: {fileID: 0}
-  - id: 4
-    tag: SteelPlate
-    sprite: {fileID: 21300000, guid: 8000182b59d048a409924b8babd2589b, type: 3}
-    prefab: {fileID: 7296938410568890891, guid: 584d4985337303e479cb431df2da8d7e, type: 3}
-  - id: 5
-    tag: Untagged
-    sprite: {fileID: 21300000, guid: a999b30b186eb4543966529e057f3228, type: 3}
-    prefab: {fileID: 0}
-  - id: 0
-    tag: Untagged
-    sprite: {fileID: 21300000, guid: 62c87409786effb45870c170878f8efc, type: 3}
-    prefab: {fileID: 0}
-  - id: 9
-    tag: Untagged
-    sprite: {fileID: 21300000, guid: 54108e1555e2c7f479ef7cc4eff15e95, type: 3}
-    prefab: {fileID: 0}
-  - id: 8
-    tag: Untagged
-    sprite: {fileID: 21300000, guid: 62c87409786effb45870c170878f8efc, type: 3}
-    prefab: {fileID: 0}
-  king: {fileID: 1098702340}
-  queen: {fileID: 857900052}
 --- !u!114 &563705529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1882,6 +1830,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDisplay: {fileID: 790413408}
+--- !u!114 &563705531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563705517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useDataFromDropdown: 1
+  stageId: 6
+  leftPanel: {fileID: 642689595}
+  rightPanel: {fileID: 2046700329}
+  tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
+  tileDataArray:
+  - id: 1
+    tag: Start
+    sprite: {fileID: 21300000, guid: 2e4ca92922254d942a0ba20dae070df4, type: 3}
+    prefab: {fileID: 7296938410568890891, guid: 933697ad711275941bc81499875065fc, type: 3}
+  - id: 2
+    tag: Goal
+    sprite: {fileID: 21300000, guid: 49393b0f793bc7542aa5a78d0ad2bd8e, type: 3}
+    prefab: {fileID: 7296938410568890891, guid: 5eb0fe516269ce84386f07ede0a26315, type: 3}
+  - id: 3
+    tag: Soul
+    sprite: {fileID: 21300000, guid: 78048db7f35be2a47933515fbc21a696, type: 3}
+    prefab: {fileID: 0}
+  - id: 4
+    tag: SteelPlate
+    sprite: {fileID: 21300000, guid: 8000182b59d048a409924b8babd2589b, type: 3}
+    prefab: {fileID: 7296938410568890891, guid: 584d4985337303e479cb431df2da8d7e, type: 3}
+  - id: 5
+    tag: Untagged
+    sprite: {fileID: 21300000, guid: a999b30b186eb4543966529e057f3228, type: 3}
+    prefab: {fileID: 0}
+  - id: 0
+    tag: Untagged
+    sprite: {fileID: 21300000, guid: 62c87409786effb45870c170878f8efc, type: 3}
+    prefab: {fileID: 0}
+  - id: 8
+    tag: Untagged
+    sprite: {fileID: 21300000, guid: 573b62a0db660ee4faa5dcbb7222d2e6, type: 3}
+    prefab: {fileID: 0}
+  - id: 9
+    tag: Untagged
+    sprite: {fileID: 21300000, guid: 429dbb6b42159934da808d9a3c17bdf8, type: 3}
+    prefab: {fileID: 0}
+  king: {fileID: 1098702340}
+  queen: {fileID: 857900052}
 --- !u!1 &575719057
 GameObject:
   m_ObjectHideFlags: 0
@@ -4586,13 +4586,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7298618291437617151, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 563705523}
-    - targetCorrespondingSourceObject: {fileID: 7298618291437617151, guid: 1fc1d09210861de44b896782205bb244, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 563705529}
     - targetCorrespondingSourceObject: {fileID: 7298618291437617151, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       insertIndex: -1
       addedObject: {fileID: 563705530}
+    - targetCorrespondingSourceObject: {fileID: 7298618291437617151, guid: 1fc1d09210861de44b896782205bb244, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 563705531}
   m_SourcePrefab: {fileID: 100100000, guid: 1fc1d09210861de44b896782205bb244, type: 3}
 --- !u!1 &1462195145
 GameObject:
