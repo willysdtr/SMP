@@ -18,6 +18,8 @@ TagManager:
   - Nami
   - Nami_Mirror
   - SeeSaw
+  - Cutter
+  - PinCuttion
   layers:
   - Default
   - TransparentFX
