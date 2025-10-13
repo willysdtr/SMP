@@ -36,6 +36,7 @@ public class StringManager_Canvas : MonoBehaviour
     private List<StringAnimation_Canvas> MirrorAnimStrings = new List<StringAnimation_Canvas>();
     [SerializeField] List<int> StringNum;
     [SerializeField] List<int> CopyStringNum;
+    [SerializeField] private GameObject Cutter; // 最大数を設定
     private int currentIndex = 0;
 
     [SerializeField] private ShowStringNum listDisplay; // 表示クラスをインスペクターでセット
@@ -45,9 +46,10 @@ public class StringManager_Canvas : MonoBehaviour
     private int m_LastDirection;
     private bool m_StringMode = NoString;
 
-    private int StageWidth=0;
-    private int StageHeight=0;
+    private int StageWidth = 0;
+    private int StageHeight = 0;
     private StageData stage;
+    public int CutNum = 0;
 
     //[SerializeField] public  BoxCollider2D stageCollider;
 
@@ -112,9 +114,18 @@ public class StringManager_Canvas : MonoBehaviour
 
         inputActions.Stirng.cutstring.performed += ctx =>
         {
-            Debug.Log("sfodkok");
-            CutString(0);
+            if (CutNum > 0)
+            {
+                CutString(0);
+                CutNum--;
+            }
         };
+        //inputActions.Stirng.test.performed += ctx =>
+        //{
+        //    Cutter.SetActive(true);
+
+        //};
+
     }
 
     void Start()
@@ -138,7 +149,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     void CutString(int index)
     {
-             // 実体を削除
+        // 実体を削除
         Destroy(MirrorStrings[index].gameObject);
         Destroy(Strings[index].gameObject);
         Destroy(FrontStrings[index].gameObject);
@@ -148,9 +159,9 @@ public class StringManager_Canvas : MonoBehaviour
         MirrorAnimStrings[index].DeleteImage(0);
         // リストからも削除
         MirrorStrings.RemoveAt(index);
-         Strings.RemoveAt(index);
-         FrontStrings.RemoveAt(index);
-         BackStrings.RemoveAt(index);
+        Strings.RemoveAt(index);
+        FrontStrings.RemoveAt(index);
+        BackStrings.RemoveAt(index);
         AnimStrings.RemoveAt(index);
         MirrorAnimStrings.RemoveAt(index);
     }
@@ -166,7 +177,7 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_X / 2;
         Vector2 backPos = newPos - m_Offset_X / 2;
 
-        if (CheckString(newPos, frontPos, backPos)&&StageWidth < StageUILoader.stage.STAGE_WIDTH)
+        if (CheckString(newPos, frontPos, backPos) && StageWidth < StageUICanvasLoader2.stage.STAGE_WIDTH)
         {
 
             AddString(newPos, frontPos, backPos, Quaternion.identity);
@@ -174,7 +185,10 @@ public class StringManager_Canvas : MonoBehaviour
             StageWidth++;
         }
     }
-
+    public void ShowCutter()
+    {
+        Cutter.SetActive(true);
+    }
     void OnLeftInput()
     {
         if (m_LastDirection == RIGHT) return;
@@ -230,7 +244,7 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_Y / 2;
         Vector2 backPos = newPos - m_Offset_Y / 2;
 
-        if (CheckString(newPos, frontPos, backPos)&& StageHeight< StageUILoader.stage.STAGE_HEIGHT)
+        if (CheckString(newPos, frontPos, backPos) && StageHeight < StageUICanvasLoader2.stage.STAGE_HEIGHT)
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 270));
             m_LastDirection = DOWN;
@@ -259,7 +273,7 @@ public class StringManager_Canvas : MonoBehaviour
                 Strings.Add(obj);
                 m_LastDirection = LEFT;
                 break;
-            case LEFT:                
+            case LEFT:
                 newPos = lastPos - (Vector3)m_Offset_Y / 10;
                 obj = Instantiate(StringPrefub, newPos, Quaternion.identity);
                 obj.tag = "Kaesi";
@@ -277,90 +291,89 @@ public class StringManager_Canvas : MonoBehaviour
         }
     }
 
-       void AddString(Vector2 main, Vector2 front, Vector2 back, Quaternion rot)
-       {
-       RectTransform mainStr = Instantiate(StringPrefub, canvasTransform);
-       mainStr.anchoredPosition = main;
-       mainStr.sizeDelta = m_StrinngScale;//サイズ変更
-       RectTransform childstr = mainStr.GetComponentsInChildren<RectTransform>()[0];
-       mainStr.rotation = rot;
-       mainStr.GetComponent<Animator>()?.SetTrigger("Play");
-       StringAnimation_Canvas anim = mainStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-       }
-       AnimStrings.Add(anim);
-       BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
-       if (col != null)
-       {
-           col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-       }
-       Strings.Add(mainStr);
-       
-       Vector3 mirrorPos = main;
-       float mirrorCenterX = 0.0f;
-       mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
-       RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
-       mirrorStr.anchoredPosition = mirrorPos;
-       mirrorStr.sizeDelta = m_StrinngScale;//サイズ変更
-       mirrorStr.rotation = rot;
-       if (Mathf.Abs(rot.y) > 0.5f)//縦の場合は反転させない
-       {
-           mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// 元の回転 rot に対して Y軸に180度反転を追加する
-       }
-       
-       //mirrorStr.tag = "Nami_Mirror";
-       Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
-       mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
-       anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-       }
-       MirrorAnimStrings.Add(anim);
-       //col = mirrorStr.GetComponent<BoxCollider2D>();
-       //if (col != null)
-       //{
-       //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-       //}
-       MirrorStrings.Add(mirrorStr);
-       
-       RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
-       frontStr.sizeDelta = m_StrinngScale;//サイズ変更
-       frontStr.anchoredPosition = front;
-       anim = frontStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-       }
-       //col = frontStr.GetComponent<BoxCollider2D>();
-       //if (col != null)
-       //{
-       //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-       //}
-       //FrontStrings.Add(frontStr);
-       
-       RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
-       backStr.sizeDelta = m_StrinngScale;//サイズ変更
-       backStr.anchoredPosition = back;
-       anim = backStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-       }
-       //col = backStr.GetComponent<BoxCollider2D>();
-       //if (col != null)
-       //{
-       //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-       //}
-       BackStrings.Add(backStr);
+    void AddString(Vector2 main, Vector2 front, Vector2 back, Quaternion rot)
+    {
+        RectTransform mainStr = Instantiate(StringPrefub, canvasTransform);
+        mainStr.anchoredPosition = main;
+        mainStr.sizeDelta = m_StrinngScale;//サイズ変更
+        RectTransform childstr = mainStr.GetComponentsInChildren<RectTransform>()[0];
+        mainStr.rotation = rot;
+        mainStr.GetComponent<Animator>()?.SetTrigger("Play");
+        StringAnimation_Canvas anim = mainStr.GetComponent<StringAnimation_Canvas>();
+        if (anim != null)
+        {
+            anim.SetCanvas(canvasTransform);
+        }
+        AnimStrings.Add(anim);
+        BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        }
+        Strings.Add(mainStr);
 
-        //当たり判定 : 判定が邪魔して登れなくなってるので、一旦コメントアウト(谷口のコメント)
-        //AddColliderToPrefab(mainStr);
-        //AddColliderToPrefab(mirrorStr);
-        //AddColliderToPrefab(frontStr);
-        //AddColliderToPrefab(backStr);
+        Vector3 mirrorPos = main;
+        float mirrorCenterX = 0.0f;
+        mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
+        RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
+        mirrorStr.anchoredPosition = mirrorPos;
+        mirrorStr.sizeDelta = m_StrinngScale;//サイズ変更
+        mirrorStr.rotation = rot;
+        if (Mathf.Abs(rot.y) > 0.5f)//縦の場合は反転させない
+        {
+            mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// 元の回転 rot に対して Y軸に180度反転を追加する
+        }
+
+        //mirrorStr.tag = "Nami_Mirror";
+        Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
+        mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
+        anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
+        if (anim != null)
+        {
+            anim.SetCanvas(canvasTransform);
+        }
+        MirrorAnimStrings.Add(anim);
+        //col = mirrorStr.GetComponent<BoxCollider2D>();
+        //if (col != null)
+        //{
+        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        //}
+        MirrorStrings.Add(mirrorStr);
+
+        RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
+        frontStr.sizeDelta = m_StrinngScale;//サイズ変更
+        frontStr.anchoredPosition = front;
+        anim = frontStr.GetComponent<StringAnimation_Canvas>();
+        if (anim != null)
+        {
+            anim.SetCanvas(canvasTransform);
+        }
+        //col = frontStr.GetComponent<BoxCollider2D>();
+        //if (col != null)
+        //{
+        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        //}
+        FrontStrings.Add(frontStr);
+
+        RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
+        backStr.sizeDelta = m_StrinngScale;//サイズ変更
+        backStr.anchoredPosition = back;
+        anim = backStr.GetComponent<StringAnimation_Canvas>();
+        if (anim != null)
+        {
+            anim.SetCanvas(canvasTransform);
+        }
+        //col = backStr.GetComponent<BoxCollider2D>();
+        //if (col != null)
+        //{
+        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        //}
+        BackStrings.Add(backStr);
+        //当たり判定
+        AddColliderToPrefab(mainStr);
+        AddColliderToPrefab(mirrorStr);
+        AddColliderToPrefab(frontStr);
+        AddColliderToPrefab(backStr);
     }
 
 
@@ -379,10 +392,10 @@ public class StringManager_Canvas : MonoBehaviour
         col.offset = Vector2.zero;
 
         // サイズはUIのサイズにスケールを掛けて変換
-        Vector2 size = targetRect.sizeDelta/2;
-        size.x *= targetRect.lossyScale.x/2;
+        Vector2 size = targetRect.sizeDelta / 2;
+        size.x *= targetRect.lossyScale.x / 2;
         size.y *= targetRect.lossyScale.y / 2;
-        col.size = size/2;
+        col.size = size / 2;
     }
     bool CheckString(Vector2 pos, Vector2 front, Vector2 back)
     {
@@ -422,7 +435,6 @@ public class StringManager_Canvas : MonoBehaviour
     {
         m_StrinngScale = size; // UIサイズに合わせて単位変更
         HitBoxScale = BoxScale;
-        Debug.Log("SetStringSize");
     }
 }
 

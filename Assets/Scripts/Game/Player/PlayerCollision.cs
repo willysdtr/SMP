@@ -12,6 +12,8 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 1.0f);
     [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);
     [SerializeField] private LayerMask climbLayer;
+    [SerializeField] private StringManager_Canvas StringManager;
+
 
     private Rigidbody2D rb;
     private RectTransform rect;
@@ -56,6 +58,18 @@ public class PlayerCollision : MonoBehaviour
                 cont.PlayerReturn(collision.transform.rotation.y);//プレイヤーの向きを変える
 
             }
+
+            if (collision.gameObject.tag == "Cutter")
+            {
+                StringManager.CutNum += 1;//カット数を増やす
+                StringManager.ShowCutter();
+                collision.gameObject.SetActive(false);//カッターを消す
+            }
+            if (collision.gameObject.tag == "PinCuttion")
+            {
+                cont.state.currentstate = PlayerState.State.DEATH;// 死亡状態に変更
+            }
+
 
             if (collision.gameObject.tag == "Goal")
             {
