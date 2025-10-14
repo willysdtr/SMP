@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     private AudioClip[] sound; // { 歩行SE、よじ登りSE、落下SE}
     private AudioSource audiosource;
 
+    public bool cutFg = true;//糸を切るかのフラグ
+
     void Awake()
     { // 各種コンポーネントの取得
         move = GetComponent<PlayerMove>();

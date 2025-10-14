@@ -6,6 +6,9 @@ public class StringAnimation_Canvas : MonoBehaviour
 {
     public RectTransform canvasTransform;
     public  List<Transform> ImageList=new List<Transform>();
+
+    public int index = 0;//自身が何番目か
+
     // 親Canvasを登録する関数（生成直後に呼び出す）
     public void SetCanvas(RectTransform canvas)
     {

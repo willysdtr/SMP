@@ -62,7 +62,7 @@ public class StringManager_Canvas : MonoBehaviour
         inputActions.Stirng.nami.performed += ctx =>
         {
             float value = ctx.ReadValue<float>();
-
+            
             if (m_StringMode == isString)
             {
                 m_PauseDirection = value;
@@ -112,8 +112,14 @@ public class StringManager_Canvas : MonoBehaviour
 
         inputActions.Stirng.cutstring.performed += ctx =>
         {
-            Debug.Log("sfodkok");
-            CutString(0);
+            if (MirrorStrings.Count > 0)
+            {
+                CutString(MirrorStrings.Count - 1);
+            }
+            else
+            {
+                Debug.LogWarning("カットできるStringがありません。");
+            }
         };
     }
 
@@ -136,11 +142,11 @@ public class StringManager_Canvas : MonoBehaviour
         inputActions.Stirng.Disable();
     }
 
-    void CutString(int index)
+    public void CutString(int index)
     {
              // 実体を削除
         Destroy(MirrorStrings[index].gameObject);
-        Destroy(Strings[index].gameObject);
+        Destroy(Strings[index + 1].gameObject);//FirstPointの関係で+1する
         Destroy(FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);
 
@@ -289,7 +295,8 @@ public class StringManager_Canvas : MonoBehaviour
        if (anim != null)
        {
            anim.SetCanvas(canvasTransform);
-       }
+           anim.index = Strings.Count - 1;//FirstPointの関係で-1する
+        }
        AnimStrings.Add(anim);
        BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
        if (col != null)
@@ -317,7 +324,8 @@ public class StringManager_Canvas : MonoBehaviour
        if (anim != null)
        {
            anim.SetCanvas(canvasTransform);
-       }
+           anim.index = MirrorStrings.Count;
+        }
        MirrorAnimStrings.Add(anim);
        //col = mirrorStr.GetComponent<BoxCollider2D>();
        //if (col != null)
@@ -339,7 +347,7 @@ public class StringManager_Canvas : MonoBehaviour
        //{
        //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
        //}
-       //FrontStrings.Add(frontStr);
+       FrontStrings.Add(frontStr);
        
        RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
        backStr.sizeDelta = m_StrinngScale;//サイズ変更

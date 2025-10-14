@@ -13,6 +13,9 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);
     [SerializeField] private LayerMask climbLayer;
 
+    [SerializeField] private StringManager_Canvas stringManager; // StringManager_Canvasの参照、糸を消す処理で使用
+
+
     private Rigidbody2D rb;
     private RectTransform rect;
 
@@ -90,8 +93,23 @@ public class PlayerCollision : MonoBehaviour
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)
                     {
 
-                        if (collision.gameObject.tag == "String" && cont.state.IS_CLIMB_NG == false)
+                        if (collision.gameObject.tag == "String")
                         {
+                            if (cont.cutFg) //糸を切る状態なら、当たった糸を消す
+                            {
+                                int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
+                                stringManager.CutString(index);
+                                cont.cutFg = false;
+                                return; // 糸を消すだけで終わる
+                            }
+
+                            if (cont.state.IS_CLIMB_NG) 
+                            {
+                                wall_obj.Add(collision.gameObject);
+                                cont.state.IS_MOVE = false;
+                                return; // 登れないなら壁としてカウントするだけ
+                            }
+                            
 
                             bool isVertical = collision.transform.rotation.z != 0;
                             if (isVertical)
