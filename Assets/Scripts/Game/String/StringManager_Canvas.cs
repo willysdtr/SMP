@@ -144,7 +144,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void CutString(int index)
     {
-             // 実体を削除
+        // 実体を削除
         Destroy(MirrorStrings[index].gameObject);
         Destroy(Strings[index + 1].gameObject);//FirstPointの関係で+1する
         Destroy(FrontStrings[index].gameObject);
@@ -327,42 +327,44 @@ public class StringManager_Canvas : MonoBehaviour
            anim.index = MirrorStrings.Count;
         }
        MirrorAnimStrings.Add(anim);
-       //col = mirrorStr.GetComponent<BoxCollider2D>();
-       //if (col != null)
-       //{
-       //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-       //}
-       MirrorStrings.Add(mirrorStr);
-       
-       RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
-       frontStr.sizeDelta = m_StrinngScale;//サイズ変更
-       frontStr.anchoredPosition = front;
-       anim = frontStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-       }
-       //col = frontStr.GetComponent<BoxCollider2D>();
-       //if (col != null)
-       //{
-       //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-       //}
-       FrontStrings.Add(frontStr);
-       
-       RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
-       backStr.sizeDelta = m_StrinngScale;//サイズ変更
-       backStr.anchoredPosition = back;
-       anim = backStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-       }
-       //col = backStr.GetComponent<BoxCollider2D>();
-       //if (col != null)
-       //{
-       //    col.size *= HitBoxScale; // RectTransformに合わせて拡縮
-       //}
-       BackStrings.Add(backStr);
+        col = mirrorStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size *= HitBoxScale; // RectTransformに合わせて拡縮
+        }
+        MirrorStrings.Add(mirrorStr);
+
+        //縫えない判定用の糸、前方
+        RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
+        frontStr.sizeDelta = m_StrinngScale;//サイズ変更
+        frontStr.anchoredPosition = front;
+        anim = frontStr.GetComponent<StringAnimation_Canvas>();
+        if (anim != null)
+        {
+            anim.SetCanvas(canvasTransform);
+        }
+        col = frontStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size = new Vector2(0, 0); // 当たり判定を無くす
+        }
+        FrontStrings.Add(frontStr);
+
+        //縫えない判定用の糸、後方
+        RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
+        backStr.sizeDelta = m_StrinngScale;//サイズ変更
+        backStr.anchoredPosition = back;
+        anim = backStr.GetComponent<StringAnimation_Canvas>();
+        if (anim != null)
+        {
+            anim.SetCanvas(canvasTransform);
+        }
+        col = backStr.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.size = new Vector2(0,0); // 当たり判定を無くす
+        }
+        BackStrings.Add(backStr);
 
         //当たり判定 : 判定が邪魔して登れなくなってるので、一旦コメントアウト(谷口のコメント)
         //AddColliderToPrefab(mainStr);
@@ -394,6 +396,7 @@ public class StringManager_Canvas : MonoBehaviour
     }
     bool CheckString(Vector2 pos, Vector2 front, Vector2 back)
     {
+        // 
         foreach (var str in Strings)
             if (Vector2.Distance(str.anchoredPosition, front) < 0.001f) return false;
 

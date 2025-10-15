@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         //停止状態からの状態変化処理
         if (state.IS_CLIMB)//CLIMB状態への移行
         {
-            if (state.IS_CLIMB_NG)  //登れないなら、CLIMB状態に移行せず、移動不可にする
+            if (state.IS_CLIMB_NG || state.IS_CEILING_HIT)  //登れないなら、CLIMB状態に移行せず、移動不可にする
             {
                 state.IS_MOVE = false;
             }
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             case PlayerState.State.WALK: anim.speed = 1; move.Move(state.m_direction); PlaySE(0, false); break;
             case PlayerState.State.JUMP: anim.speed = 0; state.IS_JUMP = !move.Jump(); break;
             case PlayerState.State.FALL: anim.speed = 0; break;
-            case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); PlaySE(1, false); break;
+            case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); Debug.Log("Climb"); PlaySE(1, false); break;
             case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
             case PlayerState.State.DEATH: anim.speed = 1; break;
         }

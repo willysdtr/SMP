@@ -122,6 +122,7 @@ public class PlayerCollision : MonoBehaviour
                                 cont.hitobj_pos = collision.transform.position;
                                 rb.linearVelocity = Vector2.zero;
                                 rb.bodyType = RigidbodyType2D.Kinematic;
+                                ground_obj.Clear();//地面判定したオブジェクトを全削除
                             }
                         }
                         else

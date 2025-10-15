@@ -118,7 +118,6 @@ public class PlayerMove : MonoBehaviour
 
         currentspeed = (PlayerState.MAX_SPEED * Time.deltaTime) / 10;
         rb.linearVelocity = new Vector2(direction * currentspeed, 0);
-        Debug.Log("GOAL");
         return false;
     }
 
