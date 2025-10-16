@@ -3424,7 +3424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 272580781704164444, guid: 052e18a705ab17a44984ea52aac197e7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -345
+      value: -264
       objectReference: {fileID: 0}
     - target: {fileID: 272580781704164444, guid: 052e18a705ab17a44984ea52aac197e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6620,6 +6620,14 @@ PrefabInstance:
       propertyPath: stringManager
       value: 
       objectReference: {fileID: 563705529}
+    - target: {fileID: 1775085276676287249, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
+      propertyPath: cutFg
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1775085276676287249, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
+      propertyPath: climblayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 4926157397284531837, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
       propertyPath: m_Layer
       value: 7

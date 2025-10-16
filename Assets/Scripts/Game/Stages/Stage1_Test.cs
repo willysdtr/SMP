@@ -15,8 +15,8 @@ public static class Stage1_Test
         new SoulPos(false, 3, 4),    // 魂の位置: 左側, X=2, Y=3
 
         false,                      // 向き変更可能か?
-        true,                       // 王様は左向きか?
-        false,                      // 姫様は左向きか?
+        false,                       // 王様は左向きか?
+        true,                      // 姫様は左向きか?
 
         new int[] { 5 },            // 縫える回数 と 縫える長さ
 

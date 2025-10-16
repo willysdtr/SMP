@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size,float _blocksize = 10)  // プレイヤーをCanvasに、アンカー位置とサイズで配置する関数
+    public void PlaceAtPosition(RectTransform parent, Vector2 anchoredPos, Vector2 size,float _blocksize = 10 , bool isleft = false)  // プレイヤーをCanvasに、アンカー位置とサイズで配置する関数
     {
         // 親を設定（第2引数falseでローカル座標維持なし、完全に親基準で位置設定）
         rect.SetParent(parent, false);
@@ -158,6 +158,9 @@ public class PlayerController : MonoBehaviour
 
         BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
         collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y); // 本体の当たり判定サイズを合わせる
+
+        if (isleft) { state.m_direction = (int)PlayerState.Direction.LEFT; transform.rotation = Quaternion.Euler(0, 0, 0); } // 左向き
+        else { state.m_direction = (int)PlayerState.Direction.RIGHT; transform.rotation = Quaternion.Euler(0, 180, 0); } //右向き
     }
 
     void OnEnable()

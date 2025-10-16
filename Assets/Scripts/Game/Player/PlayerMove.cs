@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
 
     private float currentspeed = 0f;
 
-    public int jumpHeight = 2;  // ジャンプの高さ(ブロック単位)
+    public int jumpHeight = 3;  // ジャンプの高さ(ブロック単位)
     public float duration = 2f;   // ジャンプにかかる時間
 
     private float elapsed;//ジャンプにかかった時間
@@ -43,7 +43,7 @@ public class PlayerMove : MonoBehaviour
 
     public void InitJump(int direction, float blocksize)//ジャンプの初期化
     {
-        Stop();
+        AllStop();
         const int endDistance = 1; // ジャンプの終点までの横の距離(ブロック単位)
         startPos = new(transform.position.x, transform.position.y); // 開始位置
 
@@ -52,7 +52,7 @@ public class PlayerMove : MonoBehaviour
 
         // 制御点（中間地点 + 高さ）
         Vector2 mid = (startPos + endPos) / 2f;
-        controlPos = mid + Vector2.up * jumpHeight * blocksize;
+        controlPos = mid + Vector2.up * (jumpHeight * blocksize);
 
         elapsed = 0f; // 経過時間をリセット
         rb.gravityScale = 0; // 重力を無効化
