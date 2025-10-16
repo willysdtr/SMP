@@ -17,15 +17,9 @@ public class StringManager_Canvas : MonoBehaviour
 
     private const bool NoString = false;
     private const bool isString = true;
-<<<<<<< HEAD
-
+    [SerializeField] private StageUILoader StageLoader;
     [SerializeField] private RectTransform StringPrefub; // UIï¿½pï¿½ï¿½RectTransformï¿½Ö•ÏX
     [SerializeField] private RectTransform Tamadome;//  ï¿½Ç[ï¿½ï¿½ï¿½ï¿½Ä‹ÊŽ~ï¿½ß‚ï¿½ï¿½ï¿½Ë‚ï¿½
-=======
-    [SerializeField] private StageUILoader StageLoader;
-    [SerializeField] private RectTransform StringPrefub; // UI—p‚ÉRectTransform‚Ö•ÏX
-    [SerializeField] private RectTransform Tamadome;//  ‚Ç[‚â‚Á‚Ä‹ÊŽ~‚ß‚·‚ñ‚Ë‚ñ
->>>>>>> origin/Work_Sakaue7
     [SerializeField] private RectTransform StringCursol;
     [SerializeField] private RectTransform canvasTransform; // Canvasï¿½ï¿½RectTransform
 
@@ -122,17 +116,11 @@ public class StringManager_Canvas : MonoBehaviour
         {
             if (MirrorStrings.Count > 0)
             {
-<<<<<<< HEAD
                 CutString(MirrorStrings.Count - 1);
             }
             else
             {
                 Debug.LogWarning("ï¿½Jï¿½bï¿½gï¿½Å‚ï¿½ï¿½ï¿½Stringï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B");
-=======
-                CutString(0);
-                CutNum--;
-                DeleteCutter();
->>>>>>> origin/Work_Sakaue7
             }
         };
         //inputActions.Stirng.test.performed += ctx =>
@@ -147,15 +135,11 @@ public class StringManager_Canvas : MonoBehaviour
     {
         m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
-<<<<<<< HEAD
-        listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
-=======
         //Debug.Log(StageUILoader.stage.STAGE_WIDTH);
         //Debug.Log(StageUILoader.stage.STRING_COUNT);
-        StringNum = new List<int>(StageUILoader.stage.STRING_COUNT);///Šî’nŠO
+        StringNum = new List<int>(StageUILoader.stage.STRING_COUNT);///ï¿½ï¿½nï¿½O
         //Debug.Log(StringNum);
-        listDisplay.UpdateDisplay(StringNum);// Text•\Ž¦‚ðXV
->>>>>>> origin/Work_Sakaue7
+        listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         CopyStringNum = new List<int>(StringNum);
         //StringCursol.anchoredPosition=stage.START_POS_front.ToVector2()*m_StrinngScale;ï¿½Oï¿½ï¿½ï¿½bï¿½hï¿½Ì‰Eï¿½[ï¿½Æ‚ï¿½ï¿½È‚ç‚±ï¿½ï¿½ï¿½
     }
