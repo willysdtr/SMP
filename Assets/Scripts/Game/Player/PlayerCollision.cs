@@ -5,20 +5,15 @@ using static UnityEditor.PlayerSettings;
 public class PlayerCollision : MonoBehaviour
 {
 
-    private PlayerController cont;  // ControllerŒo—R‚ÅState‚ÉƒAƒNƒZƒX
+    private PlayerController cont;  // Controllerï¿½oï¿½Rï¿½ï¿½Stateï¿½ÉƒAï¿½Nï¿½Zï¿½X
 
     private HashSet<GameObject> ground_obj = new HashSet<GameObject>();
     private HashSet<GameObject> wall_obj = new HashSet<GameObject>();
 
     [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 1.0f);
     [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);
-<<<<<<< HEAD
-    [SerializeField] private LayerMask climbLayer;
-    [SerializeField] private StringManager_Canvas StringManager;
-=======
 
-    [SerializeField] private StringManager_Canvas stringManager; // StringManager_Canvas‚ÌQÆA…‚ğÁ‚·ˆ—‚Åg—p
->>>>>>> origin/Work_Taniguchi2
+    [SerializeField] private StringManager_Canvas stringManager; // StringManager_Canvasï¿½ÌQï¿½ÆAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ågï¿½p
 
 
     private Rigidbody2D rb;
@@ -32,15 +27,15 @@ public class PlayerCollision : MonoBehaviour
         cont = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         rect = GetComponent<RectTransform>();
-        m_collider = GetComponent<BoxCollider2D>(); // e‚É‚ ‚éCollider‚Ì‚İæ“¾
-        // ”»’èƒTƒCƒY‚ğRectTransform‚ÌƒTƒCƒY‚É‡‚í‚¹‚é
+        m_collider = GetComponent<BoxCollider2D>(); // ï¿½eï¿½É‚ï¿½ï¿½ï¿½Colliderï¿½Ì‚İæ“¾
+        // ï¿½ï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½ï¿½RectTransformï¿½ÌƒTï¿½Cï¿½Yï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½
         checkSize = new Vector2(checkSize.x * rect.sizeDelta.x, checkSize.y * rect.sizeDelta.y);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //OverlapBox‚Ìì¬AClimbˆ—‚Ég—p
+        //OverlapBoxï¿½Ìì¬ï¿½AClimbï¿½ï¿½ï¿½ï¿½ï¿½Égï¿½p
         Vector2 center = (Vector2)transform.position + checkOffset;
 
         Collider2D hit = Physics2D.OverlapBox(center, checkSize, 0f, cont.climblayers);
@@ -50,7 +45,7 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //OverlapBox‚Ì•`‰æ
+        //OverlapBoxï¿½Ì•`ï¿½ï¿½
         Gizmos.color = Color.red;
         Vector2 center = (Vector2)transform.position + checkOffset;
         Gizmos.DrawWireCube(center, checkSize);
@@ -59,34 +54,34 @@ public class PlayerCollision : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
 
-        int layerID = collision.gameObject.layer; //ƒŒƒCƒ„[ID‚ğæ“¾
-        string layerName = LayerMask.LayerToName(layerID); // –¼‘O‚É•ÏŠ·
+        int layerID = collision.gameObject.layer; //ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[IDï¿½ï¿½ï¿½æ“¾
+        string layerName = LayerMask.LayerToName(layerID); // ï¿½ï¿½ï¿½Oï¿½É•ÏŠï¿½
 
-        if (layerName == "String" || layerName == "Gimmick")//ƒCƒ“ƒXƒyƒNƒ^[‚Åİ’è‚µ‚½Layer‚Æ‚Ì‚İ”»’è‚ğæ‚é 
-                                                            //(((1 << collision.gameObject.layer) & cont.groundlayers) != 0) //ˆÈ‘O‚ÌLayer”»’èA•ª‚©‚è‚É‚­‚¢‚Ì‚ÅƒRƒƒ“ƒgƒAƒEƒg
+        if (layerName == "String" || layerName == "Gimmick")//ï¿½Cï¿½ï¿½ï¿½Xï¿½yï¿½Nï¿½^ï¿½[ï¿½Åİ’è‚µï¿½ï¿½Layerï¿½Æ‚Ì‚İ”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+                                                            //(((1 << collision.gameObject.layer) & cont.groundlayers) != 0) //ï¿½È‘Oï¿½ï¿½Layerï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅƒRï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Aï¿½Eï¿½g
         {
 
-            if (collision.gameObject.tag == "Kaesi")//•Ô‚µ–D‚¢‚É“–‚½‚Á‚½‚Ìˆ—
+            if (collision.gameObject.tag == "Kaesi")//ï¿½Ô‚ï¿½ï¿½Dï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
             {
-                cont.PlayerReturn(collision.transform.rotation.y);//ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ğ•Ï‚¦‚é
+                cont.PlayerReturn(collision.transform.rotation.y);//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½
 
             }
 
             if (collision.gameObject.tag == "Cutter")
             {
-                StringManager.CutNum += 1;//ƒJƒbƒg”‚ğ‘‚â‚·
+                StringManager.CutNum += 1;//ï¿½Jï¿½bï¿½gï¿½ï¿½ï¿½ğ‘‚â‚·
                 StringManager.ShowCutter();
-                collision.gameObject.SetActive(false);//ƒJƒbƒ^[‚ğÁ‚·
+                collision.gameObject.SetActive(false);//ï¿½Jï¿½bï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             }
             if (collision.gameObject.tag == "PinCuttion")
             {
-                cont.state.currentstate = PlayerState.State.DEATH;// €–Só‘Ô‚É•ÏX
+                cont.state.currentstate = PlayerState.State.DEATH;// ï¿½ï¿½ï¿½Sï¿½ï¿½Ô‚É•ÏX
             }
 
 
             if (collision.gameObject.tag == "Goal")
             { 
-                if(cont.state.currentstate == PlayerState.State.GOAL) { return; } // ‚·‚Å‚ÉƒS[ƒ‹‚µ‚Ä‚¢‚½‚ç‰½‚à‚µ‚È‚¢
+                if(cont.state.currentstate == PlayerState.State.GOAL) { return; } // ï¿½ï¿½ï¿½Å‚ÉƒSï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ç‰½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 cont.Goal(collision.transform.position);
             }
             else
@@ -94,10 +89,10 @@ public class PlayerCollision : MonoBehaviour
                 foreach (ContactPoint2D contact in collision.contacts)
                 {
 
-                    // ãŒü‚«‚ÉÚG‚µ‚½ê‡‚Ì‚İƒJƒEƒ“ƒg
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉÚGï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚İƒJï¿½Eï¿½ï¿½ï¿½g
                     if (Vector2.Angle(contact.normal, Vector2.up) < 20f)
                     {
-                        if (collision.gameObject.tag == "Spring")//‚Î‚Ë‚É“–‚½‚Á‚½‚Ìˆ—
+                        if (collision.gameObject.tag == "Spring")//ï¿½Î‚Ë‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
                         {
                             transform.position = new Vector2(collision.transform.position.x, transform.position.y);
                             cont.state.IS_JUMP = true;
@@ -105,7 +100,7 @@ public class PlayerCollision : MonoBehaviour
                             cont.state.IS_GROUND = false;
 
                         }
-                        else // ’Êí‚Ì’n–Ê‚É“–‚½‚Á‚½‚Ìˆ—
+                        else // ï¿½Êï¿½Ì’nï¿½Ê‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
                         {
                             cont.state.IS_GROUND = true;
                             cont.state.IS_MOVE = true;
@@ -113,66 +108,66 @@ public class PlayerCollision : MonoBehaviour
                         }
 
                     }
-                    // ‰¡Œü‚«‚ÉÚG‚µ‚½ê‡‚Ì‚İƒJƒEƒ“ƒg
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉÚGï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚İƒJï¿½Eï¿½ï¿½ï¿½g
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)
                     {
 
-                        if (layerName == "String")// …‚ÌLayer‚È‚ç
-                                                      //(((1 << collision.gameObject.layer) & cont.climblayers) != 0) //ˆÈ‘O‚ÌLayer”»’èA•ª‚©‚è‚É‚­‚¢‚Ì‚ÅƒRƒƒ“ƒgƒAƒEƒg
+                        if (layerName == "String")// ï¿½ï¿½ï¿½ï¿½Layerï¿½È‚ï¿½
+                                                      //(((1 << collision.gameObject.layer) & cont.climblayers) != 0) //ï¿½È‘Oï¿½ï¿½Layerï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅƒRï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Aï¿½Eï¿½g
                         {
-                            if (cont.cutFg) //…‚ğØ‚éó‘Ô‚È‚çA“–‚½‚Á‚½…‚ğÁ‚·
+                            if (cont.cutFg) //ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½ï¿½Ô‚È‚ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             {
                                 int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
                                 stringManager.CutString(index);
                                 cont.cutFg = false;
-                                return; // …‚ğÁ‚·‚¾‚¯‚ÅI‚í‚é
+                                return; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅIï¿½ï¿½ï¿½
                             }
 
-                            if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //”½“]ˆ—
+                            if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½
                             {
 
-                                //ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ğ•Ï‚¦‚é
+                                //ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½
                                 if (contact.normal == Vector2.left)
                                 {
-                                    cont.PlayerReturn(180); //‰EŒü‚«‚É”½“]
+                                    cont.PlayerReturn(180); //ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½É”ï¿½ï¿½]
                                     return;
 
                                 }
                                 else if (contact.normal == Vector2.right)
                                 {
-                                    cont.PlayerReturn(-180); //¶Œü‚«‚É”½“]
+                                    cont.PlayerReturn(-180); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É”ï¿½ï¿½]
                                     return;
                                 }
                             }
 
-                            //if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //’â~ˆ—A”½“]ˆ—’Ç‰Á‚Ì‚½‚ßƒRƒƒ“ƒgƒAƒEƒg
+                            //if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½Ì‚ï¿½ï¿½ßƒRï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Aï¿½Eï¿½g
                             //{
                             //    wall_obj.Add(collision.gameObject);
                             //    cont.state.IS_MOVE = false;
-                            //    return; // “o‚ê‚È‚¢‚È‚ç•Ç‚Æ‚µ‚ÄƒJƒEƒ“ƒg‚·‚é‚¾‚¯
+                            //    return; // ï¿½oï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½Ç‚Æ‚ï¿½ï¿½ÄƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½é‚¾ï¿½ï¿½
                             //}
 
 
                             bool isVertical = collision.transform.rotation.z != 0;
                             if (isVertical)
                             {
-                                // c‚Ì…‚È‚çTrigger‚ÉØ‚è‘Ö‚¦
+                                // ï¿½cï¿½Ìï¿½ï¿½È‚ï¿½Triggerï¿½ÉØ‚ï¿½Ö‚ï¿½
                                 GetComponent<BoxCollider2D>().isTrigger = true;
-                                //…‚É“–‚½‚Á‚½‚Ìˆ—
+                                //ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
                                 cont.state.IS_MOVE = false;
                                 cont.state.IS_CLIMB = true;
                                 cont.hitobj_pos = collision.transform.position;
                                 rb.linearVelocity = Vector2.zero;
                                 rb.bodyType = RigidbodyType2D.Kinematic;
-                                ground_obj.Clear();//’n–Ê”»’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ‘Síœ
+                                ground_obj.Clear();//ï¿½nï¿½Ê”ï¿½ï¿½è‚µï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½Sï¿½íœ
                                 return;
                             }
                         }
 
-                        if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //”½“]ˆ— …ˆÈŠO‚Ì•Ç‚Å‚à”½“]‚·‚é
+                        if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÈŠOï¿½Ì•Ç‚Å‚ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½
                         {
 
-                            //ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ğ•Ï‚¦‚é
+                            //ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½
                             if (contact.normal == Vector2.left)
                             {
                                 cont.PlayerReturn(-180);
@@ -186,7 +181,7 @@ public class PlayerCollision : MonoBehaviour
                             }
                         }
 
-                        // ’i·•â³‚·‚é‚©‚Ì”»’è
+                        // ï¿½iï¿½ï¿½ï¿½â³ï¿½ï¿½ï¿½é‚©ï¿½Ì”ï¿½ï¿½ï¿½
                         Bounds myBounds = m_collider.bounds;
                         Bounds targetBounds = collision.gameObject.GetComponent<BoxCollider2D>().bounds;
                         float playerFootY = myBounds.min.y;
@@ -194,7 +189,7 @@ public class PlayerCollision : MonoBehaviour
                         float thresholdY = playerFootY + playerHeight / 4;
                         float topY = targetBounds.max.y;
 
-                        if (topY < thresholdY) // ƒvƒŒƒCƒ„[‚Ì‘«Œ³‚©‚ç‘Ì‚‚Ì1/4ˆÈ“à‚Ì’i·‚È‚ç•â³
+                        if (topY < thresholdY) // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½1/4ï¿½È“ï¿½ï¿½Ì’iï¿½ï¿½ï¿½È‚ï¿½â³
                         {
                             float diff = topY - playerFootY;
 
@@ -203,10 +198,10 @@ public class PlayerCollision : MonoBehaviour
                             cont.state.IS_MOVE = true;
                             ground_obj.Add(collision.gameObject);
 
-                            return; // ’i·•â³‚ğs‚Á‚½‚ç•Ç‚Æ‚µ‚ÄƒJƒEƒ“ƒg‚µ‚È‚¢
+                            return; // ï¿½iï¿½ï¿½ï¿½â³ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚Æ‚ï¿½ï¿½ÄƒJï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½
                         }
 
-                        // •Ç‚É“–‚½‚Á‚½‚Ìˆ—
+                        // ï¿½Ç‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
                         wall_obj.Add(collision.gameObject);
                         cont.state.IS_MOVE = false;
 
@@ -218,15 +213,15 @@ public class PlayerCollision : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        ground_obj.Remove(collision.gameObject);//’n–Ê”»’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğíœ
-        wall_obj.Remove(collision.gameObject);//•Ç”»’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğíœ
+        ground_obj.Remove(collision.gameObject);//ï¿½nï¿½Ê”ï¿½ï¿½è‚µï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½íœ
+        wall_obj.Remove(collision.gameObject);//ï¿½Ç”ï¿½ï¿½è‚µï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½íœ
         if (ground_obj.Count == 0)
-        {//’n–Ê”»’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ª‚·‚×‚Ä‚È‚­‚È‚ê‚ÎA’n–Ê‚©‚ç—£‚ê‚½ó‘Ô‚É‚·‚é
+        {//ï¿½nï¿½Ê”ï¿½ï¿½è‚µï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½×‚Ä‚È‚ï¿½ï¿½È‚ï¿½ÎAï¿½nï¿½Ê‚ï¿½ï¿½ç—£ï¿½ê‚½ï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½
             cont.state.IS_GROUND = false;
         }
 
         if (wall_obj.Count == 0)
-        {//•Ç”»’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ª‚·‚×‚Ä‚È‚­‚È‚ê‚ÎAˆÚ“®‰Â”\‚É‚·‚é
+        {//ï¿½Ç”ï¿½ï¿½è‚µï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½×‚Ä‚È‚ï¿½ï¿½È‚ï¿½ÎAï¿½Ú“ï¿½ï¿½Â”\ï¿½É‚ï¿½ï¿½ï¿½
             cont.state.IS_MOVE = true;
         }
 
@@ -234,15 +229,15 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        // ©•ª‚ÌColliderˆÈŠO‚Í–³‹
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Colliderï¿½ÈŠOï¿½Í–ï¿½ï¿½ï¿½
         if (collider != m_collider) return;
 
-        int layerID = collider.gameObject.layer; //ƒŒƒCƒ„[ID‚ğæ“¾
-        string layerName = LayerMask.LayerToName(layerID); // –¼‘O‚É•ÏŠ·
+        int layerID = collider.gameObject.layer; //ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[IDï¿½ï¿½ï¿½æ“¾
+        string layerName = LayerMask.LayerToName(layerID); // ï¿½ï¿½ï¿½Oï¿½É•ÏŠï¿½
 
         if (layerName == "String")
         {
-            //…‚É“–‚½‚Á‚½‚Ìˆ—
+            //ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
             cont.state.IS_MOVE = false;
             cont.state.IS_CLIMB = true;
             cont.hitobj_pos = collider.transform.position;
@@ -254,18 +249,18 @@ public class PlayerCollision : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collider)
     {
 
-        int layerID = collider.gameObject.layer; //ƒŒƒCƒ„[ID‚ğæ“¾
-        string layerName = LayerMask.LayerToName(layerID); // –¼‘O‚É•ÏŠ·
+        int layerID = collider.gameObject.layer; //ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[IDï¿½ï¿½ï¿½æ“¾
+        string layerName = LayerMask.LayerToName(layerID); // ï¿½ï¿½ï¿½Oï¿½É•ÏŠï¿½
 
         if (!cont.ishit)
-        {//OverlapBox‚ªd‚È‚Á‚Ä‚È‚¢‚Æ‚«‚ÉÀs(Œëì“®‚·‚é‚½‚ß)
+        {//OverlapBoxï¿½ï¿½ï¿½dï¿½È‚ï¿½ï¿½Ä‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½Éï¿½ï¿½s(ï¿½ï¿½ì“®ï¿½ï¿½ï¿½é‚½ï¿½ï¿½)
             if (layerName == "String")
-            {//…‚©‚ç—£‚ê‚½‚Ìˆ—
+            {//ï¿½ï¿½ï¿½ï¿½ï¿½ç—£ï¿½ê‚½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
                 cont.state.IS_MOVE = true;
                 cont.state.IS_CLIMB = false;
                 rb.bodyType = RigidbodyType2D.Dynamic;
                 rb.linearVelocity = Vector2.zero;
-                GetComponent<BoxCollider2D>().isTrigger = false;//Trigger‰ğœ
+                GetComponent<BoxCollider2D>().isTrigger = false;//Triggerï¿½ï¿½ï¿½ï¿½
             }
         }
 

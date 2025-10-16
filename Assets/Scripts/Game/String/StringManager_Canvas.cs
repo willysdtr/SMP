@@ -17,13 +17,13 @@ public class StringManager_Canvas : MonoBehaviour
     private const bool NoString = false;
     private const bool isString = true;
 
-    [SerializeField] private RectTransform StringPrefub; // UI—p‚ÉRectTransform‚Ö•ÏX
-    [SerializeField] private RectTransform Tamadome;//  ‚Ç[‚â‚Á‚Ä‹Ê~‚ß‚·‚ñ‚Ë‚ñ
+    [SerializeField] private RectTransform StringPrefub; // UIï¿½pï¿½ï¿½RectTransformï¿½Ö•ÏX
+    [SerializeField] private RectTransform Tamadome;//  ï¿½Ç[ï¿½ï¿½ï¿½ï¿½Ä‹Ê~ï¿½ß‚ï¿½ï¿½ï¿½Ë‚ï¿½
     [SerializeField] private RectTransform StringCursol;
-    [SerializeField] private RectTransform canvasTransform; // Canvas‚ÌRectTransform
+    [SerializeField] private RectTransform canvasTransform; // Canvasï¿½ï¿½RectTransform
 
     [SerializeField] private float mirrorOffsetX = 5.0f;
-    private Vector2 m_StrinngScale = new Vector2(100f, 100f); // UIƒTƒCƒY‚É‡‚í‚¹‚Ä’PˆÊ•ÏX
+    private Vector2 m_StrinngScale = new Vector2(100f, 100f); // UIï¿½Tï¿½Cï¿½Yï¿½Éï¿½ï¿½í‚¹ï¿½Ä’Pï¿½Ê•ÏX
     private Vector2 HitBoxScale = new(1, 1);
     private Vector2 m_Offset_X;
     private Vector2 m_Offset_Y;
@@ -36,10 +36,10 @@ public class StringManager_Canvas : MonoBehaviour
     private List<StringAnimation_Canvas> MirrorAnimStrings = new List<StringAnimation_Canvas>();
     [SerializeField] List<int> StringNum;
     [SerializeField] List<int> CopyStringNum;
-    [SerializeField] private GameObject Cutter; // Å‘å”‚ğİ’è
+    [SerializeField] private GameObject Cutter; // ï¿½Å‘å”ï¿½ï¿½İ’ï¿½
     private int currentIndex = 0;
 
-    [SerializeField] private ShowStringNum listDisplay; // •\¦ƒNƒ‰ƒX‚ğƒCƒ“ƒXƒyƒNƒ^[‚ÅƒZƒbƒg
+    [SerializeField] private ShowStringNum listDisplay; // ï¿½\ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½yï¿½Nï¿½^ï¿½[ï¿½ÅƒZï¿½bï¿½g
 
     private InputSystem_Actions inputActions;
     private float m_PauseDirection;
@@ -114,20 +114,13 @@ public class StringManager_Canvas : MonoBehaviour
 
         inputActions.Stirng.cutstring.performed += ctx =>
         {
-<<<<<<< HEAD
-            if (CutNum > 0)
-            {
-                CutString(0);
-                CutNum--;
-=======
             if (MirrorStrings.Count > 0)
             {
                 CutString(MirrorStrings.Count - 1);
             }
             else
             {
-                Debug.LogWarning("ƒJƒbƒg‚Å‚«‚éString‚ª‚ ‚è‚Ü‚¹‚ñB");
->>>>>>> origin/Work_Taniguchi2
+                Debug.LogWarning("ï¿½Jï¿½bï¿½gï¿½Å‚ï¿½ï¿½ï¿½Stringï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B");
             }
         };
         //inputActions.Stirng.test.performed += ctx =>
@@ -142,9 +135,9 @@ public class StringManager_Canvas : MonoBehaviour
     {
         m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
-        listDisplay.UpdateDisplay(StringNum);// Text•\¦‚ğXV
+        listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
         CopyStringNum = new List<int>(StringNum);
-        //StringCursol.anchoredPosition=stage.START_POS_front.ToVector2()*m_StrinngScale;ƒOƒŠƒbƒh‚Ì‰E’[‚Æ‚ê‚é‚È‚ç‚±‚ê‚Å
+        //StringCursol.anchoredPosition=stage.START_POS_front.ToVector2()*m_StrinngScale;ï¿½Oï¿½ï¿½ï¿½bï¿½hï¿½Ì‰Eï¿½[ï¿½Æ‚ï¿½ï¿½È‚ç‚±ï¿½ï¿½ï¿½
     }
 
     void OnEnable()
@@ -159,15 +152,15 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void CutString(int index)
     {
-        // À‘Ì‚ğíœ
+        // ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½íœ
         Destroy(MirrorStrings[index].gameObject);
-        Destroy(Strings[index + 1].gameObject);//FirstPoint‚ÌŠÖŒW‚Å+1‚·‚é
+        Destroy(Strings[index + 1].gameObject);//FirstPointï¿½ÌŠÖŒWï¿½ï¿½+1ï¿½ï¿½ï¿½ï¿½
         Destroy(FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);
 
         AnimStrings[index].DeleteImage(0);
         MirrorAnimStrings[index].DeleteImage(0);
-        // ƒŠƒXƒg‚©‚ç‚àíœ
+        // ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœ
         MirrorStrings.RemoveAt(index);
         Strings.RemoveAt(index);
         FrontStrings.RemoveAt(index);
@@ -301,28 +294,11 @@ public class StringManager_Canvas : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-    void AddString(Vector2 main, Vector2 front, Vector2 back, Quaternion rot)
-    {
-        RectTransform mainStr = Instantiate(StringPrefub, canvasTransform);
-        mainStr.anchoredPosition = main;
-        mainStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
-        RectTransform childstr = mainStr.GetComponentsInChildren<RectTransform>()[0];
-        mainStr.rotation = rot;
-        mainStr.GetComponent<Animator>()?.SetTrigger("Play");
-        StringAnimation_Canvas anim = mainStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        AnimStrings.Add(anim);
-        BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
-=======
        void AddString(Vector2 main, Vector2 front, Vector2 back, Quaternion rot)
        {
        RectTransform mainStr = Instantiate(StringPrefub, canvasTransform);
        mainStr.anchoredPosition = main;
-       mainStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+       mainStr.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
        RectTransform childstr = mainStr.GetComponentsInChildren<RectTransform>()[0];
        mainStr.rotation = rot;
        mainStr.GetComponent<Animator>()?.SetTrigger("Play");
@@ -330,13 +306,13 @@ public class StringManager_Canvas : MonoBehaviour
        if (anim != null)
        {
            anim.SetCanvas(canvasTransform);
-           anim.index = Strings.Count - 1;//FirstPoint‚ÌŠÖŒW‚Å-1‚·‚é
+           anim.index = Strings.Count - 1;//FirstPointï¿½ÌŠÖŒWï¿½ï¿½-1ï¿½ï¿½ï¿½ï¿½
         }
        AnimStrings.Add(anim);
        BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
        if (col != null)
        {
-           col.size *= HitBoxScale; // RectTransform‚É‡‚í‚¹‚ÄŠgk
+           col.size *= HitBoxScale; // RectTransformï¿½Éï¿½ï¿½í‚¹ï¿½ÄŠgï¿½k
        }
        Strings.Add(mainStr);
        
@@ -345,11 +321,11 @@ public class StringManager_Canvas : MonoBehaviour
        mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
        RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
        mirrorStr.anchoredPosition = mirrorPos;
-       mirrorStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+       mirrorStr.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
        mirrorStr.rotation = rot;
-       if (Mathf.Abs(rot.y) > 0.5f)//c‚Ìê‡‚Í”½“]‚³‚¹‚È‚¢
+       if (Mathf.Abs(rot.y) > 0.5f)//ï¿½cï¿½Ìê‡ï¿½Í”ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
        {
-           mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// Œ³‚Ì‰ñ“] rot ‚É‘Î‚µ‚Ä Y²‚É180“x”½“]‚ğ’Ç‰Á‚·‚é
+           mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// ï¿½ï¿½ï¿½Ì‰ï¿½] rot ï¿½É‘Î‚ï¿½ï¿½ï¿½ Yï¿½ï¿½ï¿½ï¿½180ï¿½xï¿½ï¿½ï¿½]ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
        }
        
        //mirrorStr.tag = "Nami_Mirror";
@@ -363,19 +339,15 @@ public class StringManager_Canvas : MonoBehaviour
         }
        MirrorAnimStrings.Add(anim);
         col = mirrorStr.GetComponent<BoxCollider2D>();
->>>>>>> origin/Work_Taniguchi2
         if (col != null)
         {
-            col.size *= HitBoxScale; // RectTransform‚É‡‚í‚¹‚ÄŠgk
+            col.size *= HitBoxScale; // RectTransformï¿½Éï¿½ï¿½í‚¹ï¿½ÄŠgï¿½k
         }
-<<<<<<< HEAD
-        Strings.Add(mainStr);
-=======
         MirrorStrings.Add(mirrorStr);
 
-        //–D‚¦‚È‚¢”»’è—p‚Ì…A‘O•û
+        //ï¿½Dï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ìï¿½ï¿½Aï¿½Oï¿½ï¿½
         RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
-        frontStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+        frontStr.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
         frontStr.anchoredPosition = front;
         anim = frontStr.GetComponent<StringAnimation_Canvas>();
         if (anim != null)
@@ -385,13 +357,13 @@ public class StringManager_Canvas : MonoBehaviour
         col = frontStr.GetComponent<BoxCollider2D>();
         if (col != null)
         {
-            col.size = new Vector2(0, 0); // “–‚½‚è”»’è‚ğ–³‚­‚·
+            col.size = new Vector2(0, 0); // ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ğ–³‚ï¿½ï¿½ï¿½
         }
         FrontStrings.Add(frontStr);
 
-        //–D‚¦‚È‚¢”»’è—p‚Ì…AŒã•û
+        //ï¿½Dï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ìï¿½ï¿½Aï¿½ï¿½ï¿½
         RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
-        backStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+        backStr.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
         backStr.anchoredPosition = back;
         anim = backStr.GetComponent<StringAnimation_Canvas>();
         if (anim != null)
@@ -401,21 +373,20 @@ public class StringManager_Canvas : MonoBehaviour
         col = backStr.GetComponent<BoxCollider2D>();
         if (col != null)
         {
-            col.size = new Vector2(0,0); // “–‚½‚è”»’è‚ğ–³‚­‚·
+            col.size = new Vector2(0,0); // ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ğ–³‚ï¿½ï¿½ï¿½
         }
         BackStrings.Add(backStr);
->>>>>>> origin/Work_Taniguchi2
 
         Vector3 mirrorPos = main;
         float mirrorCenterX = 0.0f;
         mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
         RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
         mirrorStr.anchoredPosition = mirrorPos;
-        mirrorStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+        mirrorStr.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
         mirrorStr.rotation = rot;
-        if (Mathf.Abs(rot.y) > 0.5f)//c‚Ìê‡‚Í”½“]‚³‚¹‚È‚¢
+        if (Mathf.Abs(rot.y) > 0.5f)//ï¿½cï¿½Ìê‡ï¿½Í”ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
         {
-            mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// Œ³‚Ì‰ñ“] rot ‚É‘Î‚µ‚Ä Y²‚É180“x”½“]‚ğ’Ç‰Á‚·‚é
+            mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// ï¿½ï¿½ï¿½Ì‰ï¿½] rot ï¿½É‘Î‚ï¿½ï¿½ï¿½ Yï¿½ï¿½ï¿½ï¿½180ï¿½xï¿½ï¿½ï¿½]ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
         }
 
         //mirrorStr.tag = "Nami_Mirror";
@@ -430,12 +401,12 @@ public class StringManager_Canvas : MonoBehaviour
         //col = mirrorStr.GetComponent<BoxCollider2D>();
         //if (col != null)
         //{
-        //    col.size *= HitBoxScale; // RectTransform‚É‡‚í‚¹‚ÄŠgk
+        //    col.size *= HitBoxScale; // RectTransformï¿½Éï¿½ï¿½í‚¹ï¿½ÄŠgï¿½k
         //}
         MirrorStrings.Add(mirrorStr);
 
         RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
-        frontStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+        frontStr.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
         frontStr.anchoredPosition = front;
         anim = frontStr.GetComponent<StringAnimation_Canvas>();
         if (anim != null)
@@ -445,12 +416,12 @@ public class StringManager_Canvas : MonoBehaviour
         //col = frontStr.GetComponent<BoxCollider2D>();
         //if (col != null)
         //{
-        //    col.size *= HitBoxScale; // RectTransform‚É‡‚í‚¹‚ÄŠgk
+        //    col.size *= HitBoxScale; // RectTransformï¿½Éï¿½ï¿½í‚¹ï¿½ÄŠgï¿½k
         //}
         FrontStrings.Add(frontStr);
 
         RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
-        backStr.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+        backStr.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
         backStr.anchoredPosition = back;
         anim = backStr.GetComponent<StringAnimation_Canvas>();
         if (anim != null)
@@ -460,10 +431,10 @@ public class StringManager_Canvas : MonoBehaviour
         //col = backStr.GetComponent<BoxCollider2D>();
         //if (col != null)
         //{
-        //    col.size *= HitBoxScale; // RectTransform‚É‡‚í‚¹‚ÄŠgk
+        //    col.size *= HitBoxScale; // RectTransformï¿½Éï¿½ï¿½í‚¹ï¿½ÄŠgï¿½k
         //}
         BackStrings.Add(backStr);
-        //“–‚½‚è”»’è
+        //ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½
         AddColliderToPrefab(mainStr);
         AddColliderToPrefab(mirrorStr);
         AddColliderToPrefab(frontStr);
@@ -471,21 +442,21 @@ public class StringManager_Canvas : MonoBehaviour
     }
 
 
-    void AddColliderToPrefab(RectTransform targetRect)//BoxCollider2D‚ğg‚¤“s‡ãŒ‹‹Ç‚â‚Á‚Ä‚é‚±‚Æ’JŒû‚Æ•Ï‚í‚ç‚ñ
+    void AddColliderToPrefab(RectTransform targetRect)//BoxCollider2Dï¿½ï¿½ï¿½gï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ãŒ‹ï¿½Ç‚ï¿½ï¿½ï¿½Ä‚é‚±ï¿½Æ’Jï¿½ï¿½ï¿½Æ•Ï‚ï¿½ï¿½ï¿½
     {
         //if (stageCollider == null) return;
 
-        // V‚µ‚¢ƒIƒuƒWƒFƒNƒg‚ğ¶¬iCollider‚¾‚¯‚Âj
+        // ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½ï¿½iColliderï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âj
         GameObject colObj = new GameObject("StringCollider", typeof(BoxCollider2D));
         colObj.transform.SetParent(targetRect, false);
 
-        // RectTransform‚É‡‚í‚¹‚ÄˆÊ’u‚ÆƒTƒCƒY‚ğ’²®
+        // RectTransformï¿½Éï¿½ï¿½í‚¹ï¿½ÄˆÊ’uï¿½ÆƒTï¿½Cï¿½Yï¿½ğ’²ï¿½
         BoxCollider2D col = colObj.GetComponent<BoxCollider2D>();
 
-        // UI‚Ì’†S‚ğŠî€‚ÉƒRƒ‰ƒCƒ_[‚ğ’u‚­
+        // UIï¿½Ì’ï¿½ï¿½Sï¿½ï¿½ï¿½î€ï¿½ÉƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½uï¿½ï¿½
         col.offset = Vector2.zero;
 
-        // ƒTƒCƒY‚ÍUI‚ÌƒTƒCƒY‚ÉƒXƒP[ƒ‹‚ğŠ|‚¯‚Ä•ÏŠ·
+        // ï¿½Tï¿½Cï¿½Yï¿½ï¿½UIï¿½ÌƒTï¿½Cï¿½Yï¿½ÉƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½Ä•ÏŠï¿½
         Vector2 size = targetRect.sizeDelta / 2;
         size.x *= targetRect.lossyScale.x / 2;
         size.y *= targetRect.lossyScale.y / 2;
@@ -519,7 +490,7 @@ public class StringManager_Canvas : MonoBehaviour
         }
 
         RectTransform tama = Instantiate(Tamadome, canvasTransform);
-        tama.sizeDelta = m_StrinngScale;//ƒTƒCƒY•ÏX
+        tama.sizeDelta = m_StrinngScale;//ï¿½Tï¿½Cï¿½Yï¿½ÏX
         tama.anchoredPosition = newPos;
 
         m_StringMode = NoString;
@@ -528,7 +499,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void SetStringSize(Vector2 size, Vector2 BoxScale)
     {
-        m_StrinngScale = size; // UIƒTƒCƒY‚É‡‚í‚¹‚Ä’PˆÊ•ÏX
+        m_StrinngScale = size; // UIï¿½Tï¿½Cï¿½Yï¿½Éï¿½ï¿½í‚¹ï¿½Ä’Pï¿½Ê•ÏX
         HitBoxScale = BoxScale;
     }
 }
