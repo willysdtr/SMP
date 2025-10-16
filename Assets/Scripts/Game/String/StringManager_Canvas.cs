@@ -326,6 +326,10 @@ public class StringManager_Canvas : MonoBehaviour
        }
        Strings.Add(mainStr);
        
+//================================================================================//
+//================================================================================//
+//================================================================================//
+/*
        Vector3 mirrorPos = main;
        float mirrorCenterX = 0.0f;
        mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
@@ -444,6 +448,8 @@ public class StringManager_Canvas : MonoBehaviour
         //    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
         //}
         BackStrings.Add(backStr);
+
+        */
         //�����蔻��
         AddColliderToPrefab(mainStr);
         AddColliderToPrefab(mirrorStr);
