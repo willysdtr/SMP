@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerCollision : MonoBehaviour
 {
@@ -11,12 +12,19 @@ public class PlayerCollision : MonoBehaviour
 
     [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 1.0f);
     [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);
+<<<<<<< HEAD
     [SerializeField] private LayerMask climbLayer;
     [SerializeField] private StringManager_Canvas StringManager;
+=======
+
+    [SerializeField] private StringManager_Canvas stringManager; // StringManager_Canvasの参照、糸を消す処理で使用
+>>>>>>> origin/Work_Taniguchi2
 
 
     private Rigidbody2D rb;
     private RectTransform rect;
+
+    private BoxCollider2D m_collider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +32,7 @@ public class PlayerCollision : MonoBehaviour
         cont = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         rect = GetComponent<RectTransform>();
+        m_collider = GetComponent<BoxCollider2D>(); // 親にあるColliderのみ取得
         // 判定サイズをRectTransformのサイズに合わせる
         checkSize = new Vector2(checkSize.x * rect.sizeDelta.x, checkSize.y * rect.sizeDelta.y);
     }
@@ -34,7 +43,7 @@ public class PlayerCollision : MonoBehaviour
         //OverlapBoxの作成、Climb処理に使用
         Vector2 center = (Vector2)transform.position + checkOffset;
 
-        Collider2D hit = Physics2D.OverlapBox(center, checkSize, 0f, climbLayer);
+        Collider2D hit = Physics2D.OverlapBox(center, checkSize, 0f, cont.climblayers);
 
         cont.ishit = hit;
     }
@@ -50,7 +59,11 @@ public class PlayerCollision : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (((1 << collision.gameObject.layer) & cont.groundlayers) != 0)//インスペクターで設定したLayerとのみ判定を取る
+        int layerID = collision.gameObject.layer; //レイヤーIDを取得
+        string layerName = LayerMask.LayerToName(layerID); // 名前に変換
+
+        if (layerName == "String" || layerName == "Gimmick")//インスペクターで設定したLayerとのみ判定を取る 
+                                                            //(((1 << collision.gameObject.layer) & cont.groundlayers) != 0) //以前のLayer判定、分かりにくいのでコメントアウト
         {
 
             if (collision.gameObject.tag == "Kaesi")//返し縫いに当たった時の処理
@@ -72,8 +85,8 @@ public class PlayerCollision : MonoBehaviour
 
 
             if (collision.gameObject.tag == "Goal")
-            {
-                cont.state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
+            { 
+                if(cont.state.currentstate == PlayerState.State.GOAL) { return; } // すでにゴールしていたら何もしない
                 cont.Goal(collision.transform.position);
             }
             else
@@ -104,8 +117,41 @@ public class PlayerCollision : MonoBehaviour
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)
                     {
 
-                        if (collision.gameObject.tag == "String" && cont.state.IS_CLIMB_NG == false)
+                        if (layerName == "String")// 糸のLayerなら
+                                                      //(((1 << collision.gameObject.layer) & cont.climblayers) != 0) //以前のLayer判定、分かりにくいのでコメントアウト
                         {
+                            if (cont.cutFg) //糸を切る状態なら、当たった糸を消す
+                            {
+                                int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
+                                stringManager.CutString(index);
+                                cont.cutFg = false;
+                                return; // 糸を消すだけで終わる
+                            }
+
+                            if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //反転処理
+                            {
+
+                                //プレイヤーの向きを変える
+                                if (contact.normal == Vector2.left)
+                                {
+                                    cont.PlayerReturn(180); //右向きに反転
+                                    return;
+
+                                }
+                                else if (contact.normal == Vector2.right)
+                                {
+                                    cont.PlayerReturn(-180); //左向きに反転
+                                    return;
+                                }
+                            }
+
+                            //if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //停止処理、反転処理追加のためコメントアウト
+                            //{
+                            //    wall_obj.Add(collision.gameObject);
+                            //    cont.state.IS_MOVE = false;
+                            //    return; // 登れないなら壁としてカウントするだけ
+                            //}
+
 
                             bool isVertical = collision.transform.rotation.z != 0;
                             if (isVertical)
@@ -118,14 +164,52 @@ public class PlayerCollision : MonoBehaviour
                                 cont.hitobj_pos = collision.transform.position;
                                 rb.linearVelocity = Vector2.zero;
                                 rb.bodyType = RigidbodyType2D.Kinematic;
+                                ground_obj.Clear();//地面判定したオブジェクトを全削除
+                                return;
                             }
                         }
-                        else
-                        {
-                            wall_obj.Add(collision.gameObject);
-                            cont.state.IS_MOVE = false;
 
+                        if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //反転処理 糸以外の壁でも反転する
+                        {
+
+                            //プレイヤーの向きを変える
+                            if (contact.normal == Vector2.left)
+                            {
+                                cont.PlayerReturn(-180);
+                                return;
+
+                            }
+                            else if (contact.normal == Vector2.right)
+                            {
+                                cont.PlayerReturn(180);
+                                return;
+                            }
                         }
+
+                        // 段差補正するかの判定
+                        Bounds myBounds = m_collider.bounds;
+                        Bounds targetBounds = collision.gameObject.GetComponent<BoxCollider2D>().bounds;
+                        float playerFootY = myBounds.min.y;
+                        float playerHeight = myBounds.size.y;
+                        float thresholdY = playerFootY + playerHeight / 4;
+                        float topY = targetBounds.max.y;
+
+                        if (topY < thresholdY) // プレイヤーの足元から体高の1/4以内の段差なら補正
+                        {
+                            float diff = topY - playerFootY;
+
+                            transform.position += new Vector3(0f, diff, 0f);
+                            cont.state.IS_GROUND = true;
+                            cont.state.IS_MOVE = true;
+                            ground_obj.Add(collision.gameObject);
+
+                            return; // 段差補正を行ったら壁としてカウントしない
+                        }
+
+                        // 壁に当たった時の処理
+                        wall_obj.Add(collision.gameObject);
+                        cont.state.IS_MOVE = false;
+
                     }
                 }
             }
@@ -150,7 +234,13 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "String")
+        // 自分のCollider以外は無視
+        if (collider != m_collider) return;
+
+        int layerID = collider.gameObject.layer; //レイヤーIDを取得
+        string layerName = LayerMask.LayerToName(layerID); // 名前に変換
+
+        if (layerName == "String")
         {
             //糸に当たった時の処理
             cont.state.IS_MOVE = false;
@@ -163,9 +253,13 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
+
+        int layerID = collider.gameObject.layer; //レイヤーIDを取得
+        string layerName = LayerMask.LayerToName(layerID); // 名前に変換
+
         if (!cont.ishit)
         {//OverlapBoxが重なってないときに実行(誤作動するため)
-            if (collider.gameObject.tag == "String")
+            if (layerName == "String")
             {//糸から離れた時の処理
                 cont.state.IS_MOVE = true;
                 cont.state.IS_CLIMB = false;
