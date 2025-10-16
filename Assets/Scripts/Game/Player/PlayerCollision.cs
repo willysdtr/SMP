@@ -100,7 +100,7 @@ public class PlayerCollision : MonoBehaviour
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)
                     {
 
-                            if (layerName == "String")// 糸のLayerなら
+                        if (layerName == "String")// 糸のLayerなら
                                                       //(((1 << collision.gameObject.layer) & cont.climblayers) != 0) //以前のLayer判定、分かりにくいのでコメントアウト
                         {
                             if (cont.cutFg) //糸を切る状態なら、当たった糸を消す
@@ -111,13 +111,30 @@ public class PlayerCollision : MonoBehaviour
                                 return; // 糸を消すだけで終わる
                             }
 
-                            if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) 
+                            if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //反転処理
                             {
-                                wall_obj.Add(collision.gameObject);
-                                cont.state.IS_MOVE = false;
-                                return; // 登れないなら壁としてカウントするだけ
+
+                                //プレイヤーの向きを変える
+                                if (contact.normal == Vector2.left)
+                                {
+                                    cont.PlayerReturn(180); //右向きに反転
+                                    return;
+
+                                }
+                                else if (contact.normal == Vector2.right)
+                                {
+                                    cont.PlayerReturn(-180); //左向きに反転
+                                    return;
+                                }
                             }
-                            
+
+                            //if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //停止処理、反転処理追加のためコメントアウト
+                            //{
+                            //    wall_obj.Add(collision.gameObject);
+                            //    cont.state.IS_MOVE = false;
+                            //    return; // 登れないなら壁としてカウントするだけ
+                            //}
+
 
                             bool isVertical = collision.transform.rotation.z != 0;
                             if (isVertical)
@@ -131,6 +148,23 @@ public class PlayerCollision : MonoBehaviour
                                 rb.linearVelocity = Vector2.zero;
                                 rb.bodyType = RigidbodyType2D.Kinematic;
                                 ground_obj.Clear();//地面判定したオブジェクトを全削除
+                                return;
+                            }
+                        }
+
+                        if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //反転処理 糸以外の壁でも反転する
+                        {
+
+                            //プレイヤーの向きを変える
+                            if (contact.normal == Vector2.left)
+                            {
+                                cont.PlayerReturn(-180);
+                                return;
+
+                            }
+                            else if (contact.normal == Vector2.right)
+                            {
+                                cont.PlayerReturn(180);
                                 return;
                             }
                         }

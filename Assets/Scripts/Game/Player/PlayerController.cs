@@ -55,6 +55,11 @@ public class PlayerController : MonoBehaviour
         if (!start || goal) { return; }//スタート中かゴール中なら、Update処理を行わない
         ChangeState();//状態変化処理
         HandleState();//状態ごとのUpdate処理
+        if (transform.position.y < -600)
+        {
+            state.currentstate = PlayerState.State.DEATH; //画面外に落ちたら死亡
+            move.AllStop();
+        }
     }
 
     public void ChangeState()
@@ -211,6 +216,8 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerReturn(float angle)
     {
+        if(angle == transform.rotation.y) { return; }//同じ向きなら何もしない
+        move.AllStop();
         state.m_direction = move.Return(angle);
         Debug.Log("Direction:" + state.m_direction);
     }
