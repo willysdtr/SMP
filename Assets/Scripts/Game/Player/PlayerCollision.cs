@@ -164,7 +164,7 @@ public class PlayerCollision : MonoBehaviour
                             }
                             else if (contact.normal == Vector2.right)
                             {
-                                cont.PlayerReturn(180);
+                                cont.PlayerReturn(0);
                                 return;
                             }
                         }

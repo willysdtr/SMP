@@ -99,13 +99,13 @@ public class StageUILoader : MonoBehaviour
         playerController = king.GetComponent<PlayerController>();
         if (playerController != null)
         {
-            playerController.PlaceAtPosition(myRect, kingPos, size, blocksize);
+            playerController.PlaceAtPosition(myRect, kingPos, size, blocksize, stage.isKING_LEFT);
         }
 
         playerController = queen.GetComponent<PlayerController>();
         if (playerController != null)
         {
-            playerController.PlaceAtPosition(myRect, queenPos, size, blocksize);
+            playerController.PlaceAtPosition(myRect, queenPos, size, blocksize, stage.isQUEEN_LEFT);
         }
 
     }
