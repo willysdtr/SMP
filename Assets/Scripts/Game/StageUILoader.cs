@@ -1,5 +1,6 @@
 using StageInfo;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,6 +60,15 @@ public class StageUILoader : MonoBehaviour
             case StageID.Stage1_2:
                 stage = Stage1.Stage1_2;
                 break;
+            case StageID.Stage1_3:
+                stage = Stage1.Stage1_3;
+                break;
+            case StageID.Stage1_4:
+                stage = Stage1.Stage1_4;
+                break;
+            case StageID.Stage1_5:
+                stage = Stage1.Stage1_5;
+                break;
 
             case StageID.Stage2_1:
                 stage = Stage2.Stage2_1;
@@ -76,6 +86,10 @@ public class StageUILoader : MonoBehaviour
 
             case StageID.Stage1_1_Test://テスト用ステージ
                 stage = Stage1_Test.Stage1_1_Test;
+                break;
+
+            case StageID.Stage_2_Test://テスト用ステージ
+                stage = Stage1_Test.Stage2_Test;
                 break;
         }
         GenerateStageGridObjects();
@@ -107,7 +121,6 @@ public class StageUILoader : MonoBehaviour
         {
             playerController.PlaceAtPosition(myRect, queenPos, size, blocksize);
         }
-
     }
 
     private void GenerateStageGridObjects()
