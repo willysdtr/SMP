@@ -1,6 +1,7 @@
 using StageInfo;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     private const bool NoString = false;
     private const bool isString = true;
-
+    [SerializeField] private StageUILoader StageLoader;
     [SerializeField] private RectTransform StringPrefub; // UI用にRectTransformへ変更
     [SerializeField] private RectTransform Tamadome;//  どーやって玉止めすんねん
     [SerializeField] private RectTransform StringCursol;
@@ -34,7 +35,7 @@ public class StringManager_Canvas : MonoBehaviour
     private List<RectTransform> BackStrings = new List<RectTransform>();
     private List<StringAnimation_Canvas> AnimStrings = new List<StringAnimation_Canvas>();
     private List<StringAnimation_Canvas> MirrorAnimStrings = new List<StringAnimation_Canvas>();
-    [SerializeField] List<int> StringNum;
+    private List<int> StringNum;
     [SerializeField] List<int> CopyStringNum;
     [SerializeField] private GameObject Cutter; // 最大数を設定
     private int currentIndex = 0;
@@ -48,7 +49,6 @@ public class StringManager_Canvas : MonoBehaviour
 
     private int StageWidth = 0;
     private int StageHeight = 0;
-    private StageData stage;
     public int CutNum = 0;
 
     //[SerializeField] public  BoxCollider2D stageCollider;
@@ -58,7 +58,7 @@ public class StringManager_Canvas : MonoBehaviour
 
 
     void Awake()
-    {
+    {   
         inputActions = new InputSystem_Actions();
 
         inputActions.Stirng.nami.performed += ctx =>
@@ -118,6 +118,7 @@ public class StringManager_Canvas : MonoBehaviour
             {
                 CutString(0);
                 CutNum--;
+                DeleteCutter();
             }
         };
         //inputActions.Stirng.test.performed += ctx =>
@@ -132,10 +133,15 @@ public class StringManager_Canvas : MonoBehaviour
     {
         m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
+        //Debug.Log(StageUILoader.stage.STAGE_WIDTH);
+        //Debug.Log(StageUILoader.stage.STRING_COUNT);
+        StringNum = new List<int>(StageUILoader.stage.STRING_COUNT);///基地外
+        //Debug.Log(StringNum);
         listDisplay.UpdateDisplay(StringNum);// Text表示を更新
         CopyStringNum = new List<int>(StringNum);
         //StringCursol.anchoredPosition=stage.START_POS_front.ToVector2()*m_StrinngScale;グリッドの右端とれるならこれで
     }
+
 
     void OnEnable()
     {
@@ -177,7 +183,7 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_X / 2;
         Vector2 backPos = newPos - m_Offset_X / 2;
 
-        if (CheckString(newPos, frontPos, backPos) && StageWidth < StageUICanvasLoader2.stage.STAGE_WIDTH)
+        if (CheckString(newPos, frontPos, backPos) && StageWidth < StageUILoader.stage.STAGE_WIDTH)
         {
 
             AddString(newPos, frontPos, backPos, Quaternion.identity);
@@ -188,6 +194,10 @@ public class StringManager_Canvas : MonoBehaviour
     public void ShowCutter()
     {
         Cutter.SetActive(true);
+    }
+    public void DeleteCutter()
+    {
+        Cutter.SetActive(false);
     }
     void OnLeftInput()
     {
@@ -244,8 +254,9 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_Y / 2;
         Vector2 backPos = newPos - m_Offset_Y / 2;
 
-        if (CheckString(newPos, frontPos, backPos) && StageHeight < StageUICanvasLoader2.stage.STAGE_HEIGHT)
+        if (CheckString(newPos, frontPos, backPos) && StageHeight < StageUILoader.stage.STAGE_HEIGHT)
         {
+            Debug.Log(StageUILoader.stage.STAGE_HEIGHT);
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 270));
             m_LastDirection = DOWN;
             StageHeight++;
