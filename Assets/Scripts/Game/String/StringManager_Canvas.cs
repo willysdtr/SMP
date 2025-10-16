@@ -1,6 +1,7 @@
 using StageInfo;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -16,9 +17,15 @@ public class StringManager_Canvas : MonoBehaviour
 
     private const bool NoString = false;
     private const bool isString = true;
+<<<<<<< HEAD
 
     [SerializeField] private RectTransform StringPrefub; // UIï¿½pï¿½ï¿½RectTransformï¿½Ö•ÏX
     [SerializeField] private RectTransform Tamadome;//  ï¿½Ç[ï¿½ï¿½ï¿½ï¿½Ä‹ÊŽ~ï¿½ß‚ï¿½ï¿½ï¿½Ë‚ï¿½
+=======
+    [SerializeField] private StageUILoader StageLoader;
+    [SerializeField] private RectTransform StringPrefub; // UI—p‚ÉRectTransform‚Ö•ÏX
+    [SerializeField] private RectTransform Tamadome;//  ‚Ç[‚â‚Á‚Ä‹ÊŽ~‚ß‚·‚ñ‚Ë‚ñ
+>>>>>>> origin/Work_Sakaue7
     [SerializeField] private RectTransform StringCursol;
     [SerializeField] private RectTransform canvasTransform; // Canvasï¿½ï¿½RectTransform
 
@@ -34,7 +41,7 @@ public class StringManager_Canvas : MonoBehaviour
     private List<RectTransform> BackStrings = new List<RectTransform>();
     private List<StringAnimation_Canvas> AnimStrings = new List<StringAnimation_Canvas>();
     private List<StringAnimation_Canvas> MirrorAnimStrings = new List<StringAnimation_Canvas>();
-    [SerializeField] List<int> StringNum;
+    private List<int> StringNum;
     [SerializeField] List<int> CopyStringNum;
     [SerializeField] private GameObject Cutter; // ï¿½Å‘å”ï¿½ï¿½Ý’ï¿½
     private int currentIndex = 0;
@@ -48,7 +55,6 @@ public class StringManager_Canvas : MonoBehaviour
 
     private int StageWidth = 0;
     private int StageHeight = 0;
-    private StageData stage;
     public int CutNum = 0;
 
     //[SerializeField] public  BoxCollider2D stageCollider;
@@ -58,7 +64,7 @@ public class StringManager_Canvas : MonoBehaviour
 
 
     void Awake()
-    {
+    {   
         inputActions = new InputSystem_Actions();
 
         inputActions.Stirng.nami.performed += ctx =>
@@ -116,11 +122,17 @@ public class StringManager_Canvas : MonoBehaviour
         {
             if (MirrorStrings.Count > 0)
             {
+<<<<<<< HEAD
                 CutString(MirrorStrings.Count - 1);
             }
             else
             {
                 Debug.LogWarning("ï¿½Jï¿½bï¿½gï¿½Å‚ï¿½ï¿½ï¿½Stringï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B");
+=======
+                CutString(0);
+                CutNum--;
+                DeleteCutter();
+>>>>>>> origin/Work_Sakaue7
             }
         };
         //inputActions.Stirng.test.performed += ctx =>
@@ -135,10 +147,19 @@ public class StringManager_Canvas : MonoBehaviour
     {
         m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
+<<<<<<< HEAD
         listDisplay.UpdateDisplay(StringNum);// Textï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
+=======
+        //Debug.Log(StageUILoader.stage.STAGE_WIDTH);
+        //Debug.Log(StageUILoader.stage.STRING_COUNT);
+        StringNum = new List<int>(StageUILoader.stage.STRING_COUNT);///Šî’nŠO
+        //Debug.Log(StringNum);
+        listDisplay.UpdateDisplay(StringNum);// Text•\Ž¦‚ðXV
+>>>>>>> origin/Work_Sakaue7
         CopyStringNum = new List<int>(StringNum);
         //StringCursol.anchoredPosition=stage.START_POS_front.ToVector2()*m_StrinngScale;ï¿½Oï¿½ï¿½ï¿½bï¿½hï¿½Ì‰Eï¿½[ï¿½Æ‚ï¿½ï¿½È‚ç‚±ï¿½ï¿½ï¿½
     }
+
 
     void OnEnable()
     {
@@ -180,7 +201,7 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_X / 2;
         Vector2 backPos = newPos - m_Offset_X / 2;
 
-        if (CheckString(newPos, frontPos, backPos) && StageWidth < StageUICanvasLoader2.stage.STAGE_WIDTH)
+        if (CheckString(newPos, frontPos, backPos) && StageWidth < StageUILoader.stage.STAGE_WIDTH)
         {
 
             AddString(newPos, frontPos, backPos, Quaternion.identity);
@@ -191,6 +212,10 @@ public class StringManager_Canvas : MonoBehaviour
     public void ShowCutter()
     {
         Cutter.SetActive(true);
+    }
+    public void DeleteCutter()
+    {
+        Cutter.SetActive(false);
     }
     void OnLeftInput()
     {
@@ -247,8 +272,9 @@ public class StringManager_Canvas : MonoBehaviour
         Vector2 frontPos = newPos + m_Offset_Y / 2;
         Vector2 backPos = newPos - m_Offset_Y / 2;
 
-        if (CheckString(newPos, frontPos, backPos) && StageHeight < StageUICanvasLoader2.stage.STAGE_HEIGHT)
+        if (CheckString(newPos, frontPos, backPos) && StageHeight < StageUILoader.stage.STAGE_HEIGHT)
         {
+            Debug.Log(StageUILoader.stage.STAGE_HEIGHT);
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 270));
             m_LastDirection = DOWN;
             StageHeight++;

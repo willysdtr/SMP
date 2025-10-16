@@ -79,7 +79,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
                 break;
         }
         GenerateStageGridObjects();
-        Debug.Log($"[StageUICanvasLoader2] Loaded stage After: {stageGrid.Count}");
+        //Debug.Log($"[StageUICanvasLoader2] Loaded stage After: {stageGrid.Count}");
         if (stageGrid == null || stageGrid.Count == 0)
         {
             Debug.LogWarning("ステージグリッドが空");
@@ -240,7 +240,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
         // ステージオブジェクト作成（仮に色づき四角出す）
         for (int y = 0; y < gridRows; y++)
         {
-            Debug.Log($"Row {y} / {gridRows}");
+            //Debug.Log($"Row {y} / {gridRows}");
             for (int x = 0; x < gridCols; x++)
             {
                 int tileId = stageGrid[y][colStart + x];
@@ -285,7 +285,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
 
         // ===== レイアウト確定 =====
         LayoutRebuilder.ForceRebuildLayoutImmediate(panel);
-        Debug.Log($"[After LayoutRebuilder] panel.localPos={panel.localPosition}, anchoredPos={panel.anchoredPosition}, rect={panel.rect}");
+        //Debug.Log($"[After LayoutRebuilder] panel.localPos={panel.localPosition}, anchoredPos={panel.anchoredPosition}, rect={panel.rect}");
 
         // ===== id==1 のタイル座標を取得 =====
         for (int y = 0; y < gridRows; y++)
@@ -307,7 +307,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
                 else
                     queenPos = tilePosInCanvas;
 
-                Debug.Log($"[TileID=1] name={tileName}, anchoredPos={tileRect.anchoredPosition}, worldPos={tileRect.position}, king/queenPos={tilePosInCanvas}");
+                //Debug.Log($"[TileID=1] name={tileName}, anchoredPos={tileRect.anchoredPosition}, worldPos={tileRect.position}, king/queenPos={tilePosInCanvas}");
             }
         }
 
@@ -345,7 +345,7 @@ public class StageUICanvasLoader2 : MonoBehaviour
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, cam, out localPoint);
 
-        Debug.Log($"    [GetTilePositionInCanvasLocal] tileWorldPos={tileWorldPos}, screenPoint={screenPoint}, localPoint={localPoint}, cam={cam?.name}");
+        //Debug.Log($"    [GetTilePositionInCanvasLocal] tileWorldPos={tileWorldPos}, screenPoint={screenPoint}, localPoint={localPoint}, cam={cam?.name}");
 
         return localPoint;
     }
