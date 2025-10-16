@@ -69,8 +69,8 @@ public class PlayerCollision : MonoBehaviour
 
             if (collision.gameObject.tag == "Cutter")
             {
-                StringManager.CutNum += 1;//�J�b�g���𑝂₷
-                StringManager.ShowCutter();
+                stringManager.CutNum += 1;//�J�b�g���𑝂₷
+                stringManager.ShowCutter();
                 collision.gameObject.SetActive(false);//�J�b�^�[������
             }
             if (collision.gameObject.tag == "PinCuttion")

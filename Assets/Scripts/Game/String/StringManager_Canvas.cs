@@ -451,10 +451,10 @@ public class StringManager_Canvas : MonoBehaviour
 
         */
         //�����蔻��
-        AddColliderToPrefab(mainStr);
-        AddColliderToPrefab(mirrorStr);
-        AddColliderToPrefab(frontStr);
-        AddColliderToPrefab(backStr);
+        //AddColliderToPrefab(mainStr);
+        //AddColliderToPrefab(mirrorStr);
+        //AddColliderToPrefab(frontStr);
+        //AddColliderToPrefab(backStr);
     }
 
 
