@@ -11,9 +11,6 @@ public class PlayerMove : MonoBehaviour
 
     private float currentspeed = 0f;
 
-    private Vector2 velocity;
-    private float gravity = -9.81f;
-
     public int jumpHeight = 2;  // ジャンプの高さ(ブロック単位)
     public float duration = 2f;   // ジャンプにかかる時間
 
@@ -116,7 +113,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        currentspeed = (PlayerState.MAX_SPEED * Time.deltaTime) / 10;
+        currentspeed = PlayerState.MAX_SPEED / 4;
         rb.linearVelocity = new Vector2(direction * currentspeed, 0);
         return false;
     }

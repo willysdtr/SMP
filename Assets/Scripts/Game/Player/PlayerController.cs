@@ -11,8 +11,6 @@ public class PlayerController : MonoBehaviour
     public PlayerState state { get; private set; }  // 外部から読み取り可
     private Animator anim = null;
 
-    [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 1.0f);
-    [SerializeField] private LayerMask climbLayer;
     public Vector2 hitobj_pos = Vector2.zero;
     private Vector2 start_pos = Vector2.zero;
     private Vector2 goal_pos = Vector2.zero;
@@ -21,7 +19,8 @@ public class PlayerController : MonoBehaviour
     private float blocksize = 50;
     private float fallstart_y;//落下開始位置
 
-    [SerializeField] public LayerMask groundlayers;
+    public LayerMask groundlayers; //地面、壁判定を行うレイヤー
+    public LayerMask climblayers; //登り判定を行うレイヤー
 
     private RectTransform rect;
     public bool start = false;
@@ -44,12 +43,15 @@ public class PlayerController : MonoBehaviour
         anim.speed = 0;
         inputActions = new InputSystem_Actions();
         state.m_direction = (int)PlayerState.Direction.RIGHT;
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 自身を最前面に表示
+        transform.SetAsLastSibling(); //毎フレームは効率悪そうなので、そのうち変える
+
         if (!start || goal) { return; }//スタート中かゴール中なら、Update処理を行わない
         ChangeState();//状態変化処理
         HandleState();//状態ごとのUpdate処理
@@ -63,15 +65,10 @@ public class PlayerController : MonoBehaviour
         //停止状態からの状態変化処理
         if (state.IS_CLIMB)//CLIMB状態への移行
         {
-            if (state.IS_CLIMB_NG || state.IS_CEILING_HIT)  //登れないなら、CLIMB状態に移行せず、移動不可にする
-            {
-                state.IS_MOVE = false;
-            }
-            else // 登れるなら、CLIMB状態に移行する
-            {
-                state.currentstate = PlayerState.State.CLIMB;
-                transform.position = new Vector2(hitobj_pos.x, transform.position.y);
-            }
+            // 登れるなら、CLIMB状態に移行する
+            state.currentstate = PlayerState.State.CLIMB;
+            transform.position = new Vector2(hitobj_pos.x, transform.position.y);
+            
         }
         else
         {
@@ -107,7 +104,7 @@ public class PlayerController : MonoBehaviour
             case PlayerState.State.WALK: anim.speed = 1; move.Move(state.m_direction); PlaySE(0, false); break;
             case PlayerState.State.JUMP: anim.speed = 0; state.IS_JUMP = !move.Jump(); break;
             case PlayerState.State.FALL: anim.speed = 0; break;
-            case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); Debug.Log("Climb"); PlaySE(1, false); break;
+            case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); PlaySE(1, false); break;
             case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
             case PlayerState.State.DEATH: anim.speed = 1; break;
         }
@@ -204,10 +201,12 @@ public class PlayerController : MonoBehaviour
         state.IS_GIMJUMP = false;
     }
 
-    public void Goal(Vector2 pos)
+    public void Goal(Vector2 pos) //ゴール処理
     {
+        if (fallstart_y - transform.position.y >= blocksize * 2.9 && !state.IS_JUMP) { state.currentstate = PlayerState.State.DEATH; return; } //落下死するかどうか
         state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
         goal_pos = pos;//ゴール位置をセット
+        transform.position = new Vector2(transform.position.x, pos.y);//高さを補正
     }
 
     public void PlayerReturn(float angle)
