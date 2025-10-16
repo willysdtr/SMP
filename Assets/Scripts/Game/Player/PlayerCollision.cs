@@ -92,6 +92,7 @@ public class PlayerCollision : MonoBehaviour
                         {
                             cont.state.IS_GROUND = true;
                             cont.state.IS_MOVE = true;
+                            cont.state.IS_JUMP = false;
                             ground_obj.Add(collision.gameObject);
                         }
 
@@ -184,6 +185,7 @@ public class PlayerCollision : MonoBehaviour
                             transform.position += new Vector3(0f, diff, 0f);
                             cont.state.IS_GROUND = true;
                             cont.state.IS_MOVE = true;
+                            cont.state.IS_JUMP = false;
                             ground_obj.Add(collision.gameObject);
 
                             return; // 段差補正を行ったら壁としてカウントしない
