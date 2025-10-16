@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5003121743772350543}
   - component: {fileID: 5527529875422923151}
   - component: {fileID: 390234914462053236}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CeilingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5189404576895512662}
   - component: {fileID: 6134579947182539657}
   - component: {fileID: 5574510143322623117}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ClimbCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 1963234149097902425}
   - component: {fileID: 845995832722231838}
   - component: {fileID: 8167696770034784198}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Queen(UIImage)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -388,14 +388,14 @@ MonoBehaviour:
     m_Bits: 72
   climblayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   start: 0
   goal: 0
   sound:
   - {fileID: 8300000, guid: b329ac09b84add447be529f8786926f3, type: 3}
   - {fileID: 8300000, guid: fd2e0c3034f558d449d121a1bb14a64a, type: 3}
   - {fileID: 8300000, guid: ae4f4e535ce2aad45b1b2f06e9bd7d96, type: 3}
-  cutFg: 1
+  cutFg: 0
 --- !u!114 &1963234149097902425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentspeed: 0
-  jumpHeight: 2
+  jumpHeight: 3
   duration: 2
 --- !u!114 &845995832722231838
 MonoBehaviour:

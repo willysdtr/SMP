@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1695052006304602561}
   - component: {fileID: 4960457875246944866}
   - component: {fileID: 5658015504170700895}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CeilingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4333687371144195050}
   - component: {fileID: 4204713197702489608}
   - component: {fileID: 8924235966118471399}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: King(UIImage)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentspeed: 0
-  jumpHeight: 2
+  jumpHeight: 4
   duration: 2
 --- !u!114 &4204713197702489608
 MonoBehaviour:
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 6082105433143642207}
   - component: {fileID: 3276969564345314264}
   - component: {fileID: 993236178680355868}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ClimbCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
