@@ -158,20 +158,21 @@ public class StringManager_Canvas : MonoBehaviour
     public void CutString(int index)
     {
         // ���̂��폜
-        Destroy(MirrorStrings[index].gameObject);
+        //AddStringがコメントアウトされていてStringsとAnimStrings以外がエラーになるため、該当箇所をコメントアウト
+        //Destroy(MirrorStrings[index].gameObject);
         Destroy(Strings[index + 1].gameObject);//FirstPoint�̊֌W��+1����
-        Destroy(FrontStrings[index].gameObject);
-        Destroy(BackStrings[index].gameObject);
+        //Destroy(FrontStrings[index].gameObject);
+        //Destroy(BackStrings[index].gameObject);
 
         AnimStrings[index].DeleteImage(0);
-        MirrorAnimStrings[index].DeleteImage(0);
+        //MirrorAnimStrings[index].DeleteImage(0);
         // ���X�g������폜
-        MirrorStrings.RemoveAt(index);
+        //MirrorStrings.RemoveAt(index);
         Strings.RemoveAt(index);
-        FrontStrings.RemoveAt(index);
-        BackStrings.RemoveAt(index);
+        //FrontStrings.RemoveAt(index);
+        //BackStrings.RemoveAt(index);
         AnimStrings.RemoveAt(index);
-        MirrorAnimStrings.RemoveAt(index);
+        //MirrorAnimStrings.RemoveAt(index);
     }
     void OnRightInput()
     {
@@ -325,131 +326,131 @@ public class StringManager_Canvas : MonoBehaviour
            col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
        }
        Strings.Add(mainStr);
-       
-//================================================================================//
-//================================================================================//
-//================================================================================//
-/*
-       Vector3 mirrorPos = main;
-       float mirrorCenterX = 0.0f;
-       mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
-       RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
-       mirrorStr.anchoredPosition = mirrorPos;
-       mirrorStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-       mirrorStr.rotation = rot;
-       if (Mathf.Abs(rot.y) > 0.5f)//�c�̏ꍇ�͔��]�����Ȃ�
-       {
-           mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// ���̉�] rot �ɑ΂��� Y����180�x���]��ǉ�����
-       }
-       
-       //mirrorStr.tag = "Nami_Mirror";
-       Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
-       mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
-       anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-           anim.index = MirrorStrings.Count;
-        }
-       MirrorAnimStrings.Add(anim);
-        col = mirrorStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
-        }
-        MirrorStrings.Add(mirrorStr);
 
-        //�D���Ȃ�����p�̎��A�O��
-        RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
-        frontStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        frontStr.anchoredPosition = front;
-        anim = frontStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        col = frontStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size = new Vector2(0, 0); // �����蔻��𖳂���
-        }
-        FrontStrings.Add(frontStr);
+        //================================================================================//
+        //================================================================================//
+        //================================================================================//
+        /*
+               Vector3 mirrorPos = main;
+               float mirrorCenterX = 0.0f;
+               mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
+               RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
+               mirrorStr.anchoredPosition = mirrorPos;
+               mirrorStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
+               mirrorStr.rotation = rot;
+               if (Mathf.Abs(rot.y) > 0.5f)//�c�̏ꍇ�͔��]�����Ȃ�
+               {
+                   mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// ���̉�] rot �ɑ΂��� Y����180�x���]��ǉ�����
+               }
 
-        //�D���Ȃ�����p�̎��A���
-        RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
-        backStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        backStr.anchoredPosition = back;
-        anim = backStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        col = backStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size = new Vector2(0,0); // �����蔻��𖳂���
-        }
-        BackStrings.Add(backStr);
+               mirrorStr.tag = "Nami_Mirror";
+               Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
+               mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
+               anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
+               if (anim != null)
+               {
+                   anim.SetCanvas(canvasTransform);
+                   anim.index = MirrorStrings.Count;
+                }
+               MirrorAnimStrings.Add(anim);
+                col = mirrorStr.GetComponent<BoxCollider2D>();
+                if (col != null)
+                {
+                    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
+                }
+                MirrorStrings.Add(mirrorStr);
 
-        Vector3 mirrorPos = main;
-        float mirrorCenterX = 0.0f;
-        mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
-        RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
-        mirrorStr.anchoredPosition = mirrorPos;
-        mirrorStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        mirrorStr.rotation = rot;
-        if (Mathf.Abs(rot.y) > 0.5f)//�c�̏ꍇ�͔��]�����Ȃ�
-        {
-            mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// ���̉�] rot �ɑ΂��� Y����180�x���]��ǉ�����
-        }
+                //�D���Ȃ�����p�̎��A�O��
+                RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
+                frontStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
+                frontStr.anchoredPosition = front;
+                anim = frontStr.GetComponent<StringAnimation_Canvas>();
+                if (anim != null)
+                {
+                    anim.SetCanvas(canvasTransform);
+                }
+                col = frontStr.GetComponent<BoxCollider2D>();
+                if (col != null)
+                {
+                    col.size = new Vector2(0, 0); // �����蔻��𖳂���
+                }
+                FrontStrings.Add(frontStr);
 
-        //mirrorStr.tag = "Nami_Mirror";
-        Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
-        mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
-        anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        MirrorAnimStrings.Add(anim);
-        //col = mirrorStr.GetComponent<BoxCollider2D>();
-        //if (col != null)
-        //{
-        //    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
-        //}
-        MirrorStrings.Add(mirrorStr);
+                //�D���Ȃ�����p�̎��A���
+                RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
+                backStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
+                backStr.anchoredPosition = back;
+                anim = backStr.GetComponent<StringAnimation_Canvas>();
+                if (anim != null)
+                {
+                    anim.SetCanvas(canvasTransform);
+                }
+                col = backStr.GetComponent<BoxCollider2D>();
+                if (col != null)
+                {
+                    col.size = new Vector2(0,0); // �����蔻��𖳂���
+                }
+                BackStrings.Add(backStr);
 
-        RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
-        frontStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        frontStr.anchoredPosition = front;
-        anim = frontStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        //col = frontStr.GetComponent<BoxCollider2D>();
-        //if (col != null)
-        //{
-        //    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
-        //}
-        FrontStrings.Add(frontStr);
+                Vector3 mirrorPos = main;
+                float mirrorCenterX = 0.0f;
+                mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
+                RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
+                mirrorStr.anchoredPosition = mirrorPos;
+                mirrorStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
+                mirrorStr.rotation = rot;
+                if (Mathf.Abs(rot.y) > 0.5f)//�c�̏ꍇ�͔��]�����Ȃ�
+                {
+                    mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// ���̉�] rot �ɑ΂��� Y����180�x���]��ǉ�����
+                }
 
-        RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
-        backStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        backStr.anchoredPosition = back;
-        anim = backStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        //col = backStr.GetComponent<BoxCollider2D>();
-        //if (col != null)
-        //{
-        //    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
-        //}
-        BackStrings.Add(backStr);
+                //mirrorStr.tag = "Nami_Mirror";
+                Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
+                mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
+                anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
+                if (anim != null)
+                {
+                    anim.SetCanvas(canvasTransform);
+                }
+                MirrorAnimStrings.Add(anim);
+                //col = mirrorStr.GetComponent<BoxCollider2D>();
+                //if (col != null)
+                //{
+                //    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
+                //}
+                MirrorStrings.Add(mirrorStr);
 
-        */
+                RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
+                frontStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
+                frontStr.anchoredPosition = front;
+                anim = frontStr.GetComponent<StringAnimation_Canvas>();
+                if (anim != null)
+                {
+                    anim.SetCanvas(canvasTransform);
+                }
+                //col = frontStr.GetComponent<BoxCollider2D>();
+                //if (col != null)
+                //{
+                //    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
+                //}
+                FrontStrings.Add(frontStr);
+
+                RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
+                backStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
+                backStr.anchoredPosition = back;
+                anim = backStr.GetComponent<StringAnimation_Canvas>();
+                if (anim != null)
+                {
+                    anim.SetCanvas(canvasTransform);
+                }
+                //col = backStr.GetComponent<BoxCollider2D>();
+                //if (col != null)
+                //{
+                //    col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
+                //}
+                BackStrings.Add(backStr);
+
+                */
         //�����蔻��
         //AddColliderToPrefab(mainStr);
         //AddColliderToPrefab(mirrorStr);

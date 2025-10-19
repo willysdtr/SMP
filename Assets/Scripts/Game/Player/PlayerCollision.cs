@@ -72,10 +72,13 @@ public class PlayerCollision : MonoBehaviour
                 stringManager.CutNum += 1;//�J�b�g���𑝂₷
                 stringManager.ShowCutter();
                 collision.gameObject.SetActive(false);//�J�b�^�[������
+                cont.cutCt++;//糸を切れる回数を増やす
+                return; //以降の処理を行わない(壁判定に引っかかるため)
             }
             if (collision.gameObject.tag == "PinCuttion")
             {
-                cont.state.currentstate = PlayerState.State.DEATH;// ���S��ԂɕύX
+                cont.state.IS_DOWN = true;//死亡フラグON
+                return; //以降の処理を行わない
             }
 
 
@@ -116,12 +119,12 @@ public class PlayerCollision : MonoBehaviour
                         if (layerName == "String")// ����Layer�Ȃ�
                                                       //(((1 << collision.gameObject.layer) & cont.climblayers) != 0) //�ȑO��Layer����A������ɂ����̂ŃR�����g�A�E�g
                         {
-                            if (cont.cutFg) //����؂��ԂȂ�A����������������
-                            {
+                            if (cont.cutCt > 0) //糸を切れる回数があるなら
+                            { //糸を切る処理
                                 int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
                                 stringManager.CutString(index);
-                                cont.cutFg = false;
-                                return; // �������������ŏI���
+                                cont.cutCt--;
+                                return; // 糸を切るだけで他の処理はしない
                             }
 
                             if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //���]����
