@@ -176,6 +176,10 @@ public class StageUILoader : MonoBehaviour
         // シーソー
         SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_front, false, offset);
         SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_back, true, offset);
+
+        // バネ配置
+        SetObjFromInt2(stageGrid, 12, stage.SPRING_front, false, offset);
+        SetObjFromInt2(stageGrid, 12, stage.SPRING_back, true, offset); 
     }
 
     private void SetObjFromInt2(List<List<int>> grid, int id, IReadOnlyList<StageInfo.Int2> positions, bool isBack, int offset)
@@ -284,8 +288,16 @@ public class StageUILoader : MonoBehaviour
                 if (fill != null && fill.TryGetComponent<Image>(out var fillImage))
                 {
                     fillImage.color = Color.white;
-                    fillImage.sprite = tileData.sprite;
+
+                    if (fillImage.sprite == null && tileData.sprite != null)
+                    {
+                        fillImage.sprite = tileData.sprite;
+                    }
+
+
                     if (tile.tag == "Empty") fillImage.color = Color.clear;
+                    if (tile.tag == "SeesawF") fill.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
+
                     else if (tile.tag == "Void")
                     {
                         Image tileImage = tile.GetComponent<Image>();

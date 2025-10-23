@@ -50,6 +50,14 @@ public static class Stage2
         },
         new SeeSaw[]                // 裏
         {
+        },
+
+        /*========== バネ の位置 ==========*/
+        new Int2[]                // 裏
+        {
+        },
+        new Int2[]                // 裏
+        {
         }
     );
 
@@ -101,6 +109,14 @@ public static class Stage2
         {
         },
         new SeeSaw[]                // 裏
+        {
+        },
+
+        /*========== バネ の位置 ==========*/
+        new Int2[]                // 裏
+        {
+        },
+        new Int2[]                // 裏
         {
         }
     );

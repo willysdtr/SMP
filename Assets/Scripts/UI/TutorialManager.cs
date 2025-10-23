@@ -10,7 +10,7 @@ public class TutorialManager : MonoBehaviour
     [Header("UI ƒŒƒtƒ@ƒŒƒ“ƒX")]
     public GameObject tutorialPanel;
     public Image tutorialImage;
-    public StageUICanvasLoader loader;
+    public StageUILoader loader;
 
     [Header("Stage Tutorial Images")]
     public List<StageTutorialSet> stageTutorialSets;
