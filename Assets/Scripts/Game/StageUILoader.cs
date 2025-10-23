@@ -275,10 +275,7 @@ public class StageUILoader : MonoBehaviour
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
                     setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
                     collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
-                    if (tileId == 1 || tileId == 2)
-                    {
-                        collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//Startの場合はoffset変更も行う
-                    }
+                    collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
                 }
 
                 tile.name = $"Tile_{x}_{y}";
