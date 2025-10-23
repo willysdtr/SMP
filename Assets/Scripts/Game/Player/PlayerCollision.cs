@@ -55,11 +55,12 @@ public class PlayerCollision : MonoBehaviour
     {
 
         int layerID = collision.gameObject.layer; //���C���[ID���擾
-        string layerName = LayerMask.LayerToName(layerID); // ���O�ɕϊ�
+        string layerName = LayerMask.LayerToName(layerID); // ���O�ɕϊ
 
         if (layerName == "String" || layerName == "Gimmick")//�C���X�y�N�^�[�Őݒ肵��Layer�Ƃ̂ݔ������� 
                                                             //(((1 << collision.gameObject.layer) & cont.groundlayers) != 0) //�ȑO��Layer����A������ɂ����̂ŃR�����g�A�E�g
         {
+            if(collision.gameObject.tag == "SeeSaw") { return; } // シーソーなら以降の処理を行わない(テスト)
 
             if (collision.gameObject.tag == "Kaesi")//�Ԃ��D���ɓ����������̏���
             {
