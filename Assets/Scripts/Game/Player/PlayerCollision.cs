@@ -21,6 +21,10 @@ public class PlayerCollision : MonoBehaviour
 
     private BoxCollider2D m_collider;
 
+    private bool wallhit = false;//壁に当たっているかの判定(ジャンプ中の跳ね返り処理に使用)
+
+    private float setdiff = 0.0f;//補正した値を保存
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +45,9 @@ public class PlayerCollision : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(center, checkSize, 0f, cont.climblayers);
 
         cont.ishit = hit;
+
+        wallhit = false;
+        setdiff = 0.0f;
     }
 
     private void OnDrawGizmos()
@@ -70,7 +77,6 @@ public class PlayerCollision : MonoBehaviour
             if (collision.gameObject.tag == "Cutter")
             {
                 stringManager.CutNum += 1;//�J�b�g���𑝂₷
-                stringManager.ShowCutter();
                 collision.gameObject.SetActive(false);//�J�b�^�[������
                 cont.cutCt++;//糸を切れる回数を増やす
                 return; //以降の処理を行わない(壁判定に引っかかるため)
@@ -98,6 +104,10 @@ public class PlayerCollision : MonoBehaviour
                         if (collision.gameObject.tag == "Spring")//�΂˂ɓ����������̏���
                         {
                             transform.position = new Vector2(collision.transform.position.x, transform.position.y);
+                            if (cont.state.IS_JUMP)
+                            {
+                                cont.state.currentstate = PlayerState.State.STOP;
+                            }
                             cont.state.IS_JUMP = true;
                             cont.state.IS_MOVE = false;
                             cont.state.IS_GROUND = false;
@@ -115,11 +125,12 @@ public class PlayerCollision : MonoBehaviour
                     // �������ɐڐG�����ꍇ�̂݃J�E���g
                     if (contact.normal == Vector2.left || contact.normal == Vector2.right)
                     {
-
-                        if (layerName == "String")// ����Layer�Ȃ�
+                        if (layerName == "String" && !cont.state.IS_JUMP)// ����Layer�Ȃ�
                                                       //(((1 << collision.gameObject.layer) & cont.climblayers) != 0) //�ȑO��Layer����A������ɂ����̂ŃR�����g�A�E�g
                         {
-                            if (cont.cutCt > 0) //糸を切れる回数があるなら
+
+
+                                if (cont.cutCt > 0) //糸を切れる回数があるなら
                             { //糸を切る処理
                                 int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
                                 stringManager.CutString(index);
@@ -127,33 +138,9 @@ public class PlayerCollision : MonoBehaviour
                                 return; // 糸を切るだけで他の処理はしない
                             }
 
-                            if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //���]����
-                            {
-
-                                //�v���C���[�̌�����ς���
-                                if (contact.normal == Vector2.left)
-                                {
-                                    cont.PlayerReturn(180); //�E�����ɔ��]
-                                    return;
-
-                                }
-                                else if (contact.normal == Vector2.right)
-                                {
-                                    cont.PlayerReturn(-180); //�������ɔ��]
-                                    return;
-                                }
-                            }
-
-                            //if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //��~�����A���]�����ǉ��̂��߃R�����g�A�E�g
-                            //{
-                            //    wall_obj.Add(collision.gameObject);
-                            //    cont.state.IS_MOVE = false;
-                            //    return; // �o��Ȃ��Ȃ�ǂƂ��ăJ�E���g���邾��
-                            //}
-
-
                             bool isVertical = collision.transform.rotation.z != 0;
-                            if (isVertical)
+
+                            if (isVertical && !(cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT))
                             {
                                 // �c�̎��Ȃ�Trigger�ɐ؂�ւ�
                                 GetComponent<BoxCollider2D>().isTrigger = true;
@@ -168,22 +155,6 @@ public class PlayerCollision : MonoBehaviour
                             }
                         }
 
-                        if (cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) //���]���� ���ȊO�̕ǂł����]����
-                        {
-
-                            //�v���C���[�̌�����ς���
-                            if (contact.normal == Vector2.left)
-                            {
-                                cont.PlayerReturn(-180);
-                                return;
-
-                            }
-                            else if (contact.normal == Vector2.right)
-                            {
-                                cont.PlayerReturn(0);
-                                return;
-                            }
-                        }
 
                         // �i���␳���邩�̔���
                         Bounds myBounds = m_collider.bounds;
@@ -193,11 +164,12 @@ public class PlayerCollision : MonoBehaviour
                         float thresholdY = playerFootY + playerHeight / 4;
                         float topY = targetBounds.max.y;
 
-                        if (topY < thresholdY) // �v���C���[�̑�������̍���1/4�ȓ��̒i���Ȃ�␳
+                        if (topY < thresholdY && !wallhit) // �v���C���[�̑�������̍���1/4�ȓ��̒i���Ȃ�␳
                         {
                             float diff = topY - playerFootY;
 
                             transform.position += new Vector3(0f, diff, 0f);
+                            setdiff = diff;
                             cont.state.IS_GROUND = true;
                             cont.state.IS_MOVE = true;
                             cont.state.IS_JUMP = false;
@@ -205,10 +177,47 @@ public class PlayerCollision : MonoBehaviour
 
                             return; // �i���␳���s������ǂƂ��ăJ�E���g���Ȃ�
                         }
+                        else
+                        {
+                            wallhit = true;
+                            if(setdiff != 0 && cont.state.currentstate == PlayerState.State.JUMP)
+                            {
+                                transform.position -= new Vector3(0f, setdiff, 0f);
+                                cont.state.IS_GROUND = false;
+                                cont.state.IS_MOVE = false;
+                                cont.state.IS_JUMP = true;
+                            }
+
+                            if (cont.state.IS_JUMP)
+                            {
+                                cont.PlayerJumpReturn();
+                                return;
+
+                            }
+                        }
+
+                        if ((cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) && !cont.state.IS_JUMP) //���]���� ���ȊO�̕ǂł����]����
+                        {
+                            
+                            //�v���C���[�̌�����ς���
+                            if (contact.normal == Vector2.left)
+                            {
+                                cont.PlayerReturn(0);
+                                return;
+
+                            }
+                            else if (contact.normal == Vector2.right)
+                            {
+                                cont.PlayerReturn(-180);
+                                return;
+                            }
+                        }
 
                         // �ǂɓ����������̏���
+
                         wall_obj.Add(collision.gameObject);
                         cont.state.IS_MOVE = false;
+
 
                     }
                 }

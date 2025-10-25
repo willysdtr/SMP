@@ -83,6 +83,11 @@ public class PlayerMove : MonoBehaviour
         return false;
     }
 
+    public void JumpReturn()//ジャンプ中に反転する
+    {
+        endPos = startPos;
+        
+    }
     public void EndJump()//ジャンプ終了処理
     {
         rb.gravityScale = 30;

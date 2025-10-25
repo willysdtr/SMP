@@ -17,6 +17,7 @@ public class PlayerCeilingCheck_Canvas : MonoBehaviour
         {
             ++contactcount;
             m_cont.state.IS_CEILING_HIT= true;
+            m_cont.state.IS_JUMP = false;
 
         }
     }

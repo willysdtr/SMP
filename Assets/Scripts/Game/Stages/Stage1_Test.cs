@@ -127,9 +127,9 @@ public static class Stage1_Test
         },
 
         /*========== バネ の位置 ==========*/
-        new Int2[]                // 裏
+        new Int2[]                // 表
         {
-            new Int2(2, 2)
+            new Int2(1, 4)
         },
         new Int2[]                // 裏
         {
