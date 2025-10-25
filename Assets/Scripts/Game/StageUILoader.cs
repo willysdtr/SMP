@@ -266,16 +266,20 @@ public class StageUILoader : MonoBehaviour
                 if (tileData.prefab == null)
                 {
                     tile = Instantiate(tileUIPrefab, panel);
+
                 }
                 else
                 {
                     tile = Instantiate(tileData.prefab, panel);
                     Transform fill2 = tile.transform.Find("Fill");
+
                     RectTransform rect = tile.GetComponent<RectTransform>();
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
                     setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
                     collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
                     collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
+                    fill2.localPosition = new(fill2.localPosition.x * setScale.x, fill2.localPosition.y * setScale.y);//fillの相対位置を変更
+
                 }
 
                 tile.name = $"Tile_{x}_{y}";
