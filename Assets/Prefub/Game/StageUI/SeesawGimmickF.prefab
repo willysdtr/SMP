@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 5901329744415677562}
   - component: {fileID: 7913941510669497501}
   m_Layer: 3
-  m_Name: Image
+  m_Name: siten
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
