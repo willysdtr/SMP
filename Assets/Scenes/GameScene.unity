@@ -1896,7 +1896,7 @@ MonoBehaviour:
   - id: 10
     tag: Untagged
     sprite: {fileID: 21300000, guid: 573b62a0db660ee4faa5dcbb7222d2e6, type: 3}
-    prefab: {fileID: 0}
+    prefab: {fileID: 7296938410568890891, guid: 1359ff730deec4b4c9ad735cdb2dece9, type: 3}
   - id: 12
     tag: Untagged
     sprite: {fileID: 21300000, guid: 429dbb6b42159934da808d9a3c17bdf8, type: 3}
