@@ -152,19 +152,10 @@ public class StringManager_Canvas : MonoBehaviour
     // 糸を切る処理（指定indexの糸を削除）
     public void CutString(int index)
     {
-<<<<<<< HEAD
-        
-        //AddStringがコメントアウトされていてStringsとAnimStrings以外がエラーになるため、該当箇所をコメントアウト
-        //Destroy(MirrorStrings[index].gameObject);
-        Destroy(Strings[index + 1].gameObject);//FirstPoint�̊֌W��+1����
-        //Destroy(FrontStrings[index].gameObject);
-        //Destroy(BackStrings[index].gameObject);
-=======
         Destroy(MirrorStrings[index].gameObject);
         Destroy(Strings[index + 1].gameObject); // FirstPointとの対応で+1
         Destroy(FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);
->>>>>>> main
 
         AnimStrings[index].DeleteImage(0);
         MirrorAnimStrings[index].DeleteImage(0);
