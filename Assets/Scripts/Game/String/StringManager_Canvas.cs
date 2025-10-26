@@ -150,24 +150,13 @@ public class StringManager_Canvas : MonoBehaviour
     // 糸を切る処理（指定indexの糸を削除）
     public void CutString(int index)
     {
-<<<<<<< HEAD
-        // ���̂��폜
-        Destroy(MirrorStrings[index].gameObject);
-        Destroy(Strings[index + 1].gameObject);//FirstPoint�̊֌W��+1����
-=======
         Destroy(MirrorStrings[index].gameObject);
         Destroy(Strings[index + 1].gameObject); // FirstPointとの対応で+1
->>>>>>> origin/Work_Taniguchi4
         Destroy(FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);
 
         AnimStrings[index].DeleteImage(0);
         MirrorAnimStrings[index].DeleteImage(0);
-<<<<<<< HEAD
-        // ���X�g������폜
-=======
-
->>>>>>> origin/Work_Taniguchi4
         MirrorStrings.RemoveAt(index);
         Strings.RemoveAt(index);
         FrontStrings.RemoveAt(index);
@@ -309,103 +298,8 @@ public class StringManager_Canvas : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-       void AddString(Vector2 main, Vector2 front, Vector2 back, Quaternion rot)
-       {
-       RectTransform mainStr = Instantiate(StringPrefub, canvasTransform);
-       mainStr.anchoredPosition = main;
-       mainStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-       RectTransform childstr = mainStr.GetComponentsInChildren<RectTransform>()[0];
-       mainStr.rotation = rot;
-       mainStr.GetComponent<Animator>()?.SetTrigger("Play");
-       StringAnimation_Canvas anim = mainStr.GetComponent<StringAnimation_Canvas>();
-       if (anim != null)
-       {
-           anim.SetCanvas(canvasTransform);
-           anim.index = Strings.Count - 1;//FirstPoint�̊֌W��-1����
-        }
-       AnimStrings.Add(anim);
-       BoxCollider2D col = mainStr.GetComponent<BoxCollider2D>();
-       if (col != null)
-       {
-           col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
-       }
-       Strings.Add(mainStr);
-
-        Vector3 mirrorPos = main;
-        float mirrorCenterX = 0.0f;
-        mirrorPos.x = mirrorCenterX - (main.x - mirrorCenterX);
-        RectTransform mirrorStr = Instantiate(StringPrefub, canvasTransform);
-        mirrorStr.anchoredPosition = mirrorPos;
-        mirrorStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        mirrorStr.rotation = rot;
-        if (Mathf.Abs(rot.y) > 0.5f)//�c�̏ꍇ�͔��]�����Ȃ�
-        {
-            mirrorStr.rotation *= Quaternion.Euler(0, 180f, 0);// ���̉�] rot �ɑ΂��� Y����180�x���]��ǉ�����
-        }
-
-        //mirrorStr.tag = "Nami_Mirror";
-        Animator mirrorAnimator = mirrorStr.GetComponent<Animator>();
-        mirrorStr.GetComponent<Animator>()?.SetTrigger("Play");
-        anim = mirrorStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-            anim.index = MirrorStrings.Count;
-        }
-        MirrorAnimStrings.Add(anim);
-        col = mirrorStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size *= HitBoxScale; // RectTransform�ɍ��킹�Ċg�k
-        }
-        MirrorStrings.Add(mirrorStr);
-
-        //�D���Ȃ�����p�̎��A�O��
-        RectTransform frontStr = Instantiate(StringPrefub, canvasTransform);
-        frontStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        frontStr.anchoredPosition = front;
-        anim = frontStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        col = frontStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size = new Vector2(0, 0); // �����蔻��𖳂���
-        }
-        FrontStrings.Add(frontStr);
-
-        //�D���Ȃ�����p�̎��A���
-        RectTransform backStr = Instantiate(StringPrefub, canvasTransform);
-        backStr.sizeDelta = m_StrinngScale;//�T�C�Y�ύX
-        backStr.anchoredPosition = back;
-        anim = backStr.GetComponent<StringAnimation_Canvas>();
-        if (anim != null)
-        {
-            anim.SetCanvas(canvasTransform);
-        }
-        col = backStr.GetComponent<BoxCollider2D>();
-        if (col != null)
-        {
-            col.size = new Vector2(0, 0); // �����蔻��𖳂���
-        }
-        BackStrings.Add(backStr);
-
-        //�����蔻��
-        //AddColliderToPrefab(mainStr);
-        //AddColliderToPrefab(mirrorStr);
-        //AddColliderToPrefab(frontStr);
-        //AddColliderToPrefab(backStr);
-    }
-
-
-    void AddColliderToPrefab(RectTransform targetRect)//BoxCollider2D���g���s���㌋�ǂ���Ă邱�ƒJ���ƕς���
-=======
     // 糸を生成・配置する（表裏と前後パーツ）
     void AddString(Vector2 main, Vector2 front, Vector2 back, Quaternion rot)
->>>>>>> origin/Work_Taniguchi4
     {
         //表側糸生成
         RectTransform mainStr = Instantiate(StringPrefub, canvasTransform);
