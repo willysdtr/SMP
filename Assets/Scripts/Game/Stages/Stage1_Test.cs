@@ -63,6 +63,14 @@ public static class Stage1_Test
         new SeeSaw[]                // 裏
         {
 
+        },
+
+        /*========== バネ の位置 ==========*/
+        new Int2[]                // 裏
+        {
+        },
+        new Int2[]                // 裏
+        {
         }
     );
 
@@ -79,7 +87,7 @@ public static class Stage1_Test
         new SoulPos(false, 3, 4),    // 魂の位置: 左側, X=2, Y=3
 
         false,                      // 向き変更可能か?
-        true,                       // 王様は左向きか?
+        false,                       // 王様は左向きか?
         false,                      // 姫様は左向きか?
 
         new int[] { 5 },            // 縫える回数 と 縫える長さ
@@ -115,7 +123,17 @@ public static class Stage1_Test
         },
         new SeeSaw[]                // 裏
         {
-            new SeeSaw(true, 1, 3)
+            new SeeSaw(true, 2, 3)
+        },
+
+        /*========== バネ の位置 ==========*/
+        new Int2[]                // 表
+        {
+            new Int2(1, 4)
+        },
+        new Int2[]                // 裏
+        {
+            new Int2(2, 2)
         }
     );
 }

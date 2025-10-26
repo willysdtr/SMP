@@ -176,6 +176,10 @@ public class StageUILoader : MonoBehaviour
         // シーソー
         SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_front, false, offset);
         SetObjFromSeeSaw(stageGrid, 10, stage.seeSaw_back, true, offset);
+
+        // バネ配置
+        SetObjFromInt2(stageGrid, 12, stage.SPRING_front, false, offset);
+        SetObjFromInt2(stageGrid, 12, stage.SPRING_back, true, offset); 
     }
 
     private void SetObjFromInt2(List<List<int>> grid, int id, IReadOnlyList<StageInfo.Int2> positions, bool isBack, int offset)
@@ -262,32 +266,46 @@ public class StageUILoader : MonoBehaviour
                 if (tileData.prefab == null)
                 {
                     tile = Instantiate(tileUIPrefab, panel);
+
                 }
                 else
                 {
                     tile = Instantiate(tileData.prefab, panel);
                     Transform fill2 = tile.transform.Find("Fill");
+
                     RectTransform rect = tile.GetComponent<RectTransform>();
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
                     setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
                     collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
                     collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
+                    fill2.localPosition = new(fill2.localPosition.x * setScale.x, fill2.localPosition.y * setScale.y);//fillの相対位置を変更
+
                 }
 
                 tile.name = $"Tile_{x}_{y}";
                 tile.tag = tileData.tag;
 
                 Transform fill = tile.transform.Find("Fill");
-                if (fill != null && fill.TryGetComponent<Image>(out var fillImage))
-                {
-                    fillImage.color = Color.white;
-                    fillImage.sprite = tileData.sprite;
-                    if (tile.tag == "Empty") fillImage.color = Color.clear;
-                    else if (tile.tag == "Void")
+                if (fill != null)
+                {                
+                    var allImages = fill.GetComponentsInChildren<Image>(includeInactive: true);
+
+                    foreach (var img in allImages)
+                    {                       
+                        img.color = Color.white;
+                        if (img.sprite == null && tileData.sprite != null)
+                            img.sprite = tileData.sprite;
+
+                        if (tile.tag == "Empty")
+                            img.color = Color.clear;
+                        else if (tile.tag == "Void")
+                            img.color = Color.clear;
+                    }
+
+                    if (tile.tag == "SeesawF")
                     {
-                        Image tileImage = tile.GetComponent<Image>();
-                        fillImage.color = Color.clear;
-                        tileImage.color = Color.clear;
+                        RectTransform fillRect = fill as RectTransform;
+                        fillRect.localEulerAngles = new Vector3(0f, 180f, 390f);
                     }
                 }
             }
