@@ -287,7 +287,8 @@ public class StageUILoader : MonoBehaviour
 
                 Transform fill = tile.transform.Find("Fill");
                 if (fill != null)
-                {                
+                {
+       
                     var allImages = fill.GetComponentsInChildren<Image>(includeInactive: true);
 
                     foreach (var img in allImages)

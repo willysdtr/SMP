@@ -220,18 +220,18 @@ public class PlayerCollision : MonoBehaviour
         wall_obj.Remove(collision.gameObject);
 
         //シーソーから離れた時の処理
-        //if (collision.gameObject.tag == "SeeSaw")
-        //{
-        //    //シーソーのy角度とプレイヤーの向きが正しければ、シーソーを反対側にする処理
-        //    if ((collision.gameObject.transform.eulerAngles.y == 180) && cont.state.m_direction == (int)PlayerState.Direction.RIGHT)
-        //    {
-        //        collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
-        //    }
-        //    else if ((collision.gameObject.transform.eulerAngles.y == 0) && cont.state.m_direction == (int)PlayerState.Direction.LEFT)
-        //    {
-        //        collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 180, transform.rotation.z);
-        //    }
-        //}
+        if (collision.gameObject.tag == "SeeSaw")
+        {
+            //シーソーのy角度とプレイヤーの向きが正しければ、シーソーを反対側にする処理
+            if ((collision.gameObject.transform.eulerAngles.y == 180) && cont.state.m_direction == (int)PlayerState.Direction.RIGHT)
+            {
+                collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
+            }
+            else if ((collision.gameObject.transform.eulerAngles.y == 0) && cont.state.m_direction == (int)PlayerState.Direction.LEFT)
+            {
+                collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 180, transform.rotation.z);
+            }
+        }
 
         // 全ての床から離れた場合
         if (ground_obj.Count == 0)
