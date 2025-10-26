@@ -81,7 +81,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 10, y: 20}
+  m_Size: {x: 10, y: 30}
   m_EdgeRadius: 0
 --- !u!114 &390234914462053236
 MonoBehaviour:
@@ -129,7 +129,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 80}
+  m_AnchoredPosition: {x: -40, y: 80}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &6134579947182539657
@@ -214,7 +214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &671264414179774746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b329ac09b84add447be529f8786926f3, type: 3}
   - {fileID: 8300000, guid: fd2e0c3034f558d449d121a1bb14a64a, type: 3}
   - {fileID: 8300000, guid: ae4f4e535ce2aad45b1b2f06e9bd7d96, type: 3}
-  cutFg: 0
+  cutCt: 0
 --- !u!114 &1963234149097902425
 MonoBehaviour:
   m_ObjectHideFlags: 0
