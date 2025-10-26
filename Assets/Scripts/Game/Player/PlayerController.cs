@@ -159,6 +159,19 @@ public class PlayerController : MonoBehaviour
         BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
         collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y); // 本体の当たり判定サイズを合わせる
 
+        Transform check = transform.Find("ClimbCheck");
+        collider = check.GetComponent<BoxCollider2D>();
+        collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
+        collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
+        check.localPosition = new(check.localPosition.x * setScale.x, check.localPosition.y * setScale.y);//checkの相対位置を変更
+
+        check = transform.Find("CeilingCheck");
+        collider = check.GetComponent<BoxCollider2D>();
+        collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
+        collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
+        check.localPosition = new(check.localPosition.x * setScale.x, check.localPosition.y * setScale.y);//checkの相対位置を変更
+
+
         if (isleft) { state.m_direction = (int)PlayerState.Direction.LEFT; transform.rotation = Quaternion.Euler(0, 0, 0); } // 左向き
         else { state.m_direction = (int)PlayerState.Direction.RIGHT; transform.rotation = Quaternion.Euler(0, 180, 0); } //右向き
     }
@@ -222,9 +235,19 @@ public class PlayerController : MonoBehaviour
         if(angle == transform.rotation.y) { return; }//同じ向きなら何もしない
         move.AllStop();
         state.m_direction = move.Return(angle);
-        Debug.Log("Direction:" + state.m_direction);
     }
 
+    public void PlayerReturn() //現在の向きと逆方向に向きを変える
+    {
+        move.AllStop();
+        state.m_direction = move.Return(-1 * transform.rotation.y);
+    }
+
+    public void PlayerJumpReturn()//ジャンプ中に反転する
+    {
+        PlayerReturn();
+        move.JumpReturn();
+    }
     private void PlaySE(int no,bool forceplay)//SE再生
     {
         if(forceplay)// 強制再生
