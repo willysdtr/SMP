@@ -286,24 +286,26 @@ public class StageUILoader : MonoBehaviour
                 tile.tag = tileData.tag;
 
                 Transform fill = tile.transform.Find("Fill");
-                if (fill != null && fill.TryGetComponent<Image>(out var fillImage))
-                {
-                    fillImage.color = Color.white;
+                if (fill != null)
+                {                
+                    var allImages = fill.GetComponentsInChildren<Image>(includeInactive: true);
 
-                    if (fillImage.sprite == null && tileData.sprite != null)
-                    {
-                        fillImage.sprite = tileData.sprite;
+                    foreach (var img in allImages)
+                    {                       
+                        img.color = Color.white;
+                        if (img.sprite == null && tileData.sprite != null)
+                            img.sprite = tileData.sprite;
+
+                        if (tile.tag == "Empty")
+                            img.color = Color.clear;
+                        else if (tile.tag == "Void")
+                            img.color = Color.clear;
                     }
 
-
-                    if (tile.tag == "Empty") fillImage.color = Color.clear;
-                    if (tile.tag == "SeesawF") fill.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
-
-                    else if (tile.tag == "Void")
+                    if (tile.tag == "SeesawF")
                     {
-                        Image tileImage = tile.GetComponent<Image>();
-                        fillImage.color = Color.clear;
-                        tileImage.color = Color.clear;
+                        RectTransform fillRect = fill as RectTransform;
+                        fillRect.localEulerAngles = new Vector3(0f, 180f, 390f);
                     }
                 }
             }

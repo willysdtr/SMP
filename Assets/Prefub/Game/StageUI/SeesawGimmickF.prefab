@@ -26,14 +26,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4044439935784391396}
-  m_LocalRotation: {x: -0, y: 0, z: -0.2588188, w: -0.96592593}
+  m_LocalRotation: {x: -0.2588188, y: -0.96592593, z: 0, w: -0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.72, y: 0.93, z: 0.95}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8788986196976238227}
   m_Father: {fileID: 272580781704164444}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 390}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 390}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 52.3, y: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 2367878220040146496}
   - component: {fileID: 5827135428925086559}
   m_Layer: 5
-  m_Name: SeesawGimmick
+  m_Name: SeesawGimmickF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
