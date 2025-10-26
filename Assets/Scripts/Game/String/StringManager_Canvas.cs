@@ -63,6 +63,7 @@ public class StringManager_Canvas : MonoBehaviour
 
         inputActions.Stirng.nami.performed += ctx =>
         {
+            if(PauseApperance.Instance.isPause || SoundChangeSlider.Instance.IsSoundChange) return;//ポーズ中は操作できないようにする
             float value = ctx.ReadValue<float>();
             
             if (m_StringMode == isString)
@@ -92,6 +93,7 @@ public class StringManager_Canvas : MonoBehaviour
 
         inputActions.Stirng.start.performed += ctx =>
         {
+            if (PauseApperance.Instance.isPause|| SoundChangeSlider.Instance.IsSoundChange) return;//ポーズ中は操作できないようにする
             if (m_StringMode == isString || currentIndex >= StringNum.Count) return;
             RectTransform dummy = new GameObject("FirstPoint", typeof(RectTransform)).GetComponent<RectTransform>();
             dummy.SetParent(canvasTransform, false);
@@ -157,7 +159,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void CutString(int index)
     {
-        // ���̂��폜
+        
         //AddStringがコメントアウトされていてStringsとAnimStrings以外がエラーになるため、該当箇所をコメントアウト
         //Destroy(MirrorStrings[index].gameObject);
         Destroy(Strings[index + 1].gameObject);//FirstPoint�̊֌W��+1����

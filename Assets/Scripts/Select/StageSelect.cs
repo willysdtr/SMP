@@ -109,15 +109,16 @@ public class StageSelect : MonoBehaviour
             LoadSelectedStage();
         };
 
-        inputActions.PauseApperance.Apperance.performed += ctx =>//ここの処理をSMP_SceneManagerに移動させよう！
-        {
-            if (MoveRight == true || MoveLeft == true) return;//矢印移動中は出さない
-            SMPState.Instance.m_CurrentGameState = SMPState.GameState.Pause;//Pause状態にする
-            inputActions.Select.Disable();//PlayerInputActionsを無効化
-            SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
-        };
+        //inputActions.PauseApperance.Apperance.performed += ctx =>//ここの処理をSMP_SceneManagerに移動させよう！
+        //{
+        //    Debug.Log("PauseSceneLoad");
+        //    if (MoveRight == true || MoveLeft == true) return;//矢印移動中は出さない
+        //    SMPState.Instance.m_CurrentGameState = SMPState.GameState.Pause;//Pause状態にする
+        //    inputActions.Select.Disable();//PlayerInputActionsを無効化
+        //    SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
+        //};
 
-        
+
 
     }
         // Update is called once per frame

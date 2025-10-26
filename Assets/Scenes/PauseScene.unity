@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &788587901
 AudioListener:
   m_ObjectHideFlags: 0
@@ -150,7 +150,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 788587900}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &788587902
 Camera:
   m_ObjectHideFlags: 0
@@ -278,7 +278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1096972619
 Light:
   m_ObjectHideFlags: 0
@@ -390,6 +390,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2017172779}
     m_Modifications:
+    - target: {fileID: 1590817851176764291, guid: e5dcc35def859214cb0e83858c47b380, type: 3}
+      propertyPath: AudioChange
+      value: 
+      objectReference: {fileID: 1864918204}
     - target: {fileID: 3523609365525017617, guid: e5dcc35def859214cb0e83858c47b380, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -484,7 +488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8098787764677644738, guid: e5dcc35def859214cb0e83858c47b380, type: 3}
       propertyPath: m_SortingOrder
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8363405337895413431, guid: e5dcc35def859214cb0e83858c47b380, type: 3}
       propertyPath: m_IsActive
@@ -615,11 +619,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7236348385752612018, guid: 0fd23961cd3f8c043a76634c0044cb20, type: 3}
+      propertyPath: m_SortingOrder
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd23961cd3f8c043a76634c0044cb20, type: 3}
+--- !u!1 &1864918204 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6781454641392903925, guid: 0fd23961cd3f8c043a76634c0044cb20, type: 3}
+  m_PrefabInstance: {fileID: 1864918203}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2017172776
 GameObject:
   m_ObjectHideFlags: 0
