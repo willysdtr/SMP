@@ -48,6 +48,8 @@ namespace Script
 
             inputActions.Pause.Delete.performed += ctx =>
             {
+                Debug.Log("PauseSceneUnload");
+                PauseApperance.Instance.isPause = false;
                 inputActions.Pause.Disable();
                 inputActions.Select.Enable();
                 SceneManager.UnloadSceneAsync("PauseScene");
@@ -101,6 +103,7 @@ namespace Script
             {
                 case 0://‘±‚¯‚é
                     Debug.Log("Resume Game");
+                    PauseApperance.Instance.isPause = false;
                     inputActions.Pause.Disable();
                     inputActions.Select.Enable();
                     SceneManager.UnloadSceneAsync("PauseScene");

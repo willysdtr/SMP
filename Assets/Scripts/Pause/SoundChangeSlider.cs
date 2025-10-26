@@ -24,15 +24,14 @@ public class SoundChangeSlider : MonoBehaviour
     private float SoundInput = 0;//音量調整の入力値
 
     //private bool SoundOn;   
-    public  bool IsSoundChange;
+    public  bool IsSoundChange = true;
 
     float m_FinalVolumeBGM;
     float m_FinalVolumeSE;
 
     private void Awake()
     {
-        IsSoundChange = true;
-
+        IsSoundChange=true;
         // --- Additive対応のシングルトン管理 ---
         if (Instance != null && Instance != this)
         {
