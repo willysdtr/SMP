@@ -14,6 +14,7 @@ public class StringManager_Canvas : MonoBehaviour
     private const int LEFT = 1;
     private const int UP = 2;
     private const int DOWN = 3;
+    private const int First = 4;
 
     private const bool NoString = false;
     private const bool isString = true;
@@ -45,7 +46,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     private InputSystem_Actions inputActions;
     private float m_PauseDirection;
-    private int m_LastDirection;
+    private int m_LastDirection=First;
     private bool m_StringMode = NoString;
 
     private int StageWidth = 0;
@@ -59,7 +60,10 @@ public class StringManager_Canvas : MonoBehaviour
         // 糸の縫い操作
         inputActions.Stirng.nami.performed += ctx =>
         {
-            float value = ctx.ReadValue<float>();
+            Debug.Log("Pause画面"+PauseApperance.Instance.isPause);
+            if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
+
+                float value = ctx.ReadValue<float>();
 
             if (m_StringMode == isString)
             {
@@ -74,11 +78,26 @@ public class StringManager_Canvas : MonoBehaviour
             {
                 // 非糸縫いモード時のカーソル移動
                 Vector2 offset = Vector2.zero;
-                if (value == 1) offset = -m_Offset_Y;
-                else if (value == -1) offset = m_Offset_Y;
-                else if (value == 2) offset = m_Offset_X;
-                else if (value == 3) offset = -m_Offset_X;
-
+                if (value == 1 && StageHeight > 0)
+                {
+                    offset = -m_Offset_Y;
+                    StageHeight--;
+                }
+                else if (value == -1 && StageHeight < StageUILoader.stage.STAGE_HEIGHT)
+                {
+                    StageHeight++;
+                    offset = m_Offset_Y;
+                }
+                else if (value == 2 && StageWidth < StageUILoader.stage.STAGE_WIDTH)
+                {
+                    StageWidth++;
+                    offset = m_Offset_X;
+                }
+                else if (value == 3 && StageWidth > 0)
+                {
+                    StageWidth--;
+                    offset = -m_Offset_X;
+                }
                 StringCursol.anchoredPosition += offset;
             }
         };
@@ -92,11 +111,13 @@ public class StringManager_Canvas : MonoBehaviour
         // 糸を縫う処理
         inputActions.Stirng.start.performed += ctx =>
         {
+            if (PauseApperance.Instance.isPause|| (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
             if (m_StringMode == isString || currentIndex >= StringNum.Count) return;
 
             RectTransform dummy = new GameObject("FirstPoint", typeof(RectTransform)).GetComponent<RectTransform>();
             dummy.SetParent(canvasTransform, false);
             dummy.anchoredPosition = StringCursol.anchoredPosition;
+            Debug.Log($"CursorPos: {StringCursol.anchoredPosition}");
             Strings.Add(dummy);
             m_StringMode = isString;
         };
@@ -175,8 +196,9 @@ public class StringManager_Canvas : MonoBehaviour
 
         if (m_LastDirection == UP) newPos = lastPos + m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == DOWN) newPos = lastPos + m_Offset_X / 2 + m_Offset_Y / 2;
+        else if (m_LastDirection == First) newPos = lastPos + m_Offset_X/2;
 
-        Vector2 frontPos = newPos + m_Offset_X / 2;
+            Vector2 frontPos = newPos + m_Offset_X / 2;
         Vector2 backPos = newPos - m_Offset_X / 2;
 
         if (CheckString(newPos, frontPos, backPos) && StageWidth < StageUILoader.stage.STAGE_WIDTH)
@@ -199,6 +221,7 @@ public class StringManager_Canvas : MonoBehaviour
 
         if (m_LastDirection == UP) newPos = lastPos - m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == DOWN) newPos = lastPos - m_Offset_X / 2 + m_Offset_Y / 2;
+        else if (m_LastDirection == First) newPos= lastPos - m_Offset_X / 2;
 
         Vector2 frontPos = newPos - m_Offset_X / 2;
         Vector2 backPos = newPos + m_Offset_X / 2;
@@ -221,7 +244,7 @@ public class StringManager_Canvas : MonoBehaviour
         if (m_LastDirection == RIGHT) newPos = lastPos + m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == LEFT) newPos = lastPos - m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == UP) newPos = lastPos - m_Offset_Y;
-
+        else if (m_LastDirection == First) newPos= lastPos - m_Offset_Y / 2;
         Vector2 frontPos = newPos - m_Offset_Y / 2;
         Vector2 backPos = newPos + m_Offset_Y / 2;
 
@@ -243,6 +266,7 @@ public class StringManager_Canvas : MonoBehaviour
         if (m_LastDirection == RIGHT) newPos = lastPos + m_Offset_X / 2 + m_Offset_Y / 2;
         else if (m_LastDirection == LEFT) newPos = lastPos - m_Offset_X / 2 + m_Offset_Y / 2;
         else if (m_LastDirection == DOWN) newPos = lastPos + m_Offset_Y;
+        else if (m_LastDirection == First) newPos= lastPos + m_Offset_Y / 2;
 
         Vector2 frontPos = newPos + m_Offset_Y / 2;
         Vector2 backPos = newPos - m_Offset_Y / 2;
@@ -412,3 +436,4 @@ public class StringManager_Canvas : MonoBehaviour
         HitBoxScale = BoxScale;
     }
 }
+

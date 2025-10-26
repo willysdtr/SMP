@@ -37,6 +37,8 @@ public class StageSelect : MonoBehaviour
 
     void Awake()
     {
+        m_StageArrow.transform.position = m_ActiveStage[SMPState.CURRENT_STAGE].transform.position;
+        m_CurrentArrow = SMPState.CURRENT_STAGE;
         m_StageNum = m_InActiveStage.Length;//大きさを取得
         inputActions = new InputSystem_Actions();//PlayerInputActionsのインスタンスを生成
         inputActions.Select.Move.performed += ctx =>//上が１、下が０,右が２、左が３
@@ -109,15 +111,16 @@ public class StageSelect : MonoBehaviour
             LoadSelectedStage();
         };
 
-        inputActions.PauseApperance.Apperance.performed += ctx =>//ここの処理をSMP_SceneManagerに移動させよう！
-        {
-            if (MoveRight == true || MoveLeft == true) return;//矢印移動中は出さない
-            SMPState.Instance.m_CurrentGameState = SMPState.GameState.Pause;//Pause状態にする
-            inputActions.Select.Disable();//PlayerInputActionsを無効化
-            SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
-        };
+        //inputActions.PauseApperance.Apperance.performed += ctx =>//ここの処理をSMP_SceneManagerに移動させよう！
+        //{
+        //    Debug.Log("PauseSceneLoad");
+        //    if (MoveRight == true || MoveLeft == true) return;//矢印移動中は出さない
+        //    SMPState.Instance.m_CurrentGameState = SMPState.GameState.Pause;//Pause状態にする
+        //    inputActions.Select.Disable();//PlayerInputActionsを無効化
+        //    SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);
+        //};
 
-        
+
 
     }
         // Update is called once per frame
@@ -201,8 +204,9 @@ public class StageSelect : MonoBehaviour
     }
     void LoadSelectedStage()
     {
+        SMPState.Instance.m_CurrentGameState = SMPState.GameState.PlayGame;//Gameplay状態にする
         // ゲームステージをロードする
-        SceneManager.LoadScene("testScene");
+        SceneManager.LoadScene("GameScene");
         Debug.Log("現在のシーン: " + SceneManager.GetActiveScene().name);  // ← 確認用
     }
 

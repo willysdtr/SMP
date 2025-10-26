@@ -193,8 +193,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnStartPerformed(InputAction.CallbackContext ctx)//スタート状態と非スタートの切り替え
     {
+        if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
         if (!start) // スタートに切り替え
         {
+
             start = true;
             start_pos = transform.position;
         }
