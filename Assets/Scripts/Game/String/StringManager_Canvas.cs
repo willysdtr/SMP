@@ -411,4 +411,9 @@ public class StringManager_Canvas : MonoBehaviour
         m_StrinngScale = size;
         HitBoxScale = BoxScale;
     }
+
+    public void SetCursor(Vector2 pos)
+    {
+        StringCursol.anchoredPosition = pos;
+    }
 }
