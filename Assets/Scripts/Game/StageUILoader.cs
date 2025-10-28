@@ -121,6 +121,10 @@ public class StageUILoader : MonoBehaviour
         {
             playerController.PlaceAtPosition(myRect, queenPos, size, blocksize, stage.isQUEEN_LEFT);
         }
+
+        StringManager_Canvas myStr = GetComponent<StringManager_Canvas>();
+        myStr.SetCursor(GetTopLeftTilePositionInCanvas());
+
     }
 
     private void GenerateStageGridObjects()
@@ -340,6 +344,8 @@ public class StageUILoader : MonoBehaviour
             }
         }
 
+
+
     }
 
     TileData GetTileData(int id)
@@ -378,6 +384,46 @@ public class StageUILoader : MonoBehaviour
 
         return localPoint;
     }
+
+    public static Vector2 GetTopLeftInCanvas(RectTransform target, RectTransform canvasRect)
+    {
+        // ターゲットのワールド座標での四隅を取得
+        Vector3[] corners = new Vector3[4];
+        target.GetWorldCorners(corners); // 左下→左上→右上→右下の順
+        Vector3 worldTopLeft = corners[1];
+
+        // Canvas基準のローカル座標に変換
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            RectTransformUtility.WorldToScreenPoint(null, worldTopLeft),
+            null, // Screen Space - Overlay の場合 null
+            out localPoint
+        );
+
+        return localPoint;
+    }
+    public Vector2 GetTopLeftTilePositionInCanvas()
+    {
+        // 左パネルの最初のタイルを探す（GridLayoutGroupは左上→右下で配置）
+        Transform firstTile = leftPanel.childCount > 0 ? leftPanel.GetChild(0) : null;
+        if (firstTile == null)
+        {
+            Debug.LogWarning("左パネルにタイルが存在しません。");
+            return Vector2.zero;
+        }
+
+        // このスクリプトが付いているCanvasのRectTransformを取得
+        RectTransform canvasRect = GetComponent<RectTransform>();
+
+        // そのタイルの左上座標をCanvas基準に変換
+        RectTransform tileRect = firstTile as RectTransform;
+        Vector2 topLeftInCanvas = GetTopLeftInCanvas(tileRect, canvasRect);
+
+        Debug.Log($"[GetTopLeftTilePositionInCanvas] leftTopInCanvas={topLeftInCanvas}");
+        return topLeftInCanvas;
+    }
+
 }
 
 
