@@ -76,12 +76,30 @@ public class StageUILoader : MonoBehaviour
             case StageID.Stage2_2:
                 stage = Stage2.Stage2_2;
                 break;
+            case StageID.Stage2_3:
+                stage = Stage2.Stage2_3;
+                break; 
+            case StageID.Stage2_4:
+                stage = Stage2.Stage2_4;
+                break;
+            case StageID.Stage2_5:
+                stage = Stage2.Stage2_5;
+                break;
 
             case StageID.Stage3_1:
                 stage = Stage3.Stage3_1;
                 break;
             case StageID.Stage3_2:
                 stage = Stage3.Stage3_2;
+                break;
+            case StageID.Stage3_3:
+                stage = Stage3.Stage3_3;
+                break;
+            case StageID.Stage3_4:
+                stage = Stage3.Stage3_4;
+                break;
+            case StageID.Stage3_5:
+                stage = Stage3.Stage3_5;
                 break;
 
             case StageID.Stage1_1_Test://テスト用ステージ
