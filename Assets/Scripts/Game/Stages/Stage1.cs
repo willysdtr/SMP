@@ -15,8 +15,8 @@ public static class Stage1
         new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
 
         false,                      // 向き変更可能か?
-        true,                       // 王様は左向きか?
-        false,                      // 姫様は左向きか?
+        false,                       // 王様は左向きか?
+        true,                      // 姫様は左向きか?
 
         new int[] { 4 },            // 縫える回数 と 縫える長さ
 
@@ -75,8 +75,8 @@ public static class Stage1
         new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
 
         false,                      // 向き変更可能か?
-        true,                       // 王様は左向きか?
-        false,                      // 姫様は左向きか?
+        false,                       // 王様は左向きか?
+        true,                      // 姫様は左向きか?
 
         new int[] { 4 },            // 縫える回数 と 縫える長さ
 
@@ -135,8 +135,8 @@ public static class Stage1
         new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
 
         false,                      // 向き変更可能か?
-        false,                      // 王様は左向きか?
-        true,                       // 姫様は左向きか?
+        true,                      // 王様は左向きか?
+        false,                       // 姫様は左向きか?
 
         new int[] { 3 },            // 縫える回数 と 縫える長さ
 
@@ -195,8 +195,8 @@ public static class Stage1
         new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
 
         false,                      // 向き変更可能か?
-        true,                       // 王様は左向きか?
-        false,                      // 姫様は左向きか?
+        false,                       // 王様は左向きか?
+        true,                      // 姫様は左向きか?
 
         new int[] { 1, 2 },            // 縫える回数 と 縫える長さ
 
@@ -255,8 +255,8 @@ public static class Stage1
         new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
     
         false,                      // 向き変更可能か?
-        true,                       // 王様は左向きか?
-        true,                       // 姫様は左向きか?
+        false,                       // 王様は左向きか?
+        false,                       // 姫様は左向きか?
     
         new int[] { 1, 2 },            // 縫える回数 と 縫える長さ
     

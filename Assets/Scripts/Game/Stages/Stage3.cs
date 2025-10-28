@@ -1,24 +1,25 @@
 using StageInfo;
+using System.ComponentModel;
 
 public static class Stage3
 {
     public static readonly StageData Stage3_1 = new StageData(
-        25,                          // ステージ: 横
-        25,                          // ステージ: 縦
+        4,                          // ステージ: 横
+        5,                          // ステージ: 縦
 
-        new Int2(11, 0),           // 表: スタート位置
-        new Int2(3, 4),           // 表: ゴール位置
+        new Int2(2, 2),           // 表: スタート位置
+        new Int2(2, 4),           // 表: ゴール位置
 
-        new Int2(5, 5),           // 裏: スタート位置
-        new Int2(2, 14),           // 裏: ゴール位置
+        new Int2(0, 1),           // 裏: スタート位置
+        new Int2(3, 4),           // 裏: ゴール位置
 
-        new SoulPos(true, 0, 3),    // 魂の位置: 左側, X=0, Y=3
+        new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
 
         false,                      // 向き変更可能か?
-        true,                       // 王様は左向きか?
+        false,                       // 王様は左向きか?
         false,                      // 姫様は左向きか?
 
-        new int[] { 5 },            // 縫える回数 と 縫える長さ
+        new int[] { 3, 3 },            // 縫える回数 と 縫える長さ
 
         /*========== 鉄板 の位置 ==========*/
         new Int2[]                // 表
@@ -26,33 +27,27 @@ public static class Stage3
         },
         new Int2[]                // 裏
         {
-            new Int2(4, 4),
+
         },
 
         /*========== しわ の位置 ==========*/
         new Int2[]                // 裏
         {
-            new Int2(5, 2),
-            new Int2(14, 4),
-            new Int2(4, 4),
-            new Int2(4, 14),
+
         },
         new Int2[]                // 裏
         {
-            new Int2(3, 2),
-            new Int2(12, 4),
+
         },
 
         /*========== 風穴 の位置 ==========*/
         new WindPos[]               // 表
         {
-            new WindPos(Facing.Right, 3, 3),
-            new WindPos(Facing.Down,  13, 0),
+
         },
         new WindPos[]               // 裏
         {
-            new WindPos(Facing.Left, 4, 10),
-            new WindPos(Facing.Up,   3, 3),
+
         },
 
         /*======== シーソー の位置 ========*/
@@ -76,22 +71,22 @@ public static class Stage3
 
 
     public static readonly StageData Stage3_2 = new StageData(
-    50,                          // ステージ: 横
-    50,                          // ステージ: 縦
+    5,                          // ステージ: 横
+    4,                          // ステージ: 縦
 
-    new Int2(11, 0),           // 表: スタート位置
-    new Int2(3, 34),           // 表: ゴール位置
+    new Int2(4, 2),           // 表: スタート位置
+    new Int2(4, 0),           // 表: ゴール位置
 
-    new Int2(25, 5),           // 裏: スタート位置
-    new Int2(49, 49),           // 裏: ゴール位置
-     
-    new SoulPos(true, 0, 3),    // 魂の位置: 左側, X=0, Y=3
+    new Int2(3, 2),           // 裏: スタート位置
+    new Int2(0, 3),           // 裏: ゴール位置
+
+    new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
 
     false,                      // 向き変更可能か?
     true,                       // 王様は左向きか?
     false,                      // 姫様は左向きか?
 
-    new int[] { 5 },            // 縫える回数 と 縫える長さ
+    new int[] { 1, 2 },            // 縫える回数 と 縫える長さ
 
     /*========== 鉄板 の位置 ==========*/
     new Int2[]                // 表
@@ -99,39 +94,28 @@ public static class Stage3
     },
     new Int2[]                // 裏
     {
-            new Int2(34, 4),
     },
 
     /*========== しわ の位置 ==========*/
     new Int2[]                // 裏
     {
-            new Int2(5, 22),
-            new Int2(24, 4),
-            new Int2(4, 24),
-            new Int2(34, 4),
     },
     new Int2[]                // 裏
     {
-            new Int2(13, 2),
-            new Int2(2, 24),
     },
 
     /*========== 風穴 の位置 ==========*/
     new WindPos[]               // 表
     {
-            new WindPos(Facing.Right, 13, 3),
-            new WindPos(Facing.Down,  3, 10),
     },
     new WindPos[]               // 裏
     {
-            new WindPos(Facing.Left, 4, 0),
-            new WindPos(Facing.Up,   13, 3),
     },
 
     /*======== シーソー の位置 ========*/
     new SeeSaw[]
     {
-
+        new SeeSaw(true, 1, 2)
     },
     new SeeSaw[]
     {
@@ -139,11 +123,207 @@ public static class Stage3
     },
 
     /*========== バネ の位置 ==========*/
-        new Int2[]                // 裏
-        {
-        },
-        new Int2[]                // 裏
-        {
-        }
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
+    }
 );
+
+
+    public static readonly StageData Stage3_3 = new StageData(
+    5,                          // ステージ: 横
+    5,                          // ステージ: 縦
+    
+    new Int2(2, 4),           // 表: スタート位置
+    new Int2(1, 1),           // 表: ゴール位置
+    
+    new Int2(3, 2),           // 裏: スタート位置
+    new Int2(0, 0),           // 裏: ゴール位置
+    
+    new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
+    
+    false,                      // 向き変更可能か?
+    true,                       // 王様は左向きか?
+    false,                      // 姫様は左向きか?
+    
+    new int[] { 3, 1, 1, 2 },            // 縫える回数 と 縫える長さ
+    
+    /*========== 鉄板 の位置 ==========*/
+    new Int2[]                // 表
+    {
+    },
+    new Int2[]                // 裏
+    {
+    },
+    
+    /*========== しわ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
+    },
+    
+    /*========== 風穴 の位置 ==========*/
+    new WindPos[]               // 表
+    {
+    },
+    new WindPos[]               // 裏
+    {
+    },
+    
+    /*======== シーソー の位置 ========*/
+    new SeeSaw[]
+    {
+        new SeeSaw(false, 3, 2)
+    },
+    new SeeSaw[]
+    {
+    
+    },
+    
+    /*========== バネ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+        new Int2(1, 4)
+    },
+    new Int2[]                // 裏
+    {
+        new Int2(2, 2)
+    }
+    );
+
+
+
+    public static readonly StageData Stage3_4 = new StageData(
+    5,                          // ステージ: 横
+    5,                          // ステージ: 縦
+
+    new Int2(0, 1),           // 表: スタート位置
+    new Int2(2, 4),           // 表: ゴール位置
+
+    new Int2(2, 4),           // 裏: スタート位置
+    new Int2(0, 1),           // 裏: ゴール位置
+
+    new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
+
+    false,                      // 向き変更可能か?
+    true,                       // 王様は左向きか?
+    true,                      // 姫様は左向きか?
+
+    new int[] { 6, 2, 2, 3 },            // 縫える回数 と 縫える長さ
+
+    /*========== 鉄板 の位置 ==========*/
+    new Int2[]                // 表
+    {
+    },
+    new Int2[]                // 裏
+    {
+    },
+
+    /*========== しわ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
+    },
+
+    /*========== 風穴 の位置 ==========*/
+    new WindPos[]               // 表
+    {
+    },
+    new WindPos[]               // 裏
+    {
+    },
+
+    /*======== シーソー の位置 ========*/
+    new SeeSaw[]
+    {
+        
+    },
+    new SeeSaw[]
+    {
+
+    },
+
+    /*========== バネ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+        new Int2(1, 4)
+    },
+    new Int2[]                // 裏
+    {
+        new Int2(3, 3)
+    }
+    );
+
+
+
+    public static readonly StageData Stage3_5 = new StageData(
+    6,                          // ステージ: 横
+    6,                          // ステージ: 縦
+
+    new Int2(2, 4),           // 表: スタート位置
+    new Int2(0, 0),           // 表: ゴール位置
+
+    new Int2(0, 1),           // 裏: スタート位置
+    new Int2(3, 4),           // 裏: ゴール位置
+
+    new SoulPos(false, 0, 0),    // 魂の位置: 左側, X=0, Y=3
+
+    false,                      // 向き変更可能か?
+    true,                       // 王様は左向きか?
+    true,                      // 姫様は左向きか?
+
+    new int[] { 1, 4, 1, 3, 2 },            // 縫える回数 と 縫える長さ
+
+    /*========== 鉄板 の位置 ==========*/
+    new Int2[]                // 表
+    {
+    },
+    new Int2[]                // 裏
+    {
+    },
+
+    /*========== しわ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
+    },
+
+    /*========== 風穴 の位置 ==========*/
+    new WindPos[]               // 表
+    {
+    },
+    new WindPos[]               // 裏
+    {
+    },
+
+    /*======== シーソー の位置 ========*/
+    new SeeSaw[]
+    {
+        new SeeSaw(true, 3, 1)
+    },
+    new SeeSaw[]
+    {
+        new SeeSaw(false, 3, 1)
+    },
+
+    /*========== バネ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+        new Int2(1, 2),
+        new Int2(5, 2)
+    },
+    new Int2[]                // 裏
+    {
+        new Int2(2, 3),
+        new Int2(5, 4)
+    }
+    );
 }
