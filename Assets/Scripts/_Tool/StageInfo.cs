@@ -99,6 +99,8 @@ namespace StageInfo
         public IReadOnlyList<SeeSaw> seeSaw_back { get; }
         public IReadOnlyList<Int2> SPRING_front { get; }
         public IReadOnlyList<Int2> SPRING_back { get; }
+        public IReadOnlyList<Int2> SCISSOR_front { get; }
+        public IReadOnlyList<Int2> SCISSOR_back { get; }
 
         // シグネチャコンストラクタ
         public StageData(int stage_width, int stage_height,
@@ -113,7 +115,8 @@ namespace StageInfo
             Int2[] wrinkle_front, Int2[] wrinkle_back,
             WindPos[] wind_front, WindPos[] wind_back,
             SeeSaw[] seesaw_front, SeeSaw[] seesaw_back,
-            Int2[] spring_front, Int2[] spring_back
+            Int2[] spring_front, Int2[] spring_back,
+            Int2[] scissor_front, Int2[] scissor_back
         )
         {
             STAGE_WIDTH = stage_width;
@@ -139,6 +142,8 @@ namespace StageInfo
             seeSaw_back = Array.AsReadOnly(seesaw_back ?? Array.Empty<SeeSaw>());
             SPRING_front = Array.AsReadOnly(spring_front ?? Array.Empty<Int2>());
             SPRING_back = Array.AsReadOnly(spring_back ?? Array.Empty<Int2>());
+            SCISSOR_front = Array.AsReadOnly(scissor_front ?? Array.Empty<Int2>());
+            SCISSOR_back = Array.AsReadOnly(scissor_back ?? Array.Empty<Int2>());
         }
     }
 }

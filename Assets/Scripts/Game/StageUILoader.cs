@@ -201,7 +201,11 @@ public class StageUILoader : MonoBehaviour
 
         // バネ配置
         SetObjFromInt2(stageGrid, 12, stage.SPRING_front, false, offset);
-        SetObjFromInt2(stageGrid, 12, stage.SPRING_back, true, offset); 
+        SetObjFromInt2(stageGrid, 12, stage.SPRING_back, true, offset);
+
+        // ハサミ配置
+        SetObjFromInt2(stageGrid, 13, stage.SCISSOR_front, false, offset);
+        SetObjFromInt2(stageGrid, 13, stage.SCISSOR_back, true, offset);
     }
 
     private void SetObjFromInt2(List<List<int>> grid, int id, IReadOnlyList<StageInfo.Int2> positions, bool isBack, int offset)

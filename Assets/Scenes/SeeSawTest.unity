@@ -1805,7 +1805,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2941174502447666754, guid: 9b760c1841ea26a4080d40846764d580, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3184185888779801166, guid: 9b760c1841ea26a4080d40846764d580, type: 3}
       propertyPath: m_Pivot.x
@@ -1957,7 +1957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useDataFromDropdown: 1
-  stageId: 14
+  stageId: 16
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
@@ -1979,9 +1979,9 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8000182b59d048a409924b8babd2589b, type: 3}
     prefab: {fileID: 7296938410568890891, guid: 584d4985337303e479cb431df2da8d7e, type: 3}
   - id: 5
-    tag: Untagged
+    tag: PinCuttion
     sprite: {fileID: 21300000, guid: a999b30b186eb4543966529e057f3228, type: 3}
-    prefab: {fileID: 0}
+    prefab: {fileID: 7770639960300987361, guid: b947aacf164c04b48b1265062342d52f, type: 3}
   - id: 0
     tag: Untagged
     sprite: {fileID: 21300000, guid: 62c87409786effb45870c170878f8efc, type: 3}
@@ -2002,6 +2002,10 @@ MonoBehaviour:
     tag: Spring
     sprite: {fileID: 21300000, guid: b9299d2c4bf2d4b40abdf815a62369b6, type: 3}
     prefab: {fileID: 7296938410568890891, guid: 052e18a705ab17a44984ea52aac197e7, type: 3}
+  - id: 13
+    tag: Cutter
+    sprite: {fileID: 0}
+    prefab: {fileID: 7296938410568890891, guid: 0cd9d19bfdf9b84498440452b07ebd6b, type: 3}
   king: {fileID: 1098702340}
   queen: {fileID: 857900052}
 --- !u!1 &575719057

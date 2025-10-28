@@ -71,12 +71,20 @@ public static class Stage1_Test
         },
         new Int2[]                // 裏
         {
+        },
+
+        /*========== ハサミ の位置 ==========*/
+        new Int2[]                // 裏
+        {
+        },
+        new Int2[]                // 裏
+        {
         }
     );
 
     public static readonly StageData Stage2_Test = new StageData(
-        6,                          // ステージ: 横
-        8,                          // ステージ: 縦
+        5,                          // ステージ: 横
+        6,                          // ステージ: 縦
 
         new Int2(0, 3),           // 表: スタート位置
         new Int2(5, 4),           // 表: ゴール位置
@@ -100,12 +108,14 @@ public static class Stage1_Test
         {
         },
 
-        /*========== しわ の位置 ==========*/
+        /*========== 針山 の位置 ==========*/
         new Int2[]                // 裏
         {
+            //new Int2(2, 2)
         },
         new Int2[]                // 裏
         {
+            //new Int2(2, 0)
         },
 
         /*========== 風穴 の位置 ==========*/
@@ -134,6 +144,16 @@ public static class Stage1_Test
         new Int2[]                // 裏
         {
             new Int2(2, 2)
+        },
+
+        /*========== ハサミ の位置 ==========*/
+        new Int2[]                // 裏
+        {
+            new Int2(3, 3)
+        },
+        new Int2[]                // 裏
+        {
+            new Int2(2, 1)
         }
     );
 }

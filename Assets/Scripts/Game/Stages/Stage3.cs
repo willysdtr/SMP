@@ -66,6 +66,14 @@ public static class Stage3
         },
         new Int2[]                // 裏
         {
+        },
+
+        /*========== ハサミ の位置 ==========*/
+        new Int2[]                // 裏
+        {
+        },
+        new Int2[]                // 裏
+        {
         }
     );
 
@@ -123,6 +131,14 @@ public static class Stage3
     },
 
     /*========== バネ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
+    },
+
+    /*========== ハサミ の位置 ==========*/
     new Int2[]                // 裏
     {
     },
@@ -192,6 +208,14 @@ public static class Stage3
     new Int2[]                // 裏
     {
         new Int2(2, 2)
+    },
+
+    /*========== ハサミ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
     }
     );
 
@@ -257,6 +281,14 @@ public static class Stage3
     new Int2[]                // 裏
     {
         new Int2(3, 3)
+    },
+
+    /*========== ハサミ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
     }
     );
 
@@ -324,6 +356,14 @@ public static class Stage3
     {
         new Int2(2, 3),
         new Int2(5, 4)
+    },
+
+    /*========== ハサミ の位置 ==========*/
+    new Int2[]                // 裏
+    {
+    },
+    new Int2[]                // 裏
+    {
     }
     );
 }
