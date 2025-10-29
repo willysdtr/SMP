@@ -60,19 +60,34 @@ public class StringManager_Canvas : MonoBehaviour
         // 糸の縫い操作
         inputActions.Stirng.nami.performed += ctx =>
         {
-            Debug.Log("Pause画面"+PauseApperance.Instance.isPause);
             if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
 
                 float value = ctx.ReadValue<float>();
 
             if (m_StringMode == isString)
             {
+                while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
+                {
+                    currentIndex++;
+                }
+                Debug.Log($"Current Index: {currentIndex}, StringNum: {StringNum[currentIndex]}");
+                if (currentIndex >= StringNum[currentIndex])
+                {
+                    Debug.Log("ばいばい");
+                    return;
+                }
                 // 糸縫いモード時の方向操作
                 m_PauseDirection = value;
                 if (m_PauseDirection == 1) OnUpInput();
                 else if (m_PauseDirection == -1) OnDownInput();
                 else if (m_PauseDirection == 2) OnRightInput();
                 else if (m_PauseDirection == 3) OnLeftInput();
+                if (StringNum[currentIndex] == 0)
+                {
+                    currentIndex++;
+                    Debug.Log($"Index {currentIndex} わあわあ");
+                    BallStopper();
+                }
             }
             else
             {
@@ -100,17 +115,26 @@ public class StringManager_Canvas : MonoBehaviour
                 }
                 StringCursol.anchoredPosition += offset;
             }
+            Debug.Log(StageWidth);
         };
 
         // 玉止め（糸の終端）設置操作
         inputActions.Stirng.tama.performed += ctx =>
         {
+            if (currentIndex >= StringNum.Count)
+            {
+                return;
+            }
             if (Strings.Count > 0) BallStopper();
         };
 
         // 糸を縫う処理
         inputActions.Stirng.start.performed += ctx =>
         {
+            if (currentIndex >= StringNum.Count)
+            {
+                return;
+            }
             if (PauseApperance.Instance.isPause|| (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
             if (m_StringMode == isString || currentIndex >= StringNum.Count) return;
 
@@ -154,6 +178,7 @@ public class StringManager_Canvas : MonoBehaviour
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
 
         StringNum = new List<int>(StageUILoader.stage.STRING_COUNT); // ステージの糸数情報を取得
+
         listDisplay.UpdateDisplay(StringNum); // UI表示を更新
         CopyStringNum = new List<int>(StringNum);
     }
@@ -205,7 +230,8 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.identity);
             m_LastDirection = RIGHT;
-            StageWidth++;
+            //StageWidth++;
+            StringNum[currentIndex]--;
         }
     }
 
@@ -230,7 +256,9 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 180, 0));
             m_LastDirection = LEFT;
-            StageWidth--;
+            //StageWidth--;
+            StringNum[currentIndex]--;
+            StringNum[currentIndex]--;
         }
     }
 
@@ -252,7 +280,7 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 90));
             m_LastDirection = UP;
-            StageHeight--;
+            //StageHeight--;
         }
     }
 
@@ -275,7 +303,8 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 270));
             m_LastDirection = DOWN;
-            StageHeight++;
+            //StageHeight++;いったん消します
+            StringNum[currentIndex]--;
         }
     }
 
