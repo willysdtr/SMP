@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class PlayerController : MonoBehaviour
     private RectTransform rect;
     public bool start = false;
     public bool goal = false;
+
+    //L、Rボタンを押しているか
+    private bool lPressed = false;
+    private bool rPressed = false;
 
     [SerializeField]
     private AudioClip[] sound; // { 歩行SE、よじ登りSE、落下SE}
@@ -181,19 +186,40 @@ public class PlayerController : MonoBehaviour
         // InputSystem 有効化
         inputActions.Enable();
 
-        inputActions.Player.Attack.performed += OnStartPerformed;
+        // L押下
+        inputActions.Stirng.PlayerStartL.performed += ctx =>
+        {
+            lPressed = true;
+            OnStartPerformed();
+        };
+        inputActions.Stirng.PlayerStartL.canceled += ctx => lPressed = false;
+
+        // R押下
+        inputActions.Stirng.PlayerStartR.performed += ctx =>
+        {
+            rPressed = true;
+            OnStartPerformed();
+        };
+        inputActions.Stirng.PlayerStartR.canceled += ctx => rPressed = false;
+
     }
 
     void OnDisable()
     {
         // InputSystem無効化 & イベント解除
-        inputActions.Player.Attack.performed -= OnStartPerformed;
+        inputActions.Stirng.PlayerStartL.performed -= ctx => { lPressed = true; OnStartPerformed(); };
+        inputActions.Stirng.PlayerStartL.canceled -= ctx => lPressed = false;
+
+        inputActions.Stirng.PlayerStartR.performed -= ctx => { rPressed = true; OnStartPerformed(); };
+        inputActions.Stirng.PlayerStartR.canceled -= ctx => rPressed = false;
+
         inputActions.Disable();
     }
 
-    private void OnStartPerformed(InputAction.CallbackContext ctx)//スタート状態と非スタートの切り替え
+    private void OnStartPerformed()//スタート状態と非スタートの切り替え
     {
         if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
+        if(!(lPressed && rPressed)) { return; }//LRが同時押しされてなければ処理をしない
         if (!start) // スタートに切り替え
         {
 
