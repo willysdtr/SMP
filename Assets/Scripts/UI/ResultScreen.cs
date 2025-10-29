@@ -26,17 +26,17 @@ public class ResultScreen : MonoBehaviour
     private bool isLeftSelected = true;
 
     private InputSystem_Actions inputsystem;
-    private InputAction navigateAction;
-    private InputAction submitAction;
-    private bool inputEnabled;
+
     private float horizontalInput;
 
-
-    void Start()
+    private void Awake()
     {
         inputsystem = new InputSystem_Actions();
 
-
+    }
+    void Start()
+    {
+       
         centerPos = panel.anchoredPosition;
         hiddenPos = new Vector2(centerPos.x, Screen.height);
         panel.anchoredPosition = hiddenPos;
@@ -53,13 +53,20 @@ public class ResultScreen : MonoBehaviour
 
     public void ShowResult(bool win)
     {
+        isWin = win;
+
         panel.anchoredPosition = hiddenPos;
 
         winScreen.gameObject.SetActive(win);
         loseScreen.gameObject.SetActive(!win);
 
+        RectTransform activeScreen = win ? winScreen.rectTransform : loseScreen.rectTransform;
+        cursor.rectTransform.SetParent(activeScreen, worldPositionStays: false);
+
+        int textIndex = activeScreen.Find("Text").GetSiblingIndex();
+        cursor.rectTransform.SetSiblingIndex(textIndex);
+
         cursor.gameObject.SetActive(true);
-        cursor.rectTransform.anchoredPosition = rightButtonPos.anchoredPosition;
         MoveCursor(isLeftSelected ? leftButtonPos : rightButtonPos, instant: true);
 
         panel.DOAnchorPos(centerPos, 0.5f).SetEase(Ease.InOutQuad);
@@ -73,7 +80,7 @@ public class ResultScreen : MonoBehaviour
         inputsystem.Select.Move.performed += ctx =>
         {
             horizontalInput = ctx.ReadValue<float>();
-            if (horizontalInput == 1)
+            if (horizontalInput != 1)
             {
                 SetSelection(true);
             }
@@ -125,7 +132,7 @@ public class ResultScreen : MonoBehaviour
 
     void OnWinLeft()
     {
-        SMPState.Instance.m_CurrentGameState = SMPState.GameState.SelectStage;//Gameplay状態にする
+        //SMPState.Instance.m_CurrentGameState = SMPState.GameState.SelectStage;//Gameplay状態にする
         // ゲームステージをロードする
         SceneManager.LoadScene("SelectScene");
     }
@@ -133,24 +140,53 @@ public class ResultScreen : MonoBehaviour
     void OnWinRight()
     {
         SMPState.CURRENT_STAGE += 1;
-        SMPState.Instance.m_CurrentGameState = SMPState.GameState.PlayGame;//Gameplay状態にする
+        //SMPState.Instance.m_CurrentGameState = SMPState.GameState.PlayGame;//Gameplay状態にする
         // ゲームステージをロードする
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void OnLoseLeft()
     {
-        SMPState.Instance.m_CurrentGameState = SMPState.GameState.SelectStage;//Gameplay状態にする
+        //SMPState.Instance.m_CurrentGameState = SMPState.GameState.SelectStage;//Gameplay状態にする
         // ゲームステージをロードする
         SceneManager.LoadScene("SelectScene");
     }
 
     void OnLoseRight()
     {
-        SMPState.Instance.m_CurrentGameState = SMPState.GameState.PlayGame;//Gameplay状態にする
+        //SMPState.Instance.m_CurrentGameState = SMPState.GameState.PlayGame;//Gameplay状態にする
         // ゲームステージをロードする
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    void OnEnable()
+    {
+        inputsystem.Enable();
 
+        inputsystem.Select.Move.performed += OnMovePerformed;
+        inputsystem.Select.SelectStage.performed += OnSelectPerformed;
+    }
+
+    void OnDisable()
+    {
+        inputsystem.Select.Move.performed -= OnMovePerformed;
+        inputsystem.Select.SelectStage.performed -= OnSelectPerformed;
+
+        inputsystem.Disable();
+    }
+
+    private void OnMovePerformed(InputAction.CallbackContext ctx)
+    {
+        float horizontalInput = ctx.ReadValue<float>();
+
+        if (horizontalInput > 0)
+            SetSelection(false); // right
+        else if (horizontalInput < 0)
+            SetSelection(true); // left
+    }
+
+    private void OnSelectPerformed(InputAction.CallbackContext ctx)
+    {
+        ConfirmSelection();
+    }
 }
