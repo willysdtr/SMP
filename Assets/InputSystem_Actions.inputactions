@@ -81,15 +81,6 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "641cd816-40e6-41b4-8c3d-04687c349290",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "0ef38707-31d8-49aa-a780-5adea8e65412",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -479,17 +470,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "35eed65e-7306-46b7-90aa-7bce7ad4b244",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1382,6 +1362,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BackString",
+                    "type": "Button",
+                    "id": "152aadd6-7182-40ce-ba85-02f5d3a1487a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1470,6 +1459,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "cutstring",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "521012e6-4cc3-46e9-8396-90dad38e1949",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BackString",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

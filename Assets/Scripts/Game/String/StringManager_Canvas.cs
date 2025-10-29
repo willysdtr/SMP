@@ -52,6 +52,7 @@ public class StringManager_Canvas : MonoBehaviour
     private int StageWidth = 0;
     private int StageHeight = 0;
     public int CutNum = 0;
+    private int m_PreDirection= First;
 
     void Awake()
     {
@@ -62,8 +63,9 @@ public class StringManager_Canvas : MonoBehaviour
         {
             if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
 
-                float value = ctx.ReadValue<float>();
+             float value = ctx.ReadValue<float>();
 
+            Debug.Log(m_LastDirection);
             if (m_StringMode == isString)
             {
                 while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
@@ -115,7 +117,7 @@ public class StringManager_Canvas : MonoBehaviour
                 }
                 StringCursol.anchoredPosition += offset;
             }
-            Debug.Log(StageWidth);
+            //Debug.Log(StringNum[currentIndex]);
         };
 
         // 玉止め（糸の終端）設置操作
@@ -146,6 +148,11 @@ public class StringManager_Canvas : MonoBehaviour
             m_StringMode = isString;
         };
 
+        inputActions.Stirng.BackString.performed += ctx =>
+        {
+            RemoveLastStitch();
+        };  
+
         // 返し縫いを生成(没のためコメントアウト)
         //inputActions.Stirng.kaesi.performed += ctx =>
         //{
@@ -170,6 +177,55 @@ public class StringManager_Canvas : MonoBehaviour
                 Debug.LogWarning("カットできるStringが存在しません。");
             }
         };
+    }
+
+    public void RemoveLastStitch()
+    {
+        // 糸が存在しない or FirstPointしかない場合は何もしない
+        if (Strings.Count <= 1)
+        {
+            Debug.LogWarning("削除できる糸がありません。");
+            return;
+        }
+
+        // 最後の糸インデックス
+        int lastIndex = Strings.Count - 1;
+        int mirrorLastIndex = MirrorStrings.Count - 1;
+
+        // 「1つ前」の糸位置を再開用に保存
+        Vector2 resumePos = Strings[lastIndex - 1] != null
+            ? Strings[lastIndex - 1].anchoredPosition
+            : Vector2.zero;
+
+        // Destroy対象を全部チェックして安全に削除
+        if (Strings[lastIndex] != null) Destroy(Strings[lastIndex].gameObject);
+        if (mirrorLastIndex >= 0 && MirrorStrings[mirrorLastIndex] != null) Destroy(MirrorStrings[mirrorLastIndex].gameObject);
+        if (mirrorLastIndex >= 0 && FrontStrings.Count > mirrorLastIndex && FrontStrings[mirrorLastIndex] != null)
+            Destroy(FrontStrings[mirrorLastIndex].gameObject);
+        if (mirrorLastIndex >= 0 && BackStrings.Count > mirrorLastIndex && BackStrings[mirrorLastIndex] != null)
+            Destroy(BackStrings[mirrorLastIndex].gameObject);
+
+        // リストから削除（破棄後すぐ削除することでMissingReferenceを防ぐ）
+        Strings.RemoveAt(lastIndex);
+        if (mirrorLastIndex >= 0)
+        {
+            MirrorStrings.RemoveAt(mirrorLastIndex);
+            FrontStrings.RemoveAt(mirrorLastIndex);
+            BackStrings.RemoveAt(mirrorLastIndex);
+        }
+
+        // null要素を除去（Destroy済みの幽霊参照を消す）
+        Strings.RemoveAll(s => s == null);
+        MirrorStrings.RemoveAll(s => s == null);
+        FrontStrings.RemoveAll(s => s == null);
+        BackStrings.RemoveAll(s => s == null);
+
+
+        // 縫い方向を初期化
+        m_LastDirection = m_PreDirection;
+        Debug.Log(m_LastDirection);
+        StringNum[currentIndex]++;
+
     }
 
     void Start()
@@ -215,7 +271,9 @@ public class StringManager_Canvas : MonoBehaviour
     void OnRightInput()
     {
         if (m_LastDirection == LEFT) return;
-
+        //Debug.Log(m_LastDirection);
+        m_PreDirection=m_LastDirection;//直前の方向を保存
+        Debug.Log(Strings[^1].anchoredPosition);
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos + m_Offset_X;
 
@@ -242,6 +300,8 @@ public class StringManager_Canvas : MonoBehaviour
     {
         if (m_LastDirection == RIGHT) return;
 
+        m_PreDirection = m_LastDirection;//直前の方向を保存
+
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos - m_Offset_X;
 
@@ -266,6 +326,8 @@ public class StringManager_Canvas : MonoBehaviour
     {
         if (m_LastDirection == DOWN) return;
 
+        m_PreDirection = m_LastDirection;//直前の方向を保存
+
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos;
 
@@ -287,6 +349,8 @@ public class StringManager_Canvas : MonoBehaviour
     void OnDownInput()
     {
         if (m_LastDirection == UP) return;
+
+        m_PreDirection = m_LastDirection;//直前の方向を保存
 
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos;
@@ -427,12 +491,25 @@ public class StringManager_Canvas : MonoBehaviour
     // 糸の配置位置に重なりがないかをチェック
     bool CheckString(Vector2 pos, Vector2 front, Vector2 back)
     {
+        // Destroy済み（MissingReference）をスキップする安全版ループ
         foreach (var str in Strings)
+        {
+            if (str == null || !str) continue;
             if (Vector2.Distance(str.anchoredPosition, front) < 0.001f) return false;
+        }
+
         foreach (var str in FrontStrings)
+        {
+            if (str == null || !str) continue; // ←★ これを追加
             if (Vector2.Distance(str.anchoredPosition, front) < 0.001f) return false;
+        }
+
         foreach (var str in BackStrings)
+        {
+            if (str == null || !str) continue; // ←★ これも追加
             if (Vector2.Distance(str.anchoredPosition, front) < 0.001f) return false;
+        }
+
         return true;
     }
 
