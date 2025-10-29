@@ -12,7 +12,7 @@ public class StringAnimation_Canvas : MonoBehaviour
     // 親Canvasを登録する関数（生成直後に呼び出す）
     public void SetCanvas(RectTransform canvas)
     {
-        Debug.Log("SetCanvas called with: " + canvas?.name);
+        //Debug.Log("SetCanvas called with: " + canvas?.name);
         canvasTransform = canvas;
     }
 

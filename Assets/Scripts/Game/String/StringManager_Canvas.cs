@@ -52,6 +52,7 @@ public class StringManager_Canvas : MonoBehaviour
     private int StageWidth = 0;
     private int StageHeight = 0;
     public int CutNum = 0;
+    private int m_PreDirection= First;
 
     void Awake()
     {
@@ -60,19 +61,35 @@ public class StringManager_Canvas : MonoBehaviour
         // 糸の縫い操作
         inputActions.Stirng.nami.performed += ctx =>
         {
-            Debug.Log("Pause画面"+PauseApperance.Instance.isPause);
             if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
 
-                float value = ctx.ReadValue<float>();
+             float value = ctx.ReadValue<float>();
 
+            Debug.Log(m_LastDirection);
             if (m_StringMode == isString)
             {
+                while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
+                {
+                    currentIndex++;
+                }
+                Debug.Log($"Current Index: {currentIndex}, StringNum: {StringNum[currentIndex]}");
+                if (currentIndex >= StringNum[currentIndex])
+                {
+                    Debug.Log("ばいばい");
+                    return;
+                }
                 // 糸縫いモード時の方向操作
                 m_PauseDirection = value;
                 if (m_PauseDirection == 1) OnUpInput();
                 else if (m_PauseDirection == -1) OnDownInput();
                 else if (m_PauseDirection == 2) OnRightInput();
                 else if (m_PauseDirection == 3) OnLeftInput();
+                if (StringNum[currentIndex] == 0)
+                {
+                    currentIndex++;
+                    Debug.Log($"Index {currentIndex} わあわあ");
+                    BallStopper();
+                }
             }
             else
             {
@@ -100,17 +117,26 @@ public class StringManager_Canvas : MonoBehaviour
                 }
                 StringCursol.anchoredPosition += offset;
             }
+            //Debug.Log(StringNum[currentIndex]);
         };
 
         // 玉止め（糸の終端）設置操作
         inputActions.Stirng.tama.performed += ctx =>
         {
+            if (currentIndex >= StringNum.Count)
+            {
+                return;
+            }
             if (Strings.Count > 0) BallStopper();
         };
 
         // 糸を縫う処理
         inputActions.Stirng.start.performed += ctx =>
         {
+            if (currentIndex >= StringNum.Count)
+            {
+                return;
+            }
             if (PauseApperance.Instance.isPause|| (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
             if (m_StringMode == isString || currentIndex >= StringNum.Count) return;
 
@@ -121,6 +147,11 @@ public class StringManager_Canvas : MonoBehaviour
             Strings.Add(dummy);
             m_StringMode = isString;
         };
+
+        inputActions.Stirng.BackString.performed += ctx =>
+        {
+            RemoveLastStitch();
+        };  
 
         // 返し縫いを生成(没のためコメントアウト)
         //inputActions.Stirng.kaesi.performed += ctx =>
@@ -148,12 +179,62 @@ public class StringManager_Canvas : MonoBehaviour
         };
     }
 
+    public void RemoveLastStitch()
+    {
+        // 糸が存在しない or FirstPointしかない場合は何もしない
+        if (Strings.Count <= 1)
+        {
+            Debug.LogWarning("削除できる糸がありません。");
+            return;
+        }
+
+        // 最後の糸インデックス
+        int lastIndex = Strings.Count - 1;
+        int mirrorLastIndex = MirrorStrings.Count - 1;
+
+        // 「1つ前」の糸位置を再開用に保存
+        Vector2 resumePos = Strings[lastIndex - 1] != null
+            ? Strings[lastIndex - 1].anchoredPosition
+            : Vector2.zero;
+
+        // Destroy対象を全部チェックして安全に削除
+        if (Strings[lastIndex] != null) Destroy(Strings[lastIndex].gameObject);
+        if (mirrorLastIndex >= 0 && MirrorStrings[mirrorLastIndex] != null) Destroy(MirrorStrings[mirrorLastIndex].gameObject);
+        if (mirrorLastIndex >= 0 && FrontStrings.Count > mirrorLastIndex && FrontStrings[mirrorLastIndex] != null)
+            Destroy(FrontStrings[mirrorLastIndex].gameObject);
+        if (mirrorLastIndex >= 0 && BackStrings.Count > mirrorLastIndex && BackStrings[mirrorLastIndex] != null)
+            Destroy(BackStrings[mirrorLastIndex].gameObject);
+
+        // リストから削除（破棄後すぐ削除することでMissingReferenceを防ぐ）
+        Strings.RemoveAt(lastIndex);
+        if (mirrorLastIndex >= 0)
+        {
+            MirrorStrings.RemoveAt(mirrorLastIndex);
+            FrontStrings.RemoveAt(mirrorLastIndex);
+            BackStrings.RemoveAt(mirrorLastIndex);
+        }
+
+        // null要素を除去（Destroy済みの幽霊参照を消す）
+        Strings.RemoveAll(s => s == null);
+        MirrorStrings.RemoveAll(s => s == null);
+        FrontStrings.RemoveAll(s => s == null);
+        BackStrings.RemoveAll(s => s == null);
+
+
+        // 縫い方向を初期化
+        m_LastDirection = m_PreDirection;
+        Debug.Log(m_LastDirection);
+        StringNum[currentIndex]++;
+
+    }
+
     void Start()
     {
         m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
 
         StringNum = new List<int>(StageUILoader.stage.STRING_COUNT); // ステージの糸数情報を取得
+
         listDisplay.UpdateDisplay(StringNum); // UI表示を更新
         CopyStringNum = new List<int>(StringNum);
     }
@@ -190,7 +271,9 @@ public class StringManager_Canvas : MonoBehaviour
     void OnRightInput()
     {
         if (m_LastDirection == LEFT) return;
-
+        //Debug.Log(m_LastDirection);
+        m_PreDirection=m_LastDirection;//直前の方向を保存
+        Debug.Log(Strings[^1].anchoredPosition);
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos + m_Offset_X;
 
@@ -205,7 +288,8 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.identity);
             m_LastDirection = RIGHT;
-            StageWidth++;
+            //StageWidth++;
+            StringNum[currentIndex]--;
         }
     }
 
@@ -215,6 +299,8 @@ public class StringManager_Canvas : MonoBehaviour
     void OnLeftInput()
     {
         if (m_LastDirection == RIGHT) return;
+
+        m_PreDirection = m_LastDirection;//直前の方向を保存
 
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos - m_Offset_X;
@@ -230,13 +316,17 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 180, 0));
             m_LastDirection = LEFT;
-            StageWidth--;
+            //StageWidth--;
+            StringNum[currentIndex]--;
+            StringNum[currentIndex]--;
         }
     }
 
     void OnUpInput()
     {
         if (m_LastDirection == DOWN) return;
+
+        m_PreDirection = m_LastDirection;//直前の方向を保存
 
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos;
@@ -252,13 +342,15 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 90));
             m_LastDirection = UP;
-            StageHeight--;
+            //StageHeight--;
         }
     }
 
     void OnDownInput()
     {
         if (m_LastDirection == UP) return;
+
+        m_PreDirection = m_LastDirection;//直前の方向を保存
 
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos;
@@ -275,7 +367,8 @@ public class StringManager_Canvas : MonoBehaviour
         {
             AddString(newPos, frontPos, backPos, Quaternion.Euler(0, 0, 270));
             m_LastDirection = DOWN;
-            StageHeight++;
+            //StageHeight++;いったん消します
+            StringNum[currentIndex]--;
         }
     }
 
@@ -398,12 +491,25 @@ public class StringManager_Canvas : MonoBehaviour
     // 糸の配置位置に重なりがないかをチェック
     bool CheckString(Vector2 pos, Vector2 front, Vector2 back)
     {
+        // Destroy済み（MissingReference）をスキップする安全版ループ
         foreach (var str in Strings)
+        {
+            if (str == null || !str) continue;
             if (Vector2.Distance(str.anchoredPosition, front) < 0.001f) return false;
+        }
+
         foreach (var str in FrontStrings)
+        {
+            if (str == null || !str) continue; // ←★ これを追加
             if (Vector2.Distance(str.anchoredPosition, front) < 0.001f) return false;
+        }
+
         foreach (var str in BackStrings)
+        {
+            if (str == null || !str) continue; // ←★ これも追加
             if (Vector2.Distance(str.anchoredPosition, front) < 0.001f) return false;
+        }
+
         return true;
     }
 
