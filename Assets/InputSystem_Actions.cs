@@ -1468,6 +1468,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlayerStartL"",
+                    ""type"": ""Button"",
+                    ""id"": ""e83d4108-19ee-4510-9431-f20da207748f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlayerStartR"",
+                    ""type"": ""Button"",
+                    ""id"": ""7d680f66-be1c-4353-a4ab-536dc17b6c82"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1517,6 +1535,50 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4c81ff3a-4f6e-4b1b-98c3-dd8f4ce147fa"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc0c8510-6698-481c-a63a-82ab880b3293"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36f143d3-6269-497c-bea7-3d9727795efd"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c81cb7e7-ff03-4ea9-87b5-e922fedd106b"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=-1)"",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""nami"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""4b56ba0b-1709-482c-a286-9d7caafd907b"",
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
@@ -1539,11 +1601,33 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""2c0c0da7-ace3-4ce9-a1eb-58f33b3a1bd6"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""tama"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8551c224-a17a-494d-9100-62a3800299b4"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90729172-2edd-4055-a672-78c2ad2d1369"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1556,6 +1640,50 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""cutstring"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c0b33a6-c952-41e5-947d-9a7d66dbc4bd"",
+                    ""path"": ""<Keyboard>/#(X)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlayerStartL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23580294-e57d-4b6e-86ca-dc8a2ca79bca"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlayerStartL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48cc903f-6cb6-4e44-8d69-c02e2ea543e1"",
+                    ""path"": ""<Keyboard>/#(X)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlayerStartR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7be4d44c-af1f-4599-997d-220383007b1a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlayerStartR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1894,6 +2022,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Stirng_tama = m_Stirng.FindAction("tama", throwIfNotFound: true);
         m_Stirng_start = m_Stirng.FindAction("start", throwIfNotFound: true);
         m_Stirng_cutstring = m_Stirng.FindAction("cutstring", throwIfNotFound: true);
+        m_Stirng_PlayerStartL = m_Stirng.FindAction("PlayerStartL", throwIfNotFound: true);
+        m_Stirng_PlayerStartR = m_Stirng.FindAction("PlayerStartR", throwIfNotFound: true);
         // PrefubCursol
         m_PrefubCursol = asset.FindActionMap("PrefubCursol", throwIfNotFound: true);
         m_PrefubCursol_catch = m_PrefubCursol.FindAction("catch", throwIfNotFound: true);
@@ -2752,6 +2882,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Stirng_tama;
     private readonly InputAction m_Stirng_start;
     private readonly InputAction m_Stirng_cutstring;
+    private readonly InputAction m_Stirng_PlayerStartL;
+    private readonly InputAction m_Stirng_PlayerStartR;
     /// <summary>
     /// Provides access to input actions defined in input action map "Stirng".
     /// </summary>
@@ -2783,6 +2915,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Stirng/cutstring".
         /// </summary>
         public InputAction @cutstring => m_Wrapper.m_Stirng_cutstring;
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/PlayerStartL".
+        /// </summary>
+        public InputAction @PlayerStartL => m_Wrapper.m_Stirng_PlayerStartL;
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/PlayerStartR".
+        /// </summary>
+        public InputAction @PlayerStartR => m_Wrapper.m_Stirng_PlayerStartR;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2824,6 +2964,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @cutstring.started += instance.OnCutstring;
             @cutstring.performed += instance.OnCutstring;
             @cutstring.canceled += instance.OnCutstring;
+            @PlayerStartL.started += instance.OnPlayerStartL;
+            @PlayerStartL.performed += instance.OnPlayerStartL;
+            @PlayerStartL.canceled += instance.OnPlayerStartL;
+            @PlayerStartR.started += instance.OnPlayerStartR;
+            @PlayerStartR.performed += instance.OnPlayerStartR;
+            @PlayerStartR.canceled += instance.OnPlayerStartR;
         }
 
         /// <summary>
@@ -2850,6 +2996,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @cutstring.started -= instance.OnCutstring;
             @cutstring.performed -= instance.OnCutstring;
             @cutstring.canceled -= instance.OnCutstring;
+            @PlayerStartL.started -= instance.OnPlayerStartL;
+            @PlayerStartL.performed -= instance.OnPlayerStartL;
+            @PlayerStartL.canceled -= instance.OnPlayerStartL;
+            @PlayerStartR.started -= instance.OnPlayerStartR;
+            @PlayerStartR.performed -= instance.OnPlayerStartR;
+            @PlayerStartR.canceled -= instance.OnPlayerStartR;
         }
 
         /// <summary>
@@ -3487,6 +3639,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCutstring(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PlayerStartL" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlayerStartL(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PlayerStartR" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlayerStartR(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PrefubCursol" which allows adding and removing callbacks.
