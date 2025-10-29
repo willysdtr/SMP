@@ -148,10 +148,10 @@ public class StringManager_Canvas : MonoBehaviour
             m_StringMode = isString;
         };
 
-        inputActions.Stirng.BackString.performed += ctx =>
-        {
-            RemoveLastStitch();
-        };  
+        //inputActions.Stirng.BackString.performed += ctx =>
+        //{
+        //    RemoveLastStitch();
+        //};  
 
         // 返し縫いを生成(没のためコメントアウト)
         //inputActions.Stirng.kaesi.performed += ctx =>

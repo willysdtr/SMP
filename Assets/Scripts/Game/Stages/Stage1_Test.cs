@@ -111,11 +111,11 @@ public static class Stage1_Test
         /*========== jR ‚ÌˆÊ’u ==========*/
         new Int2[]                // — 
         {
-            //new Int2(2, 2)
+            new Int2(2, 2)
         },
         new Int2[]                // — 
         {
-            //new Int2(2, 0)
+            new Int2(2, 0)
         },
 
         /*========== •—ŒŠ ‚ÌˆÊ’u ==========*/
