@@ -1364,11 +1364,6 @@
                     "initialStateCheck": false
                 },
                 {
-<<<<<<< HEAD
-                    "name": "BackString",
-                    "type": "Button",
-                    "id": "152aadd6-7182-40ce-ba85-02f5d3a1487a",
-=======
                     "name": "PlayerStartL",
                     "type": "Button",
                     "id": "e83d4108-19ee-4510-9431-f20da207748f",
@@ -1381,7 +1376,6 @@
                     "name": "PlayerStartR",
                     "type": "Button",
                     "id": "7d680f66-be1c-4353-a4ab-536dc17b6c82",
->>>>>>> origin/Work_Taniguchi5
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1545,14 +1539,6 @@
                 },
                 {
                     "name": "",
-<<<<<<< HEAD
-                    "id": "521012e6-4cc3-46e9-8396-90dad38e1949",
-                    "path": "<Keyboard>/delete",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "BackString",
-=======
                     "id": "9c0b33a6-c952-41e5-947d-9a7d66dbc4bd",
                     "path": "<Keyboard>/#(X)",
                     "interactions": "",
@@ -1592,7 +1578,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlayerStartR",
->>>>>>> origin/Work_Taniguchi5
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

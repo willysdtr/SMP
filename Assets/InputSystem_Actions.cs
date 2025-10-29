@@ -1450,11 +1450,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-<<<<<<< HEAD
-                    ""name"": ""BackString"",
-                    ""type"": ""Button"",
-                    ""id"": ""152aadd6-7182-40ce-ba85-02f5d3a1487a"",
-=======
                     ""name"": ""PlayerStartL"",
                     ""type"": ""Button"",
                     ""id"": ""e83d4108-19ee-4510-9431-f20da207748f"",
@@ -1467,7 +1462,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""PlayerStartR"",
                     ""type"": ""Button"",
                     ""id"": ""7d680f66-be1c-4353-a4ab-536dc17b6c82"",
->>>>>>> origin/Work_Taniguchi5
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1631,14 +1625,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-<<<<<<< HEAD
-                    ""id"": ""521012e6-4cc3-46e9-8396-90dad38e1949"",
-                    ""path"": ""<Keyboard>/delete"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BackString"",
-=======
                     ""id"": ""9c0b33a6-c952-41e5-947d-9a7d66dbc4bd"",
                     ""path"": ""<Keyboard>/#(X)"",
                     ""interactions"": """",
@@ -1678,7 +1664,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PlayerStartR"",
->>>>>>> origin/Work_Taniguchi5
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2016,12 +2001,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Stirng_tama = m_Stirng.FindAction("tama", throwIfNotFound: true);
         m_Stirng_start = m_Stirng.FindAction("start", throwIfNotFound: true);
         m_Stirng_cutstring = m_Stirng.FindAction("cutstring", throwIfNotFound: true);
-<<<<<<< HEAD
-        m_Stirng_BackString = m_Stirng.FindAction("BackString", throwIfNotFound: true);
-=======
         m_Stirng_PlayerStartL = m_Stirng.FindAction("PlayerStartL", throwIfNotFound: true);
         m_Stirng_PlayerStartR = m_Stirng.FindAction("PlayerStartR", throwIfNotFound: true);
->>>>>>> origin/Work_Taniguchi5
         // PrefubCursol
         m_PrefubCursol = asset.FindActionMap("PrefubCursol", throwIfNotFound: true);
         m_PrefubCursol_catch = m_PrefubCursol.FindAction("catch", throwIfNotFound: true);
@@ -2869,12 +2850,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Stirng_tama;
     private readonly InputAction m_Stirng_start;
     private readonly InputAction m_Stirng_cutstring;
-<<<<<<< HEAD
-    private readonly InputAction m_Stirng_BackString;
-=======
     private readonly InputAction m_Stirng_PlayerStartL;
     private readonly InputAction m_Stirng_PlayerStartR;
->>>>>>> origin/Work_Taniguchi5
     /// <summary>
     /// Provides access to input actions defined in input action map "Stirng".
     /// </summary>
@@ -2907,11 +2884,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @cutstring => m_Wrapper.m_Stirng_cutstring;
         /// <summary>
-<<<<<<< HEAD
-        /// Provides access to the underlying input action "Stirng/BackString".
-        /// </summary>
-        public InputAction @BackString => m_Wrapper.m_Stirng_BackString;
-=======
         /// Provides access to the underlying input action "Stirng/PlayerStartL".
         /// </summary>
         public InputAction @PlayerStartL => m_Wrapper.m_Stirng_PlayerStartL;
@@ -2919,7 +2891,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Stirng/PlayerStartR".
         /// </summary>
         public InputAction @PlayerStartR => m_Wrapper.m_Stirng_PlayerStartR;
->>>>>>> origin/Work_Taniguchi5
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2961,18 +2932,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @cutstring.started += instance.OnCutstring;
             @cutstring.performed += instance.OnCutstring;
             @cutstring.canceled += instance.OnCutstring;
-<<<<<<< HEAD
-            @BackString.started += instance.OnBackString;
-            @BackString.performed += instance.OnBackString;
-            @BackString.canceled += instance.OnBackString;
-=======
             @PlayerStartL.started += instance.OnPlayerStartL;
             @PlayerStartL.performed += instance.OnPlayerStartL;
             @PlayerStartL.canceled += instance.OnPlayerStartL;
             @PlayerStartR.started += instance.OnPlayerStartR;
             @PlayerStartR.performed += instance.OnPlayerStartR;
             @PlayerStartR.canceled += instance.OnPlayerStartR;
->>>>>>> origin/Work_Taniguchi5
         }
 
         /// <summary>
@@ -2999,18 +2964,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @cutstring.started -= instance.OnCutstring;
             @cutstring.performed -= instance.OnCutstring;
             @cutstring.canceled -= instance.OnCutstring;
-<<<<<<< HEAD
-            @BackString.started -= instance.OnBackString;
-            @BackString.performed -= instance.OnBackString;
-            @BackString.canceled -= instance.OnBackString;
-=======
             @PlayerStartL.started -= instance.OnPlayerStartL;
             @PlayerStartL.performed -= instance.OnPlayerStartL;
             @PlayerStartL.canceled -= instance.OnPlayerStartL;
             @PlayerStartR.started -= instance.OnPlayerStartR;
             @PlayerStartR.performed -= instance.OnPlayerStartR;
             @PlayerStartR.canceled -= instance.OnPlayerStartR;
->>>>>>> origin/Work_Taniguchi5
         }
 
         /// <summary>
@@ -3642,18 +3601,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCutstring(InputAction.CallbackContext context);
         /// <summary>
-<<<<<<< HEAD
-        /// Method invoked when associated input action "BackString" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-=======
         /// Method invoked when associated input action "PlayerStartL" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
->>>>>>> origin/Work_Taniguchi5
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-<<<<<<< HEAD
-        void OnBackString(InputAction.CallbackContext context);
-=======
         void OnPlayerStartL(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "PlayerStartR" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -3662,7 +3614,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPlayerStartR(InputAction.CallbackContext context);
->>>>>>> origin/Work_Taniguchi5
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PrefubCursol" which allows adding and removing callbacks.
