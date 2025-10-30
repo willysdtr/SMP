@@ -15,6 +15,7 @@ public class PlayerCeilingCheck_Canvas : MonoBehaviour
     {
         if (((1 << collider.gameObject.layer) & m_cont.groundlayers) != 0)//当たったオブジェクトの数を記録し、障害物判定をオンにする
         {
+            if(collider.gameObject.tag == "PinCuttion") { return; }//針山はスルー
             ++contactcount;
             m_cont.state.IS_CEILING_HIT= true;
             m_cont.state.IS_JUMP = false;
