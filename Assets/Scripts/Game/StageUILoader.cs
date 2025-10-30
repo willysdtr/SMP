@@ -124,16 +124,17 @@ public class StageUILoader : MonoBehaviour
         SetupGrid(leftPanel, 0, cols / 2);
         SetupGrid(rightPanel, cols / 2, cols);
 
+
         StringManager_Canvas myStr = GetComponent<StringManager_Canvas>();
         myStr.SetCursor(GetTopLeftTilePositionInCanvas());
 
     }
 
-    void Start()
+    private void Start()
     {
+
         // 自分自身のRectTransformを取得
         RectTransform myRect = this.GetComponent<RectTransform>();
-
         //プレイヤー配置
         playerController = king.GetComponent<PlayerController>();
         if (playerController != null)
