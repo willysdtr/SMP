@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     { // 各種コンポーネントの取得
         move = GetComponent<PlayerMove>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         rect = GetComponent<RectTransform>();
         audiosource = GetComponent<AudioSource>();
         //　Stateクラスの初期化

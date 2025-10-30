@@ -18,6 +18,7 @@ public class PlayerCollision : MonoBehaviour
     private BoxCollider2D m_collider;
 
     private bool wallhit = false; // 壁に当たっているか（ジャンプ中の跳ね返り判定用）
+    private bool jumphit = false; //ばねに当たっているか
     private float setdiff = 0.0f; // 段差補正で加えたY軸差分の保存
 
     void Start()
@@ -41,6 +42,8 @@ public class PlayerCollision : MonoBehaviour
         //壁ヒット判定と段差補正値をリセット(ジャンプ中の処理に使用)
         wallhit = false;
         setdiff = 0.0f;
+        //ばねヒット判定をリセット
+        jumphit = false;
     }
 
     private void OnDrawGizmos()
@@ -108,9 +111,12 @@ public class PlayerCollision : MonoBehaviour
                             cont.state.IS_JUMP = true;
                             cont.state.IS_MOVE = false;
                             cont.state.IS_GROUND = false;
+                            jumphit = true;
+                            return;
                         }
                         else
                         {
+                            if(jumphit) { return; }
                             // 通常の床に接地したとき
                             cont.state.IS_GROUND = true;
                             cont.state.IS_MOVE = true;
