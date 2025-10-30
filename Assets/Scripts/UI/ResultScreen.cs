@@ -38,6 +38,24 @@ public class ResultScreen : MonoBehaviour
     {
         inputsystem = new InputSystem_Actions();
 
+        inputsystem.Result.CursorMove.performed += ctx =>
+        {
+            horizontalInput = ctx.ReadValue<float>();
+            if (horizontalInput != 1)
+            {
+                SetSelection(true);
+            }
+            else
+            {
+                SetSelection(false);
+            }
+        };
+
+        inputsystem.Result.ConfirmSelect.performed += ctx =>
+        {
+            ConfirmSelection();
+        };
+
     }
     void Start()
     {
@@ -50,6 +68,8 @@ public class ResultScreen : MonoBehaviour
         loseScreen.gameObject.SetActive(false);
         cursor.gameObject.SetActive(false);
 
+        inputsystem.Result.Disable();
+
         if (useDebug)
         {
             ShowResult(debugResult == DebugResult.Win);
@@ -58,6 +78,8 @@ public class ResultScreen : MonoBehaviour
 
     public void ShowResult(bool win)
     {
+        inputsystem.Result.Enable();
+
         isWin = win;
 
         panel.anchoredPosition = hiddenPos;
@@ -92,8 +114,6 @@ public class ResultScreen : MonoBehaviour
                 ShowResult(true);
                 resultTrigger = true;
             }
-                
-
             
         }
         
@@ -101,23 +121,7 @@ public class ResultScreen : MonoBehaviour
         // Ignore input if the result screen is hidden
         if (!panel.gameObject.activeInHierarchy) return;
 
-        inputsystem.Select.Move.performed += ctx =>
-        {
-            horizontalInput = ctx.ReadValue<float>();
-            if (horizontalInput != 1)
-            {
-                SetSelection(true);
-            }
-            else
-            {
-                SetSelection(false);
-            }
-        };
-
-        inputsystem.Select.SelectStage.performed += ctx =>
-        {
-            ConfirmSelection();
-        };
+        
             
     }
 
@@ -138,6 +142,8 @@ public class ResultScreen : MonoBehaviour
 
     void ConfirmSelection()
     {
+        inputsystem.Result.Disable();
+
         if (isWin)
         {
             if (isLeftSelected)
@@ -185,32 +191,8 @@ public class ResultScreen : MonoBehaviour
 
     void OnEnable()
     {
-        inputsystem.Enable();
-
-        inputsystem.Select.Move.performed += OnMovePerformed;
-        inputsystem.Select.SelectStage.performed += OnSelectPerformed;
+        inputsystem.Result.Enable();
     }
 
-    void OnDisable()
-    {
-        inputsystem.Select.Move.performed -= OnMovePerformed;
-        inputsystem.Select.SelectStage.performed -= OnSelectPerformed;
 
-        inputsystem.Disable();
-    }
-
-    private void OnMovePerformed(InputAction.CallbackContext ctx)
-    {
-        float horizontalInput = ctx.ReadValue<float>();
-
-        if (horizontalInput > 0)
-            SetSelection(false); // right
-        else if (horizontalInput < 0)
-            SetSelection(true); // left
-    }
-
-    private void OnSelectPerformed(InputAction.CallbackContext ctx)
-    {
-        ConfirmSelection();
-    }
 }

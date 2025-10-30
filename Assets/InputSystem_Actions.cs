@@ -1910,6 +1910,65 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Result"",
+            ""id"": ""192e874f-cfd8-4766-a2c8-be97fc505933"",
+            ""actions"": [
+                {
+                    ""name"": ""CursorMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""ffb5b38a-8c86-4145-b568-2b86fd75ccbd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ConfirmSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""71e91339-f692-446f-8b11-f21467e16b93"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ff4f2106-ad91-464d-ae99-b18ebe417e3d"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""168a0f4f-c228-454c-ae7b-8ed413bbc457"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=-1)"",
+                    ""groups"": """",
+                    ""action"": ""CursorMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2d8bedc-5e9b-42ee-a296-be09f49384b5"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ConfirmSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -2035,6 +2094,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Sound_SoundSelect = m_Sound.FindAction("SoundSelect", throwIfNotFound: true);
         m_Sound_Submit = m_Sound.FindAction("Submit", throwIfNotFound: true);
         m_Sound_Return = m_Sound.FindAction("Return", throwIfNotFound: true);
+        // Result
+        m_Result = asset.FindActionMap("Result", throwIfNotFound: true);
+        m_Result_CursorMove = m_Result.FindAction("CursorMove", throwIfNotFound: true);
+        m_Result_ConfirmSelect = m_Result.FindAction("ConfirmSelect", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -2047,6 +2110,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Stirng.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Stirng.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PrefubCursol.enabled, "This will cause a leak and performance issues, InputSystem_Actions.PrefubCursol.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Sound.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Sound.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Result.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Result.Disable() has not been called.");
     }
 
     /// <summary>
@@ -3282,6 +3346,113 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="SoundActions" /> instance referencing this action map.
     /// </summary>
     public SoundActions @Sound => new SoundActions(this);
+
+    // Result
+    private readonly InputActionMap m_Result;
+    private List<IResultActions> m_ResultActionsCallbackInterfaces = new List<IResultActions>();
+    private readonly InputAction m_Result_CursorMove;
+    private readonly InputAction m_Result_ConfirmSelect;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Result".
+    /// </summary>
+    public struct ResultActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public ResultActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Result/CursorMove".
+        /// </summary>
+        public InputAction @CursorMove => m_Wrapper.m_Result_CursorMove;
+        /// <summary>
+        /// Provides access to the underlying input action "Result/ConfirmSelect".
+        /// </summary>
+        public InputAction @ConfirmSelect => m_Wrapper.m_Result_ConfirmSelect;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Result; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="ResultActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(ResultActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="ResultActions" />
+        public void AddCallbacks(IResultActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ResultActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ResultActionsCallbackInterfaces.Add(instance);
+            @CursorMove.started += instance.OnCursorMove;
+            @CursorMove.performed += instance.OnCursorMove;
+            @CursorMove.canceled += instance.OnCursorMove;
+            @ConfirmSelect.started += instance.OnConfirmSelect;
+            @ConfirmSelect.performed += instance.OnConfirmSelect;
+            @ConfirmSelect.canceled += instance.OnConfirmSelect;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="ResultActions" />
+        private void UnregisterCallbacks(IResultActions instance)
+        {
+            @CursorMove.started -= instance.OnCursorMove;
+            @CursorMove.performed -= instance.OnCursorMove;
+            @CursorMove.canceled -= instance.OnCursorMove;
+            @ConfirmSelect.started -= instance.OnConfirmSelect;
+            @ConfirmSelect.performed -= instance.OnConfirmSelect;
+            @ConfirmSelect.canceled -= instance.OnConfirmSelect;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ResultActions.UnregisterCallbacks(IResultActions)" />.
+        /// </summary>
+        /// <seealso cref="ResultActions.UnregisterCallbacks(IResultActions)" />
+        public void RemoveCallbacks(IResultActions instance)
+        {
+            if (m_Wrapper.m_ResultActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="ResultActions.AddCallbacks(IResultActions)" />
+        /// <seealso cref="ResultActions.RemoveCallbacks(IResultActions)" />
+        /// <seealso cref="ResultActions.UnregisterCallbacks(IResultActions)" />
+        public void SetCallbacks(IResultActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ResultActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ResultActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="ResultActions" /> instance referencing this action map.
+    /// </summary>
+    public ResultActions @Result => new ResultActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -3718,5 +3889,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReturn(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Result" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="ResultActions.AddCallbacks(IResultActions)" />
+    /// <seealso cref="ResultActions.RemoveCallbacks(IResultActions)" />
+    public interface IResultActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "CursorMove" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCursorMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ConfirmSelect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnConfirmSelect(InputAction.CallbackContext context);
     }
 }

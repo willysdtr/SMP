@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDataFromDropdown: 1
+  useDataFromDropdown: 0
   stageId: 0
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
@@ -6416,7 +6416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2941174502447666754, guid: 9b760c1841ea26a4080d40846764d580, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3184185888779801166, guid: 9b760c1841ea26a4080d40846764d580, type: 3}
       propertyPath: m_Pivot.x

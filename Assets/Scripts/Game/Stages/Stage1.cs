@@ -152,7 +152,7 @@ public static class Stage1
 
         false,                      // 向き変更可能か?
         true,                      // 王様は左向きか?
-        false,                       // 姫様は左向きか?
+        true,                       // 姫様は左向きか?
 
         new int[] { 3 },            // 縫える回数 と 縫える長さ
 
