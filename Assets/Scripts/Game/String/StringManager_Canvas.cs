@@ -189,22 +189,6 @@ public class StringManager_Canvas : MonoBehaviour
         //    }
         //    OnKaesiInput();
         //};
-<<<<<<< HEAD
-
-        // 糸を切る操作
-        //inputActions.Stirng.cutstring.performed += ctx =>
-        //{
-        //    if (MirrorStrings.Count > 0)
-        //    {
-        //        CutString(MirrorStrings.Count - 1);
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("カットできるStringが存在しません。");
-        //    }
-        //};
-=======
->>>>>>> origin/Work_Sakaue9
     }
 
     public void RemoveLastStitch(int count = 1)
