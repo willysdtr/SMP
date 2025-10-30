@@ -29,7 +29,7 @@ public static class Stage1_Test
             //new Int2(4, 4),
         },
 
-        /*========== ÇµÇÌ ÇÃà íu ==========*/
+        /*========== êjéR ÇÃà íu ==========*/
         new Int2[]                // ó†
         {
             //new Int2(5, 2),
