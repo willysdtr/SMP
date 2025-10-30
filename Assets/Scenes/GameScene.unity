@@ -1867,8 +1867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDataFromDropdown: 0
-  stageId: 16
+  useDataFromDropdown: 1
+  stageId: 0
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
@@ -6905,6 +6905,10 @@ PrefabInstance:
       propertyPath: stringManager
       value: 
       objectReference: {fileID: 563705529}
+    - target: {fileID: 1963234149097902425, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
+      propertyPath: jumpHeight
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8320459624472767055, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
       propertyPath: m_Name
       value: Queen(UIImage)
@@ -6926,6 +6930,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 563705522}
     m_Modifications:
+    - target: {fileID: 731391746748908468, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
+      propertyPath: death
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 731391746748908468, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
+      propertyPath: start
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1290435428766803735, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
       propertyPath: m_GravityScale
       value: 30
