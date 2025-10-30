@@ -85,6 +85,23 @@ public class PlayerCollision : MonoBehaviour
                 return;
             }
 
+            if (collision.gameObject.tag == "Spring") //ばねに接触した場合
+            {
+                // バネに乗ったときの処理
+                transform.position = new Vector2(collision.transform.position.x, transform.position.y);
+                //ジャンプ中なら、STOP状態に変更する、これにより再びジャンプする
+                if (cont.state.IS_JUMP)
+                {
+                    cont.state.currentstate = PlayerState.State.STOP;
+                }
+                cont.state.IS_JUMP = true;
+                cont.state.IS_MOVE = false;
+                cont.state.IS_GROUND = false;
+                jumphit = true;
+                ground_obj.Clear(); // 接地オブジェクトリセット
+                return;
+            }
+
             // ゴールに接触した場合
             if (collision.gameObject.tag == "Goal")
             {
@@ -99,30 +116,13 @@ public class PlayerCollision : MonoBehaviour
                     // 上方向（床）との接触
                     if (Vector2.Angle(contact.normal, Vector2.up) < 20f)
                     {
-                        if (collision.gameObject.tag == "Spring")
-                        {
-                            // バネに乗ったときの処理
-                            transform.position = new Vector2(collision.transform.position.x, transform.position.y);
-                            //ジャンプ中なら、STOP状態に変更する、これにより再びジャンプする
-                            if (cont.state.IS_JUMP)
-                            {
-                                cont.state.currentstate = PlayerState.State.STOP;
-                            }
-                            cont.state.IS_JUMP = true;
-                            cont.state.IS_MOVE = false;
-                            cont.state.IS_GROUND = false;
-                            jumphit = true;
-                            return;
-                        }
-                        else
-                        {
-                            if(jumphit) { return; }
-                            // 通常の床に接地したとき
-                            cont.state.IS_GROUND = true;
-                            cont.state.IS_MOVE = true;
-                            cont.state.IS_JUMP = false;
-                            ground_obj.Add(collision.gameObject);
-                        }
+                       if(jumphit) { return; }
+                       // 通常の床に接地したとき
+                       cont.state.IS_GROUND = true;
+                       cont.state.IS_MOVE = true;
+                       cont.state.IS_JUMP = false;
+                       ground_obj.Add(collision.gameObject);
+                        
                     }
 
                     // 横方向（壁）との接触
@@ -133,8 +133,10 @@ public class PlayerCollision : MonoBehaviour
                         {
                             if (cont.cutCt > 0) // 糸を切れる回数がある場合
                             {
+
+                                bool front = collision.gameObject.GetComponent<StringAnimation_Canvas>().front;
                                 int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
-                                stringManager.CutString(index);
+                                stringManager.CutString(index,front);
                                 cont.cutCt--;
                                 return;
                             }

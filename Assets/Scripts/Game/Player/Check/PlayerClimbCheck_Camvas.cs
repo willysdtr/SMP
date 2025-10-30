@@ -15,6 +15,7 @@ public class PlayerClimbCheck_Canvas : MonoBehaviour
     {
         if (((1 << collider.gameObject.layer) & m_cont.groundlayers) != 0)//当たったオブジェクトの数を記録し、障害物判定をオンにする
         {
+            if(collider.gameObject.tag == "Cutter") { return; }//カッターはスルー
             ++contactcount;
             m_cont.state.IS_CLIMB_NG = true;
 

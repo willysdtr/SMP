@@ -167,17 +167,17 @@ public class StringManager_Canvas : MonoBehaviour
         //};
 
         // 糸を切る操作
-        inputActions.Stirng.cutstring.performed += ctx =>
-        {
-            if (MirrorStrings.Count > 0)
-            {
-                CutString(MirrorStrings.Count - 1);
-            }
-            else
-            {
-                Debug.LogWarning("カットできるStringが存在しません。");
-            }
-        };
+        //inputActions.Stirng.cutstring.performed += ctx =>
+        //{
+        //    if (MirrorStrings.Count > 0)
+        //    {
+        //        CutString(MirrorStrings.Count - 1);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("カットできるStringが存在しません。");
+        //    }
+        //};
     }
 
     public void RemoveLastStitch()
@@ -251,21 +251,27 @@ public class StringManager_Canvas : MonoBehaviour
     }
 
     // 糸を切る処理（指定indexの糸を削除）
-    public void CutString(int index)
+    public void CutString(int index, bool front)
     {
-        Destroy(MirrorStrings[index].gameObject);
-        Destroy(Strings[index + 1].gameObject); // FirstPointとの対応で+1
+        if (front)
+        {
+            Destroy(Strings[index + 1].gameObject); // FirstPointとの対応で+1
+            AnimStrings[index].DeleteImage(0);
+            Strings.RemoveAt(index);
+            AnimStrings.RemoveAt(index);
+        }
+        else
+        {
+            Destroy(MirrorStrings[index].gameObject);
+            MirrorAnimStrings[index].DeleteImage(0);
+            MirrorStrings.RemoveAt(index);
+            MirrorAnimStrings.RemoveAt(index);
+        }
         Destroy(FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);
 
-        AnimStrings[index].DeleteImage(0);
-        MirrorAnimStrings[index].DeleteImage(0);
-        MirrorStrings.RemoveAt(index);
-        Strings.RemoveAt(index);
         FrontStrings.RemoveAt(index);
         BackStrings.RemoveAt(index);
-        AnimStrings.RemoveAt(index);
-        MirrorAnimStrings.RemoveAt(index);
     }
 
     // 各方向への糸設置処理
@@ -431,6 +437,7 @@ public class StringManager_Canvas : MonoBehaviour
         {
             anim.SetCanvas(canvasTransform);
             anim.index = Strings.Count - 1; // FirstPoint対応で-1
+            anim.front = true;
         }
         AnimStrings.Add(anim);
 
@@ -455,6 +462,7 @@ public class StringManager_Canvas : MonoBehaviour
         {
             anim.SetCanvas(canvasTransform);
             anim.index = MirrorStrings.Count;
+            anim.front = false;
         }
         MirrorAnimStrings.Add(anim);
         col = mirrorStr.GetComponent<BoxCollider2D>();
