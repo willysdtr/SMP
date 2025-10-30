@@ -57,6 +57,21 @@ public class StringAnimation_Canvas : MonoBehaviour
     }
     public void DeleteImage(int i)
     {
-        ImageList[i].gameObject.SetActive(false);
+        if (ImageList == null || ImageList.Count == 0)
+        {
+            Debug.LogWarning($"[{name}] ImageListが空のため削除できません。");
+            return;
+        }
+
+        if (i < 0 || i >= ImageList.Count)
+        {
+            Debug.LogWarning($"[{name}] 不正なインデックス {i} が指定されました。ImageList.Count={ImageList.Count}");
+            return;
+        }
+
+        if (ImageList[i] != null)
+        {
+            ImageList[i].gameObject.SetActive(false);
+        }
     }
 }
