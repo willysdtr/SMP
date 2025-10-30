@@ -213,7 +213,7 @@ public static class Stage2
         4,                          // ステージ: 縦
 
         new Int2(0, 3),           // 表: スタート位置
-        new Int2(1, 1),           // 表: ゴール位置
+        new Int2(4, 2),           // 表: ゴール位置
 
         new Int2(2, 3),           // 裏: スタート位置
         new Int2(4, 3),           // 裏: ゴール位置

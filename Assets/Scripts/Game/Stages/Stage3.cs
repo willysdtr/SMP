@@ -74,6 +74,7 @@ public static class Stage3
         },
         new Int2[]                // 裏
         {
+            new Int2 (2, 4)
         }
     );
 
@@ -229,11 +230,11 @@ public static class Stage3
     5,                          // ステージ: 横
     5,                          // ステージ: 縦
 
-    new Int2(0, 1),           // 表: スタート位置
+    new Int2(1, 0),           // 表: スタート位置
     new Int2(2, 4),           // 表: ゴール位置
 
     new Int2(2, 4),           // 裏: スタート位置
-    new Int2(0, 1),           // 裏: ゴール位置
+    new Int2(1, 0),           // 裏: ゴール位置
 
     new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
 
@@ -283,7 +284,7 @@ public static class Stage3
     /*========== バネ の位置 ==========*/
     new Int2[]                // 裏
     {
-        new Int2(1, 4)
+        new Int2(1, 3)
     },
     new Int2[]                // 裏
     {
@@ -372,12 +373,12 @@ public static class Stage3
     /*========== ハサミ の位置 ==========*/
     new Int2[]                // 裏
     {
-        new Int2(4, 4)
+        new Int2(1, 4),
+        new Int2(3, 2)
     },
     new Int2[]                // 裏
     {
-        new Int2(1, 4),
-        new Int2(3, 2)
+        new Int2(4, 4)
     }
     );
 }
