@@ -118,6 +118,7 @@ public class StringManager_Canvas : MonoBehaviour
                 StringCursol.anchoredPosition += offset;
             }
             //Debug.Log(StringNum[currentIndex]);
+            listDisplay.UpdateDisplay(StringNum); // UI表示を更新
         };
 
         // 玉止め（糸の終端）設置操作
@@ -148,10 +149,10 @@ public class StringManager_Canvas : MonoBehaviour
             m_StringMode = isString;
         };
 
-        //inputActions.Stirng.BackString.performed += ctx =>
-        //{
-        //    RemoveLastStitch();
-        //};  
+        inputActions.Stirng.BackString.performed += ctx =>
+        {
+            RemoveLastStitch();
+        };
 
         // 返し縫いを生成(没のためコメントアウト)
         //inputActions.Stirng.kaesi.performed += ctx =>
