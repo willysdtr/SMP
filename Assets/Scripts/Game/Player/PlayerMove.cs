@@ -111,10 +111,12 @@ public class PlayerMove : MonoBehaviour
             if (goalpos.x > transform.position.x)
             {
                 direction = (int)PlayerState.Direction.RIGHT;//‰E
+                transform.eulerAngles = new Vector3(transform.rotation.x, -180, transform.rotation.z);
             }
             else if (goalpos.x < transform.position.x)
             {
                 direction = (int)PlayerState.Direction.LEFT;//¶
+                transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
             }
         }
 
