@@ -7,6 +7,9 @@ using Unity.VisualScripting;
 
 public class ResultScreen : MonoBehaviour
 {
+    [SerializeField] private PlayerController king;
+    [SerializeField] private PlayerController queen;
+
     [SerializeField] private RectTransform panel;
     [SerializeField] private RawImage winScreen;
     [SerializeField] private RawImage loseScreen;
@@ -28,6 +31,8 @@ public class ResultScreen : MonoBehaviour
     private InputSystem_Actions inputsystem;
 
     private float horizontalInput;
+
+    private bool resultTrigger = false;
 
     private void Awake()
     {
@@ -74,6 +79,25 @@ public class ResultScreen : MonoBehaviour
 
     void Update()
     {
+        if (!resultTrigger)
+        {
+            if (king.death || queen.death)
+            {
+                ShowResult(false);
+                resultTrigger = true;
+            }
+               
+            else if (king.goal && queen.goal)
+            {
+                ShowResult(true);
+                resultTrigger = true;
+            }
+                
+
+            
+        }
+        
+
         // Ignore input if the result screen is hidden
         if (!panel.gameObject.activeInHierarchy) return;
 
