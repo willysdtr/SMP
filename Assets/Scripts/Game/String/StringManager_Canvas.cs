@@ -193,6 +193,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void RemoveLastStitch(int count = 1)
     {
+        Debug.Log("aaaa");
         while (currentIndex > 0 && StringNum[currentIndex - 1] <= 0)
         {
             Debug.Log("インデックス増やすよ");

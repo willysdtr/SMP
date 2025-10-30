@@ -2024,8 +2024,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDataFromDropdown: 0
-  stageId: 0
+  useDataFromDropdown: 1
+  stageId: 16
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
@@ -2054,7 +2054,7 @@ MonoBehaviour:
     tag: Untagged
     sprite: {fileID: 21300000, guid: 62c87409786effb45870c170878f8efc, type: 3}
     prefab: {fileID: 0}
-  - id: 99
+  - id: 10
     tag: SeeSaw
     sprite: {fileID: 21300000, guid: 573b62a0db660ee4faa5dcbb7222d2e6, type: 3}
     prefab: {fileID: 7296938410568890891, guid: 1359ff730deec4b4c9ad735cdb2dece9, type: 3}
@@ -5058,7 +5058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1477416502
 AudioSource:
   m_ObjectHideFlags: 0
