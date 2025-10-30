@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private RectTransform rect;
     public bool start = false;
     public bool goal = false;
+    public bool death = false;
 
     //L、Rボタンを押しているか
     private bool lPressed = false;
@@ -116,7 +117,7 @@ public class PlayerController : MonoBehaviour
             case PlayerState.State.FALL: anim.speed = 0; break;
             case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); PlaySE(1, false); break;
             case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
-            case PlayerState.State.DEATH: anim.speed = 1; break;
+            case PlayerState.State.DEATH: anim.speed = 1; death = true; break;
         }
         anim.SetInteger("State", (int)state.currentstate);
     }
@@ -248,6 +249,9 @@ public class PlayerController : MonoBehaviour
         state.IS_GROUND = false;
         state.IS_JUMP = false;
         state.IS_GIMJUMP = false;
+        death = false;
+        start = false;
+        goal = false;
     }
 
     public void Goal(Vector2 pos) //ゴール処理
