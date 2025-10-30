@@ -102,7 +102,7 @@ public class PlayerMove : MonoBehaviour
     {
         int direction = 0;
         AllStop();
-        if (Mathf.Abs(goalpos.x) - Mathf.Abs(transform.position.x) < PlayerState.MAX_SPEED / 10)
+        if (Mathf.Abs(goalpos.x - transform.position.x) < PlayerState.MAX_SPEED / 10)
         {
             return true;//ƒS[ƒ‹‰‰o‚ªI‚í‚Á‚½‚çtrue‚ð•Ô‚·
         }

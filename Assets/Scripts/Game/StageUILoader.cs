@@ -124,6 +124,13 @@ public class StageUILoader : MonoBehaviour
         SetupGrid(leftPanel, 0, cols / 2);
         SetupGrid(rightPanel, cols / 2, cols);
 
+        StringManager_Canvas myStr = GetComponent<StringManager_Canvas>();
+        myStr.SetCursor(GetTopLeftTilePositionInCanvas());
+
+    }
+
+    void Start()
+    {
         // é©ï™é©êgÇÃRectTransformÇéÊìæ
         RectTransform myRect = this.GetComponent<RectTransform>();
 
@@ -139,10 +146,6 @@ public class StageUILoader : MonoBehaviour
         {
             playerController.PlaceAtPosition(myRect, queenPos, size, blocksize, stage.isQUEEN_LEFT);
         }
-
-        StringManager_Canvas myStr = GetComponent<StringManager_Canvas>();
-        myStr.SetCursor(GetTopLeftTilePositionInCanvas());
-
     }
 
     private void GenerateStageGridObjects()
