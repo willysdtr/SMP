@@ -1380,6 +1380,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BackString",
+                    "type": "Button",
+                    "id": "6ee1c3ea-d270-4a0e-89f1-504994b226f3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1578,6 +1587,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlayerStartR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7b63711-2ef5-4c0e-abd9-85ba67d8e4cb",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BackString",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

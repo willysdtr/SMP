@@ -1466,6 +1466,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BackString"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ee1c3ea-d270-4a0e-89f1-504994b226f3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1664,6 +1673,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PlayerStartR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7b63711-2ef5-4c0e-abd9-85ba67d8e4cb"",
+                    ""path"": ""<Keyboard>/delete"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BackString"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2003,6 +2023,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Stirng_cutstring = m_Stirng.FindAction("cutstring", throwIfNotFound: true);
         m_Stirng_PlayerStartL = m_Stirng.FindAction("PlayerStartL", throwIfNotFound: true);
         m_Stirng_PlayerStartR = m_Stirng.FindAction("PlayerStartR", throwIfNotFound: true);
+        m_Stirng_BackString = m_Stirng.FindAction("BackString", throwIfNotFound: true);
         // PrefubCursol
         m_PrefubCursol = asset.FindActionMap("PrefubCursol", throwIfNotFound: true);
         m_PrefubCursol_catch = m_PrefubCursol.FindAction("catch", throwIfNotFound: true);
@@ -2852,6 +2873,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Stirng_cutstring;
     private readonly InputAction m_Stirng_PlayerStartL;
     private readonly InputAction m_Stirng_PlayerStartR;
+    private readonly InputAction m_Stirng_BackString;
     /// <summary>
     /// Provides access to input actions defined in input action map "Stirng".
     /// </summary>
@@ -2891,6 +2913,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Stirng/PlayerStartR".
         /// </summary>
         public InputAction @PlayerStartR => m_Wrapper.m_Stirng_PlayerStartR;
+        /// <summary>
+        /// Provides access to the underlying input action "Stirng/BackString".
+        /// </summary>
+        public InputAction @BackString => m_Wrapper.m_Stirng_BackString;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2938,6 +2964,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @PlayerStartR.started += instance.OnPlayerStartR;
             @PlayerStartR.performed += instance.OnPlayerStartR;
             @PlayerStartR.canceled += instance.OnPlayerStartR;
+            @BackString.started += instance.OnBackString;
+            @BackString.performed += instance.OnBackString;
+            @BackString.canceled += instance.OnBackString;
         }
 
         /// <summary>
@@ -2970,6 +2999,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @PlayerStartR.started -= instance.OnPlayerStartR;
             @PlayerStartR.performed -= instance.OnPlayerStartR;
             @PlayerStartR.canceled -= instance.OnPlayerStartR;
+            @BackString.started -= instance.OnBackString;
+            @BackString.performed -= instance.OnBackString;
+            @BackString.canceled -= instance.OnBackString;
         }
 
         /// <summary>
@@ -3614,6 +3646,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPlayerStartR(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BackString" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBackString(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PrefubCursol" which allows adding and removing callbacks.
