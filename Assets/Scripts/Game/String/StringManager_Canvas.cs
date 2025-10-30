@@ -73,11 +73,6 @@ public class StringManager_Canvas : MonoBehaviour
                     currentIndex++;
                 }
                 Debug.Log($"Current Index: {currentIndex}, StringNum: {StringNum[currentIndex]}");
-                if (currentIndex >= StringNum[currentIndex])
-                {
-                    Debug.Log("ばいばい");
-                    return;
-                }
                 // 糸縫いモード時の方向操作
                 m_PauseDirection = value;
 
@@ -113,6 +108,7 @@ public class StringManager_Canvas : MonoBehaviour
                 {
                     currentIndex++;
                     BallStopper();
+                    Debug.Log(StringNum[currentIndex]);
                 }
             }
             else
@@ -590,7 +586,7 @@ public class StringManager_Canvas : MonoBehaviour
 
 
         m_StringMode = NoString;
-        //m_LastDirection = RIGHT;
+        m_LastDirection = First;
     }
 
     // 糸のサイズと当たり判定スケールを設定
