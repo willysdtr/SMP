@@ -177,6 +177,8 @@ public class PlayerController : MonoBehaviour
         collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
         check.localPosition = new(check.localPosition.x * setScale.x, check.localPosition.y * setScale.y);//checkの相対位置を変更
 
+        check = transform.Find("Animation");
+        check.localPosition = new(check.localPosition.x * setScale.x, check.localPosition.y * setScale.y);//checkの相対位置を変更
 
         if (isleft) { state.m_direction = (int)PlayerState.Direction.LEFT; transform.rotation = Quaternion.Euler(0, 0, 0); } // 左向き
         else { state.m_direction = (int)PlayerState.Direction.RIGHT; transform.rotation = Quaternion.Euler(0, 180, 0); } //右向き
