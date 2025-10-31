@@ -78,49 +78,28 @@ public class StringManager_Canvas : MonoBehaviour
                 // 糸縫いモード時の方向操作
                 m_PauseDirection = value;
 
-<<<<<<< HEAD
-                //カーソルを動かす操作はOn○○Inputに移動
-                //Vector2 offset = Vector2.zero;
-=======
                 offset = Vector2.zero;
->>>>>>> origin/Work_Sakaue9
                 if (m_PauseDirection == 1)
                 {
                     OnUpInput();
-<<<<<<< HEAD
-                    //offset = -m_Offset_Y;
-=======
                   
->>>>>>> origin/Work_Sakaue9
                 }
                 else if (m_PauseDirection == -1)
                 {
                     OnDownInput();
-<<<<<<< HEAD
-                    //offset = m_Offset_Y;
-=======
                    
->>>>>>> origin/Work_Sakaue9
                 }
                 else if (m_PauseDirection == 2)
                 {
                     // 右入力
                     OnRightInput();
-<<<<<<< HEAD
-                    //offset = m_Offset_X;
-=======
                   
->>>>>>> origin/Work_Sakaue9
                 }
                 else if (m_PauseDirection == 3)
                 {
                     // 左入力
                     OnLeftInput();
-<<<<<<< HEAD
-                    //offset = -m_Offset_X;
-=======
                    
->>>>>>> origin/Work_Sakaue9
                 }
                 //StringCursol.anchoredPosition += offset;
                 if (StringNum[currentIndex] == 0)
@@ -304,7 +283,7 @@ public class StringManager_Canvas : MonoBehaviour
 
 
             // 縫い方向を初期化
-<<<<<<< HEAD
+
             switch (m_LastDirection)
             {
                 case RIGHT:
@@ -329,13 +308,13 @@ public class StringManager_Canvas : MonoBehaviour
             {
                 m_LastDirection = First;
             }
-=======
-            // --- 直前の方向を復元 ---
-            if (Directions.Count > 0)
-                m_LastDirection = Directions[^1];
-            else
-                m_LastDirection = First; // 初期状態に戻す
->>>>>>> origin/Work_Sakaue9
+//=======
+ //           // --- 直前の方向を復元 ---
+ //           if (Directions.Count > 0)
+ //               m_LastDirection = Directions[^1];
+ //           else
+ //               m_LastDirection = First; // 初期状態に戻す
+//>>>>>>> origin/Work_Sakaue9
         }
 
     }
@@ -407,11 +386,11 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageWidth++;
             StringNum[currentIndex]--;
-<<<<<<< HEAD
+
             StringCursol.anchoredPosition += m_Offset_X;
-=======
-            offset = m_Offset_X;
->>>>>>> origin/Work_Sakaue9
+//=======
+//            offset = m_Offset_X;
+//>>>>>>> origin/Work_Sakaue9
         }
     }
 
@@ -441,11 +420,11 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageWidth--;
             StringNum[currentIndex]--;
-<<<<<<< HEAD
+
             StringCursol.anchoredPosition -= m_Offset_X;
-=======
-            offset = -m_Offset_X;
->>>>>>> origin/Work_Sakaue9
+//=======
+//            offset = -m_Offset_X;
+//>>>>>>> origin/Work_Sakaue9
         }
     }
 
@@ -472,11 +451,11 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageHeight--;
             StringNum[currentIndex]--;
-<<<<<<< HEAD
+
             StringCursol.anchoredPosition -= m_Offset_Y;
-=======
-            offset = -m_Offset_Y;
->>>>>>> origin/Work_Sakaue9
+//=======
+//            offset = -m_Offset_Y;
+//>>>>>>> origin/Work_Sakaue9
         }
     }
 
@@ -504,11 +483,11 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageHeight++;//いったん消します
             StringNum[currentIndex]--;
-<<<<<<< HEAD
+
             StringCursol.anchoredPosition += m_Offset_Y;
-=======
-            offset = m_Offset_Y;
->>>>>>> origin/Work_Sakaue9
+//=======
+//            offset = m_Offset_Y;
+//>>>>>>> origin/Work_Sakaue9
         }
     }
 
