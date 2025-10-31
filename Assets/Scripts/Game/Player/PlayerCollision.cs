@@ -76,7 +76,7 @@ public class PlayerCollision : MonoBehaviour
             // カッターに当たった場合
             if (collision.gameObject.tag == "Cutter")
             {
-                stringManager.CutNum += 1;               // カット数を増やす
+                //stringManager.CutNum += 1;               // カット数を増やす
                 collision.gameObject.SetActive(false);   // カッターを非表示
                 cont.cutCt++;                            // 糸を切れる回数を増加
                 return;                                  // これ以降の処理を行わない(壁判定に引っかかるため)
@@ -125,7 +125,7 @@ public class PlayerCollision : MonoBehaviour
                        cont.state.IS_MOVE = true;
                        cont.state.IS_JUMP = false;
                        ground_obj.Add(collision.gameObject);
-                        
+                       return;
                     }
 
                     // 横方向（壁）との接触
@@ -141,13 +141,14 @@ public class PlayerCollision : MonoBehaviour
                                 int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
                                 stringManager.CutString(index,front);
                                 cont.cutCt--;
+                                cont.state.IS_GROUND = true;
                                 return;
                             }
 
                             bool isVertical = collision.transform.rotation.z != 0;
 
                             // 垂直な糸に接触 → 登り処理
-                            if (isVertical && !(cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT))
+                            if (isVertical && !(cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT || cont.state.IS_JUMP))
                             {
                                 GetComponent<BoxCollider2D>().isTrigger = true;
                                 cont.state.IS_MOVE = false;
@@ -215,9 +216,9 @@ public class PlayerCollision : MonoBehaviour
                             }
                         }
 
-                            // 壁に接触している状態(現状使われる場面無し)
-                        wall_obj.Add(collision.gameObject);
-                        cont.state.IS_MOVE = false;
+                        // 壁に接触している状態(現状使われる場面無し)
+                        //wall_obj.Add(collision.gameObject);
+                        //cont.state.IS_MOVE = false;
                     }
                 }
             }
@@ -231,18 +232,18 @@ public class PlayerCollision : MonoBehaviour
         wall_obj.Remove(collision.gameObject);
 
         //シーソーから離れた時の処理
-        if (collision.gameObject.tag == "SeeSaw")
-        {
-            //シーソーのy角度とプレイヤーの向きが正しければ、シーソーを反対側にする処理
-            if ((collision.gameObject.transform.eulerAngles.y == 180) && cont.state.m_direction == (int)PlayerState.Direction.RIGHT)
-            {
-                collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
-            }
-            else if ((collision.gameObject.transform.eulerAngles.y == 0) && cont.state.m_direction == (int)PlayerState.Direction.LEFT)
-            {
-                collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 180, transform.rotation.z);
-            }
-        }
+        //if (collision.gameObject.tag == "SeeSaw")
+        //{
+        //    //シーソーのy角度とプレイヤーの向きが正しければ、シーソーを反対側にする処理
+        //    if ((collision.gameObject.transform.eulerAngles.y == 180) && cont.state.m_direction == (int)PlayerState.Direction.RIGHT)
+        //    {
+        //        collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
+        //    }
+        //    else if ((collision.gameObject.transform.eulerAngles.y == 0) && cont.state.m_direction == (int)PlayerState.Direction.LEFT)
+        //    {
+        //        collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 180, transform.rotation.z);
+        //    }
+        //}
 
         // 全ての床から離れた場合
         if (ground_obj.Count == 0)
@@ -260,7 +261,7 @@ public class PlayerCollision : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         // 自身のCollider以外なら処理しない
-        if (collider != m_collider) return;
+        if (collider != m_collider || cont.cutCt > 0) return;
 
         int layerID = collider.gameObject.layer;
         string layerName = LayerMask.LayerToName(layerID);
