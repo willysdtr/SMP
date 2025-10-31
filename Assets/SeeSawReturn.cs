@@ -16,8 +16,9 @@ public class SeeSawReturn : MonoBehaviour
     {
         float angleZ = transform.eulerAngles.z;
         if (angleZ > 180f) angleZ -= 360f;  // -180Å`180Ç…ïœä∑
-        if (returnFgRight) { 
+        if (returnFgRight) {
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 1f); 
+            
             if (angleZ <= -30) { 
                 returnFgRight = false; 
             } 
