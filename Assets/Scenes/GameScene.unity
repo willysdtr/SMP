@@ -2024,8 +2024,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   useDataFromDropdown: 0
   stageId: 16
+=======
+  useDataFromDropdown: 1
+  stageId: 0
+>>>>>>> origin/Work_Sakaue9
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}

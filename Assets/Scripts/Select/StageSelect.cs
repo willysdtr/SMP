@@ -155,7 +155,7 @@ public class StageSelect : MonoBehaviour
 
     }
         // Update is called once per frame
-    void FixedUpdate()
+    void FixedUpdate()//ここから
     {
         if (MoveRight==false&&MoveLeft==false)//選択中のアイコンを表示(矢印移動中は出さない)
         {
