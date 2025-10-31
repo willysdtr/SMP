@@ -129,7 +129,7 @@ public class PlayerCollision : MonoBehaviour
         string layerName = LayerMask.LayerToName(collider.gameObject.layer);
 
         // OverlapBox に触れ消えたときだけ離脱処理
-        if (!m_Cont.ishit && layerName == "String")
+        if (!m_Cont.ishit)
             EndClimb();
     }
 
