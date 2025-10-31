@@ -1,299 +1,366 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    private PlayerController cont;  // PlayerControllerを参照してステートを制御
+    //定数
+    private const float FloorAngle = 20f; // 上向き法線 床kakudo
 
-    private HashSet<GameObject> ground_obj = new HashSet<GameObject>(); // 接地中のオブジェクト
-    private HashSet<GameObject> wall_obj = new HashSet<GameObject>();   // 壁接触中のオブジェクト
+    
+    private PlayerController m_Cont;            // PlayerControllerを参照してステートを制御
 
-    [SerializeField] private Vector2 checkSize = new Vector2(0.5f, 1.0f);   // OverlapBox のサイズ
-    [SerializeField] private Vector2 checkOffset = new Vector2(0f, 0f);     // OverlapBox の中心位置オフセット
+    [SerializeField] private StringManager_Canvas m_StringManager; // 糸管理: Canvas上
 
-    [SerializeField] private StringManager_Canvas stringManager; // 糸の管理スクリプト（Canvas上のUIと連携）
+    /* 判定 */
+    [SerializeField] private Vector2 m_CheckSize = new Vector2(0.5f, 1.0f);   // OverlapBox のサイズ
+    [SerializeField] private Vector2 m_CheckOffset = new Vector2(0f, 0f);     // OverlapBox の中心位置オフセット
 
-    private Rigidbody2D rb;
-    private RectTransform rect;
-    private BoxCollider2D m_collider;
+    /* コンポーネント */
+    private Rigidbody2D m_Rb;
+    private RectTransform m_Rect;
+    private BoxCollider2D m_Collider;
 
-    private bool wallhit = false; // 壁に当たっているか（ジャンプ中の跳ね返り判定用）
-    private bool jumphit = false; //ばねに当たっているか
-    private float setdiff = 0.0f; // 段差補正で加えたY軸差分の保存
+    /*===== 状態（衝突中オブジェクトなど） =====*/
+    private readonly HashSet<GameObject> m_RroundObj = new HashSet<GameObject>();
+    private readonly HashSet<GameObject> m_WallBbj = new HashSet<GameObject>();
 
-    void Start()
+    private bool Wallhit = false; // 壁に当たっているか（ジャンプ中の跳ね返り判定用）
+    private bool Jumphit = false; // ばねに当たっているか
+    private float Setdiff = 0.0f; // 段差補正で加えたY軸差分の保存
+
+    //=====================================================================
+    // Start()
+    //=====================================================================
+    private void Start()
     {
-        cont = GetComponent<PlayerController>();
-        rb = GetComponent<Rigidbody2D>();
-        rect = GetComponent<RectTransform>();
-        m_collider = GetComponent<BoxCollider2D>();
+        m_Cont = GetComponent<PlayerController>();
+        m_Rb = GetComponent<Rigidbody2D>();
+        m_Rect = GetComponent<RectTransform>();
+        m_Collider = GetComponent<BoxCollider2D>();
 
-        // RectTransformのサイズに合わせてOverlapBoxサイズを調整
-        checkSize = new Vector2(checkSize.x * rect.sizeDelta.x, checkSize.y * rect.sizeDelta.y);
+        // RectTransform 基準
+        // OverlapBox 実寸調整
+        m_CheckSize = new Vector2(m_CheckSize.x * m_Rect.sizeDelta.x, m_CheckSize.y * m_Rect.sizeDelta.y);
     }
 
-    void Update()
+    //=====================================================================
+    // Update()
+    //=====================================================================
+    private void Update()
     {
-        // OverlapBoxの作成（Climb判定用）
-        Vector2 center = (Vector2)transform.position + checkOffset;
-        Collider2D hit = Physics2D.OverlapBox(center, checkSize, 0f, cont.climblayers);
-        cont.ishit = hit;
+        // Climb: OverlapBox -> m_Cont.ishit 直接代入
+        Vector2 center = (Vector2)transform.position + m_CheckOffset;
+        Collider2D hit = Physics2D.OverlapBox(center, m_CheckSize, 0f, m_Cont.climblayers);
+        m_Cont.ishit = hit;
 
-        //壁ヒット判定と段差補正値をリセット(ジャンプ中の処理に使用)
-        wallhit = false;
-        setdiff = 0.0f;
-        //ばねヒット判定をリセット
-        jumphit = false;
+        // 毎フレームの初期化
+        Wallhit = false;
+        Setdiff = 0.0f;
+        Jumphit = false;
     }
 
     private void OnDrawGizmos()
     {
-        // OverlapBox の可視化（デバッグ表示）
         Gizmos.color = Color.red;
-        Vector2 center = (Vector2)transform.position + checkOffset;
-        Gizmos.DrawWireCube(center, checkSize);
+        Vector2 center = (Vector2)transform.position + m_CheckOffset;
+        Gizmos.DrawWireCube(center, m_CheckSize);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        int layerID = collision.gameObject.layer;
+        var go = collision.gameObject;
+        int layerID = go.layer;
         string layerName = LayerMask.LayerToName(layerID);
 
-        // String または Gimmick レイヤーのみに反応
-        if (layerName == "String" || layerName == "Gimmick")
+        // String と Gimmick は無視
+        if (!(layerName == "String" || layerName == "Gimmick"))
+            return;
+        
+        // タグ即時処理
+        if (HandleImmediateTagCollisions(collision))
+            return;
+        
+
+        // ゴール処理
+        if (go.CompareTag("Goal"))
         {
-            if (collision.gameObject.tag == "SeeSaw") { 
-                cont.state.IS_MOVE = true; 
-                cont.state.IS_GROUND = true;
-
-            }
-            // 返し縫いに当たった場合(没)
-            if (collision.gameObject.tag == "Kaesi")
-            {
-                cont.PlayerReturn(collision.transform.rotation.y);
-            }
-
-            // カッターに当たった場合
-            if (collision.gameObject.tag == "Cutter")
-            {
-                //stringManager.CutNum += 1;               // カット数を増やす
-                collision.gameObject.SetActive(false);   // カッターを非表示
-                cont.cutCt++;                            // 糸を切れる回数を増加
-                return;                                  // これ以降の処理を行わない(壁判定に引っかかるため)
-            }
-
-            // 針山に当たった場合、死亡
-            if (collision.gameObject.tag == "PinCuttion")
-            {
-                cont.state.IS_DOWN = true;
-                return;
-            }
-
-            if (collision.gameObject.tag == "Spring") //ばねに接触した場合
-            {
-                // バネに乗ったときの処理
-                transform.position = new Vector2(collision.transform.position.x, transform.position.y);
-                //ジャンプ中なら、STOP状態に変更する、これにより再びジャンプする
-                if (cont.state.IS_JUMP)
-                {
-                    cont.state.currentstate = PlayerState.State.STOP;
-                }
-                cont.state.IS_JUMP = true;
-                cont.state.IS_MOVE = false;
-                cont.state.IS_GROUND = false;
-                jumphit = true;
-                ground_obj.Clear(); // 接地オブジェクトリセット
-                return;
-            }
-
-            // ゴールに接触した場合
-            if (collision.gameObject.tag == "Goal")
-            {
-                if (cont.state.currentstate == PlayerState.State.GOAL) return; // 既にゴール状態なら無視
-                cont.Goal(collision.transform.position);
-            }
-            else
-            {
-                // 通常の地形または壁との衝突処理
-                foreach (ContactPoint2D contact in collision.contacts)
-                {
-                    // 上方向（床）との接触
-                    if (Vector2.Angle(contact.normal, Vector2.up) < 20f)
-                    {
-                       // 通常の床に接地したとき
-                       cont.state.IS_GROUND = true;
-                       cont.state.IS_MOVE = true;
-                       cont.state.IS_JUMP = false;
-                       ground_obj.Add(collision.gameObject);
-                       return;
-                    }
-
-                    // 横方向（壁）との接触
-                    if (contact.normal == Vector2.left || contact.normal == Vector2.right)
-                    {
-                        // 糸レイヤーの壁に接触した場合（ジャンプ中は除外）
-                        if (layerName == "String" && !cont.state.IS_JUMP)
-                        {
-                            if (cont.cutCt > 0) // 糸を切れる回数がある場合
-                            {
-
-                                bool front = collision.gameObject.GetComponent<StringAnimation_Canvas>().front;
-                                int index = collision.gameObject.GetComponent<StringAnimation_Canvas>().index;
-                                stringManager.CutString(index,front);
-                                cont.cutCt--;
-                                cont.state.IS_GROUND = true;
-                                return;
-                            }
-
-                            bool isVertical = collision.transform.rotation.z != 0;
-
-                            // 垂直な糸に接触 → 登り処理
-                            if (isVertical && !(cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT || cont.state.IS_JUMP))
-                            {
-                                GetComponent<BoxCollider2D>().isTrigger = true;
-                                cont.state.IS_MOVE = false;
-                                cont.state.IS_CLIMB = true;
-                                cont.hitobj_pos = collision.transform.position;
-                                rb.linearVelocity = Vector2.zero;
-                                rb.bodyType = RigidbodyType2D.Kinematic;
-                                ground_obj.Clear(); // 接地オブジェクトリセット
-                                return;
-                            }
-                        }
-
-                        // 段差補正処理
-                        Bounds myBounds = m_collider.bounds;
-                        Bounds targetBounds = collision.gameObject.GetComponent<BoxCollider2D>().bounds;
-                        float playerFootY = myBounds.min.y;
-                        float playerHeight = myBounds.size.y;
-                        float thresholdY = playerFootY + playerHeight / 2;
-                        float topY = targetBounds.max.y;
-
-                        // プレイヤーの足元が段の上端よりやや下 → 段差補正
-                        if (topY < thresholdY && !wallhit)
-                        {
-                            float diff = topY - playerFootY;
-                            transform.position += new Vector3(0f, diff, 0f);
-                            setdiff = diff;
-                            cont.state.IS_GROUND = true;
-                            cont.state.IS_MOVE = true;
-                            cont.state.IS_JUMP = false;
-                            ground_obj.Add(collision.gameObject);
-                            return;
-                        }
-                        else
-                        {
-                            // 段差補正失敗 → 壁衝突扱い
-                            wallhit = true;
-                            if (setdiff != 0 && cont.state.currentstate == PlayerState.State.JUMP)
-                            {
-                                transform.position -= new Vector3(0f, setdiff, 0f);
-                                cont.state.IS_GROUND = false;
-                                cont.state.IS_MOVE = false;
-                                cont.state.IS_JUMP = true;
-                            }
-
-                            // ジャンプ中に壁へ衝突した場合 → 跳ね返り処理
-                            if (cont.state.IS_JUMP)
-                            {
-                                cont.PlayerJumpReturn();
-                                return;
-                            }
-                        }
-
-                        // 登り禁止または天井ヒット中の壁衝突 → 方向反転
-                        if ((cont.state.IS_CLIMB_NG || cont.state.IS_CEILING_HIT) && !cont.state.IS_JUMP)
-                        {
-                            if (contact.normal == Vector2.left)
-                            {
-                                cont.PlayerReturn(0);
-                                return;
-                            }
-                            else if (contact.normal == Vector2.right)
-                            {
-                                cont.PlayerReturn(-180);
-                                return;
-                            }
-                        }
-
-                        // 壁に接触している状態(現状使われる場面無し)
-                        //wall_obj.Add(collision.gameObject);
-                        //cont.state.IS_MOVE = false;
-                    }
-                }
-            }
+            if (m_Cont.state.currentstate != PlayerState.State.GOAL)
+                m_Cont.Goal(collision.transform.position);
+            
+            return;
         }
+
+        // 通常床, 壁, 段差, 登り
+        HandleContacts(collision, layerName);
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        // 接触オブジェクトを削除
-        ground_obj.Remove(collision.gameObject);
-        wall_obj.Remove(collision.gameObject);
+        m_RroundObj.Remove(collision.gameObject);
+        m_WallBbj.Remove(collision.gameObject);
 
-        //シーソーから離れた時の処理
-        //if (collision.gameObject.tag == "SeeSaw")
-        //{
-        //    //シーソーのy角度とプレイヤーの向きが正しければ、シーソーを反対側にする処理
-        //    if ((collision.gameObject.transform.eulerAngles.y == 180) && cont.state.m_direction == (int)PlayerState.Direction.RIGHT)
-        //    {
-        //        collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
-        //    }
-        //    else if ((collision.gameObject.transform.eulerAngles.y == 0) && cont.state.m_direction == (int)PlayerState.Direction.LEFT)
-        //    {
-        //        collision.gameObject.transform.eulerAngles = new Vector3(transform.rotation.x, 180, transform.rotation.z);
-        //    }
-        //}
+        // 全床から離れたら IS_GROUND -> OFF
+        if (m_RroundObj.Count == 0)
+            m_Cont.state.IS_GROUND = false;
+        
 
-        // 全ての床から離れた場合
-        if (ground_obj.Count == 0)
-        {
-            cont.state.IS_GROUND = false;
-        }
-
-        // 全ての壁から離れた場合
-        if (wall_obj.Count == 0)
-        {
-            cont.state.IS_MOVE = true;
-        }
+        // 全壁から離れたら移動できるってこと？
+        if (m_WallBbj.Count == 0)
+            m_Cont.state.IS_MOVE = true;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        // 自身のCollider以外なら処理しない
-        if (collider != m_collider || cont.cutCt > 0) return;
+        // 自Collider 以外ならreturn & 糸カット可能なら無視
+        // けどこれって other が来るからさ、常にtrueじゃね？ いる？これ
+        if (collider != m_Collider || m_Cont.cutCt > 0) return;
 
         int layerID = collider.gameObject.layer;
         string layerName = LayerMask.LayerToName(layerID);
 
         if (layerName == "String")
-        {
-            // 糸に接触 → 登り開始
-            cont.state.IS_MOVE = false;
-            cont.state.IS_CLIMB = true;
-            cont.hitobj_pos = collider.transform.position;
-            rb.linearVelocity = Vector2.zero;
-            rb.bodyType = RigidbodyType2D.Kinematic;
-        }
+            BeginClimb(collider.transform.position);
+        
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        int layerID = collider.gameObject.layer;
-        string layerName = LayerMask.LayerToName(layerID);
+        string layerName = LayerMask.LayerToName(collider.gameObject.layer);
 
-        // OverlapBoxの判定が消えた場合のみ処理（誤判定防止）
-        if (!cont.ishit)
+        // OverlapBox に触れ消えたときだけ離脱処理
+        if (!m_Cont.ishit && layerName == "String")
+            EndClimb();
+    }
+
+    //======================================================================
+    // タグ即時処理
+    //======================================================================
+    private bool HandleImmediateTagCollisions(Collision2D collision)
+    {
+        var go = collision.gameObject;
+
+        // SeeSaw: 地面
+        if (go.CompareTag("SeeSaw"))
         {
-            if (layerName == "String")
+            m_Cont.state.IS_MOVE = true;
+            m_Cont.state.IS_GROUND = true;
+            return false;
+        }
+
+        // 返し縫い
+        //if (go.CompareTag("Kaesi"))
+        //{
+        //    m_Cont.PlayerReturn(collision.transform.rotation.y);
+        //}
+
+        // カッター 回数+1, 非表示, 以降ない
+        if (go.CompareTag("Cutter"))
+        {
+            // m_StringManager.CutNum += 1;
+            go.SetActive(false);
+            m_Cont.cutCt++;
+            return true;
+        }
+
+        // 針山
+        if (go.CompareTag("PinCuttion"))
+        {
+            m_Cont.state.IS_DOWN = true;
+            return true;
+        }
+
+        // ばね
+        if (go.CompareTag("Spring"))
+        {
+            HandleSpringCollision(collision);
+            return true;
+        }
+
+        return false;
+    }
+
+    //======================================================================
+    // 衝突(床, 壁, 登り, 段差
+    //======================================================================
+    private void HandleContacts(Collision2D collision, string layerName)
+    {
+        foreach (var contact in collision.contacts)
+        {
+            // 床判定 
+            if (IsFloorContact(contact))
             {
-                // 糸から離れたときの処理
-                cont.state.IS_MOVE = true;
-                cont.state.IS_CLIMB = false;
-                rb.bodyType = RigidbodyType2D.Dynamic;
-                rb.linearVelocity = Vector2.zero;
-                GetComponent<BoxCollider2D>().isTrigger = false;
+                LandOnFloor(collision.gameObject);
+                return;
+            }
+
+            // 壁判定
+            if (IsWallNormal(contact.normal))
+            {
+                // 糸レイヤーの壁触: ジャンプ中除外
+                if (layerName == "String" && !m_Cont.state.IS_JUMP)
+                {
+                    // 糸を切れる場合、切る: 優先
+                    if (TryCutString(collision.gameObject))
+                    {
+                        m_Cont.state.IS_GROUND = true;
+                        return;
+                    }
+
+                    // 垂直糸なら [登り] Start: 禁止, 天井, ジャンプ中
+                    if (IsVerticalString(collision) &&
+                        !(m_Cont.state.IS_CLIMB_NG || m_Cont.state.IS_CEILING_HIT || m_Cont.state.IS_JUMP))
+                    {
+                        BeginClimb(collision.transform.position);
+                        m_RroundObj.Clear();
+                        return;
+                    }
+                }
+
+                // === 段差補正 ===
+                if (TryStepCorrection(collision)) return;
+
+                // 段差補正失敗ってなに？: 壁衝突扱い
+                Wallhit = true;
+
+                // 直前に段差持ち上げなら、戻す
+                if (Setdiff != 0f && m_Cont.state.currentstate == PlayerState.State.JUMP)
+                {
+                    transform.position -= new Vector3(0f, Setdiff, 0f);
+                    m_Cont.state.IS_GROUND = false;
+                    m_Cont.state.IS_MOVE = false;
+                    m_Cont.state.IS_JUMP = true;
+                }
+
+                // ジャンプ中の壁衝突 -> 跳ね返り
+                if (m_Cont.state.IS_JUMP)
+                {
+                    m_Cont.PlayerJumpReturn();
+                    return;
+                }
+
+                // 登り禁止 or 天井ヒット中なら、方向反転: ジャンプ中除外
+                if ((m_Cont.state.IS_CLIMB_NG || m_Cont.state.IS_CEILING_HIT) && !m_Cont.state.IS_JUMP)
+                {
+                    if (contact.normal == Vector2.left)
+                    {
+                        m_Cont.PlayerReturn(0);
+                        return;
+                    }
+                    else if (contact.normal == Vector2.right)
+                    {
+                        m_Cont.PlayerReturn(-180);
+                        return;
+                    }
+                }
             }
         }
+    }
+
+    //======================================================================
+    // 個別処理ヘルパー
+    //======================================================================*/
+    private void HandleSpringCollision(Collision2D collision)
+    {
+        // 横位置をばねにスナップ
+        transform.position = new Vector2(collision.transform.position.x, transform.position.y);
+
+        // ジャンプ中なら STOP を挟む -> その後に再ジャンプ
+        if (m_Cont.state.IS_JUMP)
+            m_Cont.state.currentstate = PlayerState.State.STOP;
+
+        m_Cont.state.IS_JUMP = true;
+        m_Cont.state.IS_MOVE = false;
+        m_Cont.state.IS_GROUND = false;
+
+        Jumphit = true;
+        m_RroundObj.Clear();
+    }
+
+    private void LandOnFloor(GameObject floor)
+    {
+        m_Cont.state.IS_GROUND = true;
+        m_Cont.state.IS_MOVE = true;
+        m_Cont.state.IS_JUMP = false;
+        m_RroundObj.Add(floor);
+    }
+
+    private bool TryCutString(GameObject stringObject)
+    {
+        if (m_Cont.cutCt <= 0) return false;
+        
+        var anim = stringObject.GetComponent<StringAnimation_Canvas>();
+        bool front = anim.front;
+        int index = anim.index;
+
+        m_StringManager.CutString(index, front);
+        m_Cont.cutCt--;
+        return true;
+    }
+
+    private static bool IsVerticalString(Collision2D collision)
+    {
+        // rotation.z != 0: 垂直
+        return collision.transform.rotation.z != 0f;
+    }
+
+    private bool TryStepCorrection(Collision2D collision)
+    {
+        Bounds myBounds = m_Collider.bounds;
+        var targetCollider = collision.gameObject.GetComponent<BoxCollider2D>();
+        Bounds targetBounds = targetCollider.bounds;
+
+        float playerFootY = myBounds.min.y;
+        float playerHeight = myBounds.size.y;
+        float thresholdY = playerFootY + playerHeight * 0.5f; // プレイヤー高さの半分上
+        float topY = targetBounds.max.y;
+
+        // 段の上端がプレイヤー足元より少し低い -> 段差補正
+        if (topY < thresholdY && !Wallhit)
+        {
+            float diff = topY - playerFootY;
+            transform.position += new Vector3(0f, diff, 0f);
+            Setdiff = diff;
+
+            m_Cont.state.IS_GROUND = true;
+            m_Cont.state.IS_MOVE = true;
+            m_Cont.state.IS_JUMP = false;
+
+            m_RroundObj.Add(collision.gameObject);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void BeginClimb(Vector3 anchorPosition)
+    {
+        // Trigger化, Kinematic化
+        m_Collider.isTrigger = true;
+        m_Cont.state.IS_MOVE = false;
+        m_Cont.state.IS_CLIMB = true;
+        m_Cont.hitobj_pos = anchorPosition;
+        m_Rb.linearVelocity = Vector2.zero;
+        m_Rb.bodyType = RigidbodyType2D.Kinematic;
+    }
+
+    private void EndClimb()
+    {
+        m_Cont.state.IS_MOVE = true;
+        m_Cont.state.IS_CLIMB = false;
+        m_Rb.bodyType = RigidbodyType2D.Dynamic;
+        m_Rb.linearVelocity = Vector2.zero;
+        m_Collider.isTrigger = false;
+    }
+
+    private static bool IsFloorContact(in ContactPoint2D contact)
+    {
+        return Vector2.Angle(contact.normal, Vector2.up) < FloorAngle;
+    }
+
+    private static bool IsWallNormal(in Vector2 n)
+    {
+        // 左右比較
+        return n == Vector2.left || n == Vector2.right;
     }
 }
