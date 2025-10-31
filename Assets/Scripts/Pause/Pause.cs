@@ -111,6 +111,7 @@ namespace Script
                 case 1:
                     // リトライ
                     Debug.Log("Open Options");
+                    SceneManager.LoadScene("GameScene");
                     // オプション画面を開く処理をここに追加
                     break;
                 case 2:
