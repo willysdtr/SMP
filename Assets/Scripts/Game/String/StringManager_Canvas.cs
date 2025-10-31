@@ -263,6 +263,21 @@ public class StringManager_Canvas : MonoBehaviour
 
 
             // 縫い方向を初期化
+            switch (m_LastDirection)
+            {
+                case RIGHT:
+                  StageWidth--;
+                  break;
+                case LEFT:
+                  StageWidth++;
+                  break;
+                case UP:
+                  StageHeight++;
+                  break;
+                case DOWN:
+                  StageHeight--;
+                  break;
+            }
             Directions.RemoveAt(Directions.Count - 1);
             if (Directions.Count > 0)
             {
