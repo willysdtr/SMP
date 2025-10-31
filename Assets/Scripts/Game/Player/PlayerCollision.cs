@@ -120,7 +120,6 @@ public class PlayerCollision : MonoBehaviour
                     // 上方向（床）との接触
                     if (Vector2.Angle(contact.normal, Vector2.up) < 20f)
                     {
-                       if(jumphit) { return; }
                        // 通常の床に接地したとき
                        cont.state.IS_GROUND = true;
                        cont.state.IS_MOVE = true;
@@ -166,7 +165,7 @@ public class PlayerCollision : MonoBehaviour
                         Bounds targetBounds = collision.gameObject.GetComponent<BoxCollider2D>().bounds;
                         float playerFootY = myBounds.min.y;
                         float playerHeight = myBounds.size.y;
-                        float thresholdY = playerFootY + playerHeight / 4;
+                        float thresholdY = playerFootY + playerHeight / 2;
                         float topY = targetBounds.max.y;
 
                         // プレイヤーの足元が段の上端よりやや下 → 段差補正
