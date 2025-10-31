@@ -62,7 +62,12 @@ public class PlayerCollision : MonoBehaviour
         // String または Gimmick レイヤーのみに反応
         if (layerName == "String" || layerName == "Gimmick")
         {
-            if (collision.gameObject.tag == "SeeSaw") { cont.state.IS_MOVE = true; cont.state.IS_GROUND = true; }
+            if (collision.gameObject.tag == "SeeSaw") { 
+                cont.state.IS_MOVE = true; 
+                cont.state.IS_GROUND = true; 
+
+
+            }
             // 返し縫いに当たった場合(没)
             if (collision.gameObject.tag == "Kaesi")
             {

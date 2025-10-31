@@ -76,34 +76,35 @@ public class StringManager_Canvas : MonoBehaviour
                 // 糸縫いモード時の方向操作
                 m_PauseDirection = value;
 
-                Vector2 offset = Vector2.zero;
+                //カーソルを動かす操作はOn○○Inputに移動
+                //Vector2 offset = Vector2.zero;
                 if (m_PauseDirection == 1)
                 {
                     Debug.Log("上入力");
                     OnUpInput();
-                    offset = -m_Offset_Y;
+                    //offset = -m_Offset_Y;
                 }
                 else if (m_PauseDirection == -1)
                 {
                     Debug.Log("下入力");
                     OnDownInput();
-                    offset = m_Offset_Y;
+                    //offset = m_Offset_Y;
                 }
                 else if (m_PauseDirection == 2)
                 {
                     // 右入力
                     Debug.Log("右入力");
                     OnRightInput();
-                    offset = m_Offset_X;
+                    //offset = m_Offset_X;
                 }
                 else if (m_PauseDirection == 3)
                 {
                     // 左入力
                     Debug.Log("左入力");
                     OnLeftInput();
-                    offset = -m_Offset_X;
+                    //offset = -m_Offset_X;
                 }
-                StringCursol.anchoredPosition += offset;
+                //StringCursol.anchoredPosition += offset;
                 if (StringNum[currentIndex] == 0)
                 {
                     currentIndex++;
@@ -137,7 +138,6 @@ public class StringManager_Canvas : MonoBehaviour
                 }
                 StringCursol.anchoredPosition += offset;
             }
-            //Debug.Log(StringNum[currentIndex]);
             listDisplay.UpdateDisplay(StringNum); // UI表示を更新
         };
 
@@ -172,6 +172,7 @@ public class StringManager_Canvas : MonoBehaviour
         inputActions.Stirng.BackString.performed += ctx =>// 糸の一針戻す操作
         {
             RemoveLastStitch();
+            listDisplay.UpdateDisplay(StringNum); // UI表示を更新
         };
 
         // 返し縫いを生成(没のためコメントアウト)
@@ -189,7 +190,6 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void RemoveLastStitch(int count = 1)
     {
-        Debug.Log("aaaa");
         while (currentIndex > 0 && StringNum[currentIndex - 1] <= 0)
         {
             Debug.Log("インデックス増やすよ");
@@ -263,8 +263,15 @@ public class StringManager_Canvas : MonoBehaviour
 
 
             // 縫い方向を初期化
-            m_LastDirection = Directions[Directions.Count - 1];
-            Debug.Log(m_LastDirection);
+            Directions.RemoveAt(Directions.Count - 1);
+            if (Directions.Count > 0)
+            {
+                m_LastDirection = Directions[Directions.Count - 1];
+            }
+            else
+            {
+                m_LastDirection = First;
+            }
         }
 
     }
@@ -318,9 +325,7 @@ public class StringManager_Canvas : MonoBehaviour
     void OnRightInput()
     {
         if (m_LastDirection == LEFT) return;
-        //Debug.Log(m_LastDirection);
         m_PreDirection=m_LastDirection;//直前の方向を保存
-        Debug.Log(Strings[^1].anchoredPosition);
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos + m_Offset_X;
 
@@ -338,6 +343,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageWidth++;
             StringNum[currentIndex]--;
+            StringCursol.anchoredPosition += m_Offset_X;
         }
     }
 
@@ -367,6 +373,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageWidth--;
             StringNum[currentIndex]--;
+            StringCursol.anchoredPosition -= m_Offset_X;
         }
     }
 
@@ -393,6 +400,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageHeight--;
             StringNum[currentIndex]--;
+            StringCursol.anchoredPosition -= m_Offset_Y;
         }
     }
 
@@ -420,6 +428,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageHeight++;//いったん消します
             StringNum[currentIndex]--;
+            StringCursol.anchoredPosition += m_Offset_Y;
         }
     }
 
