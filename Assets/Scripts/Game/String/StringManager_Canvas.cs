@@ -318,9 +318,9 @@ public class StringManager_Canvas : MonoBehaviour
         if (front)
         {
             Destroy(Strings[index + 1].gameObject); // FirstPointとの対応で+1
-            AnimStrings[index].DeleteImage(0);
+            AnimStrings[index - 1].DeleteImage(0);
             Strings.RemoveAt(index);
-            AnimStrings.RemoveAt(index);
+            AnimStrings.RemoveAt(index - 1);
         }
         else
         {
