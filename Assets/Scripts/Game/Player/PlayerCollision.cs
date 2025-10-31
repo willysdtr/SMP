@@ -64,8 +64,7 @@ public class PlayerCollision : MonoBehaviour
         {
             if (collision.gameObject.tag == "SeeSaw") { 
                 cont.state.IS_MOVE = true; 
-                cont.state.IS_GROUND = true; 
-
+                cont.state.IS_GROUND = true;
 
             }
             // 返し縫いに当たった場合(没)
