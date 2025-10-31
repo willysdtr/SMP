@@ -176,6 +176,7 @@ public class StringManager_Canvas : MonoBehaviour
         inputActions.Stirng.BackString.performed += ctx =>// 糸の一針戻す操作
         {
             RemoveLastStitch();
+            listDisplay.UpdateDisplay(StringNum); // UI表示を更新
         };
 
         // 返し縫いを生成(没のためコメントアウト)
@@ -193,7 +194,6 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void RemoveLastStitch(int count = 1)
     {
-        Debug.Log("aaaa");
         while (currentIndex > 0 && StringNum[currentIndex - 1] <= 0)
         {
             Debug.Log("インデックス増やすよ");
@@ -267,7 +267,15 @@ public class StringManager_Canvas : MonoBehaviour
 
 
             // 縫い方向を初期化
-            m_LastDirection = Directions[Directions.Count - 1];
+            Directions.RemoveAt(Directions.Count - 1);
+            if (Directions.Count > 0)
+            {
+                m_LastDirection = Directions[Directions.Count - 1];
+            }
+            else
+            {
+                m_LastDirection = First;
+            }
             Debug.Log(m_LastDirection);
         }
 
