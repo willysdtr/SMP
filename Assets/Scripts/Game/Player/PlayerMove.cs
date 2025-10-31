@@ -38,6 +38,7 @@ public class PlayerMove : MonoBehaviour
             currentspeed -= PlayerState.MAX_SPEED * Time.deltaTime;
             currentspeed = Mathf.Max(currentspeed, 0f);
         }
+
         rb.linearVelocity = new Vector2(direction * currentspeed, rb.linearVelocity.y);//‘¬“x‚ð‘ã“ü
     }
 

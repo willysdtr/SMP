@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
     private AudioClip[] sound; // { 歩行SE、よじ登りSE、落下SE}
     private AudioSource audiosource;
 
+    private int falltime = 0;//落下時間
+
     public int cutCt = 0;//糸を切れる回数
 
     void Awake()
@@ -103,7 +105,7 @@ public class PlayerController : MonoBehaviour
         {
             state.currentstate = PlayerState.State.FALL;// 落下開始
             fallstart_y = transform.position.y;
-            PlaySE(2, true);
+            //PlaySE(2, true);
         }
     }
 
@@ -114,7 +116,7 @@ public class PlayerController : MonoBehaviour
             case PlayerState.State.STOP: anim.speed = 0; move.Stop(); break;
             case PlayerState.State.WALK: anim.speed = 1; move.Move(state.m_direction); PlaySE(0, false); break;
             case PlayerState.State.JUMP: anim.speed = 0; state.IS_JUMP = !move.Jump(); break;
-            case PlayerState.State.FALL: anim.speed = 0; break;
+            case PlayerState.State.FALL: anim.speed = 0; falltime++; if (falltime == 20) { PlaySE(2, true); } break;
             case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); PlaySE(1, false); break;
             case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
             case PlayerState.State.DEATH: anim.speed = 1; death = true; break;
@@ -142,7 +144,7 @@ public class PlayerController : MonoBehaviour
                 if (state.IS_CEILING_HIT || state.IS_GROUND || !state.IS_JUMP) { state.currentstate = PlayerState.State.STOP; move.EndJump(); }
                 break;
             case PlayerState.State.FALL://FALL
-                if (state.IS_GROUND || state.IS_JUMP) { state.currentstate = PlayerState.State.STOP; if (fallstart_y - transform.position.y >= blocksize * 2.9 && !state.IS_JUMP) { state.currentstate = PlayerState.State.DEATH; } }
+                if (state.IS_GROUND || state.IS_JUMP) { state.currentstate = PlayerState.State.STOP; falltime = 0; if (fallstart_y - transform.position.y >= blocksize * 2.9 && !state.IS_JUMP) { state.currentstate = PlayerState.State.DEATH; } }
                 break;
         }
     }
