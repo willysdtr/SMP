@@ -182,10 +182,10 @@ public class StageUILoader : MonoBehaviour
         stageGrid[stage.GOAL_POS_back.Y][stage.GOAL_POS_back.X + offset] = 2;
 
         // 魂配置
-        if (!stage.SOUL_POS.IsLeft)
-            stageGrid[stage.SOUL_POS.Y][stage.SOUL_POS.X] = 3;
-        else
-            stageGrid[stage.SOUL_POS.Y][stage.SOUL_POS.X + offset] = 3;
+        //if (!stage.SOUL_POS.IsLeft)
+        //    stageGrid[stage.SOUL_POS.Y][stage.SOUL_POS.X] = 3;
+        //else
+        //    stageGrid[stage.SOUL_POS.Y][stage.SOUL_POS.X + offset] = 3;
 
         // 鉄板配置
         SetObjFromInt2(stageGrid, 4, stage.STEEL_front, false, offset);

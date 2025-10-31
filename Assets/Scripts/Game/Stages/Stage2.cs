@@ -75,7 +75,7 @@ public static class Stage2
         5,                          // ステージ: 横
         4,                          // ステージ: 縦
 
-        new Int2(4, 2),           // 表: スタート位置
+        new Int2(3, 2),           // 表: スタート位置
         new Int2(0, 0),           // 表: ゴール位置
 
         new Int2(0, 2),           // 裏: スタート位置
@@ -87,7 +87,7 @@ public static class Stage2
         true,                       // 王様は左向きか?
         false,                      // 姫様は左向きか?
 
-        new int[] { 6 },            // 縫える回数 と 縫える長さ
+        new int[] { 5 },            // 縫える回数 と 縫える長さ
 
         /*========== 鉄板 の位置 ==========*/
         new Int2[]                // 表
