@@ -41,6 +41,37 @@ public class StageSelect : MonoBehaviour
         m_CurrentArrow = SMPState.CURRENT_STAGE;
         m_StageNum = m_InActiveStage.Length;//大きさを取得
         inputActions = new InputSystem_Actions();//PlayerInputActionsのインスタンスを生成
+
+          // ワールド番号を計算（0始まり）
+        int worldIndex = SMPState.CURRENT_STAGE / 5;
+
+        // 背景の移動距離を1ワールドあたり1837とする
+        float moveX = 1837f * worldIndex;
+
+        // 背景の位置を補正
+        m_BackGround.transform.position = new Vector3(
+             m_BackGround.transform.position.x - moveX,
+            m_BackGround.transform.position.y,
+            m_BackGround.transform.position.z
+        );
+
+        // 現在のワールド番号をセット
+        World = worldIndex;
+        switch (worldIndex)
+        {
+            case 0:
+                break;
+            case 1:
+                m_CurrentArrow = 0;
+                m_CurrentArrow+= SMPState.CURRENT_STAGE%5;
+                break;
+                case 2:
+                m_CurrentArrow = 0;
+                m_CurrentArrow+= SMPState.CURRENT_STAGE%5;
+                break;
+        }
+
+
         inputActions.Select.Move.performed += ctx =>//上が１、下が０,右が２、左が３
         {
             horizontalInput = ctx.ReadValue<float>();
