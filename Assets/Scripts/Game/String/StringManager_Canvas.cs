@@ -31,6 +31,7 @@ public class StringManager_Canvas : MonoBehaviour
     private List<StringAnimation_Canvas> m_AnimStrings = new List<StringAnimation_Canvas>();
     private List<StringAnimation_Canvas> m_MirrorAnimStrings = new List<StringAnimation_Canvas>();
     private List<int> m_StringNum;
+    private List<int> m_CopyStringNum;
     private List<RectTransform> m_Tamadomes = new List<RectTransform>();
     private List<int> m_Directions = new List<int>();
     [SerializeField] private GameObject m_Cutter;               // 糸を切るためのカッターオブジェクト
@@ -63,6 +64,7 @@ public class StringManager_Canvas : MonoBehaviour
                 while (m_CurrentIndex < m_StringNum.Count && m_StringNum[m_CurrentIndex] <= 0)
                 {
                     m_CurrentIndex++;
+                    m_CurrentIndex = Mathf.Clamp(m_CurrentIndex, 0, m_StringNum.Count - 1);
                 }
                 Debug.Log($"Current Index: {m_CurrentIndex}, StringNum: {m_StringNum[m_CurrentIndex]}");
                 // 糸縫いモード時の方向操作
@@ -168,8 +170,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void RemoveLastStitch(int count = 1)
     {
-        Debug.Log(m_StageWidth + m_StageHeight);
-        while (m_CurrentIndex > 0 && m_StringNum[m_CurrentIndex - 1] <= 0)
+        while (m_CurrentIndex > 0 && m_StringNum[m_CurrentIndex - 1] <= 0 && m_StringNum[m_CurrentIndex] == m_CopyStringNum[m_CurrentIndex])
         {
             Debug.Log("インデックス増やすよ");
             m_CurrentIndex--;
@@ -180,7 +181,6 @@ public class StringManager_Canvas : MonoBehaviour
             m_StageWidth = m_PreCursolPosition[^1].x;
             m_StageHeight = m_PreCursolPosition[^1].y;
             m_PreCursolPosition.RemoveAt(m_PreCursolPosition.Count - 1);
-            Debug.Log(m_StageWidth + m_StageHeight);
 
         }
         // 糸が存在しない or FirstPointしかない場合は何もしない
@@ -277,9 +277,14 @@ public class StringManager_Canvas : MonoBehaviour
             {
                 m_LastDirection = First;
             }
-            Debug.Log(m_StageWidth + m_StageHeight);
         }
-
+        if (m_Strings[^1].name == "FirstPoint")
+        {
+            m_StringMode = m_NoString;
+            Destroy(m_Strings[^1].gameObject);
+            m_Strings.RemoveAt(m_Strings.Count - 1);
+            m_LastDirection = First;
+        }
     }
 
     void Start()
@@ -288,6 +293,7 @@ public class StringManager_Canvas : MonoBehaviour
         m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
 
         m_StringNum = new List<int>(StageUILoader.stage.STRING_COUNT); // ステージの糸数情報を取得
+        m_CopyStringNum = new List<int>(StageUILoader.stage.STRING_COUNT);
 
         m_ListDisplay.UpdateDisplay(m_StringNum); // UI表示を更新
     }
