@@ -1,13 +1,5 @@
-using StageInfo;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.Rendering.DebugUI;
 
 public class StringManager_Canvas : MonoBehaviour
 {
@@ -39,9 +31,8 @@ public class StringManager_Canvas : MonoBehaviour
     private List<StringAnimation_Canvas> AnimStrings = new List<StringAnimation_Canvas>();
     private List<StringAnimation_Canvas> MirrorAnimStrings = new List<StringAnimation_Canvas>();
     private List<int> StringNum;
-    private List<RectTransform> Tamadomes=new List<RectTransform>();
-    private List<int>Directions=new List<int>();
-    [SerializeField] List<int> CopyStringNum;
+    private List<RectTransform> Tamadomes = new List<RectTransform>();
+    private List<int> Directions = new List<int>();
     [SerializeField] private GameObject Cutter;               // 糸を切るためのカッターオブジェクト
     private int currentIndex = 0;
 
@@ -49,14 +40,13 @@ public class StringManager_Canvas : MonoBehaviour
 
     private InputSystem_Actions inputActions;
     private float m_PauseDirection;
-    private int m_LastDirection=First;
+    private int m_LastDirection = First;
     private bool m_StringMode = NoString;
 
     private int StageWidth = 0;
     private int StageHeight = 0;
     public int CutNum = 0;
-    private int m_PreDirection= First;
-    private Vector2 offset;
+    private List<Vector2Int>  m_PreCursolPosition=new List<Vector2Int>();
 
     void Awake()
     {
@@ -67,7 +57,7 @@ public class StringManager_Canvas : MonoBehaviour
         {
             if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
 
-             float value = ctx.ReadValue<float>();
+            float value = ctx.ReadValue<float>();
             if (m_StringMode == isString)
             {
                 while (currentIndex < StringNum.Count && StringNum[currentIndex] <= 0)
@@ -78,30 +68,21 @@ public class StringManager_Canvas : MonoBehaviour
                 // 糸縫いモード時の方向操作
                 m_PauseDirection = value;
 
-                offset = Vector2.zero;
-                if (m_PauseDirection == 1)
+                switch(m_PauseDirection)
                 {
-                    OnUpInput();
-                  
+                    case 1:
+                        OnUpInput();
+                        break;
+                    case -1:
+                        OnDownInput();
+                        break;
+                    case 2:
+                        OnRightInput();
+                        break;
+                    case 3:
+                        OnLeftInput();
+                        break;
                 }
-                else if (m_PauseDirection == -1)
-                {
-                    OnDownInput();
-                   
-                }
-                else if (m_PauseDirection == 2)
-                {
-                    // 右入力
-                    OnRightInput();
-                  
-                }
-                else if (m_PauseDirection == 3)
-                {
-                    // 左入力
-                    OnLeftInput();
-                   
-                }
-                //StringCursol.anchoredPosition += offset;
                 if (StringNum[currentIndex] == 0)
                 {
                     currentIndex++;
@@ -155,7 +136,7 @@ public class StringManager_Canvas : MonoBehaviour
             {
                 return;
             }
-            if (PauseApperance.Instance.isPause|| (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
+            if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
             if (m_StringMode == isString || currentIndex >= StringNum.Count) return;
 
             RectTransform dummy = new GameObject("FirstPoint", typeof(RectTransform)).GetComponent<RectTransform>();
@@ -187,6 +168,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void RemoveLastStitch(int count = 1)
     {
+        Debug.Log(StageWidth + StageHeight);
         while (currentIndex > 0 && StringNum[currentIndex - 1] <= 0)
         {
             Debug.Log("インデックス増やすよ");
@@ -194,6 +176,11 @@ public class StringManager_Canvas : MonoBehaviour
             Destroy(Tamadomes[^1].gameObject);
             Tamadomes.RemoveAt(Tamadomes.Count - 1);
             m_StringMode = isString;
+            //カーソル位置を戻す
+            StageWidth = m_PreCursolPosition[^1].x;
+            StageHeight = m_PreCursolPosition[^1].y;
+            m_PreCursolPosition.RemoveAt(m_PreCursolPosition.Count - 1);
+            Debug.Log(StageWidth + StageHeight);
 
         }
         // 糸が存在しない or FirstPointしかない場合は何もしない
@@ -201,6 +188,10 @@ public class StringManager_Canvas : MonoBehaviour
         {
             Debug.LogWarning("削除できる糸がありません。");
             m_StringMode = NoString;
+
+            //最初のFirstPointだけ削除
+            Destroy(Strings[0].gameObject);
+            Strings.RemoveAt(0);
             return;
         }
 
@@ -211,28 +202,9 @@ public class StringManager_Canvas : MonoBehaviour
             int index = MirrorStrings.Count - 1;
             if (index < 0) break;
 
-            Vector2 resumePos =Vector2.zero;
-            if (m_LastDirection==UP)
-            {
-                offset = m_Offset_Y;
-                StageHeight++;
-            }
-            else if (m_LastDirection == DOWN)
-            {
-                StageHeight--;
-                offset = -m_Offset_Y;
-            }
-            else if (m_LastDirection == RIGHT)
-            {
-                StageWidth--;
-                offset = -m_Offset_X;
-            }
-            else if (m_LastDirection == LEFT)
-            {
-                StageWidth++;
-                offset = m_Offset_X;
-            }
-            StringCursol.anchoredPosition += offset;
+            Vector2 resumePos = (Strings.Count > 1 && Strings[^2] != null)
+           ? BackStrings[^1].anchoredPosition
+           : Vector2.zero;
 
             // --- アニメ関連を安全に削除 ---
             if (AnimStrings.Count > 0 && AnimStrings[^1] != null)
@@ -259,10 +231,6 @@ public class StringManager_Canvas : MonoBehaviour
             if (BackStrings.Count > 0 && BackStrings[^1] != null)
                 Destroy(BackStrings[^1].gameObject);
 
-            // --- Directionsも戻す ---
-            if (Directions.Count > 0)
-                Directions.RemoveAt(Directions.Count - 1);
-
             // リスト削除
             if (Strings.Count > 0) Strings.RemoveAt(Strings.Count - 1);
             if (MirrorStrings.Count > 0) MirrorStrings.RemoveAt(MirrorStrings.Count - 1);
@@ -275,7 +243,7 @@ public class StringManager_Canvas : MonoBehaviour
             FrontStrings.RemoveAll(s => s == null);
             BackStrings.RemoveAll(s => s == null);
 
-            //StringCursol.anchoredPosition = resumePos;
+            StringCursol.anchoredPosition = resumePos;
 
             // 糸数を戻す
             if (currentIndex >= 0 && currentIndex < StringNum.Count)
@@ -283,21 +251,22 @@ public class StringManager_Canvas : MonoBehaviour
 
 
             // 縫い方向を初期化
-
             switch (m_LastDirection)
             {
                 case RIGHT:
-                  StageWidth--;
-                  break;
+                    StageWidth--;
+                    break;
                 case LEFT:
-                  StageWidth++;
-                  break;
+                    StageWidth++;
+                    break;
                 case UP:
-                  StageHeight++;
-                  break;
+                    StageHeight++;
+                    break;
                 case DOWN:
-                  StageHeight--;
-                  break;
+                    StageHeight--;
+                    break;
+                    case First:
+                    break;
             }
             Directions.RemoveAt(Directions.Count - 1);
             if (Directions.Count > 0)
@@ -308,13 +277,7 @@ public class StringManager_Canvas : MonoBehaviour
             {
                 m_LastDirection = First;
             }
-//=======
- //           // --- 直前の方向を復元 ---
- //           if (Directions.Count > 0)
- //               m_LastDirection = Directions[^1];
- //           else
- //               m_LastDirection = First; // 初期状態に戻す
-//>>>>>>> origin/Work_Sakaue9
+            Debug.Log(StageWidth + StageHeight);
         }
 
     }
@@ -327,7 +290,6 @@ public class StringManager_Canvas : MonoBehaviour
         StringNum = new List<int>(StageUILoader.stage.STRING_COUNT); // ステージの糸数情報を取得
 
         listDisplay.UpdateDisplay(StringNum); // UI表示を更新
-        CopyStringNum = new List<int>(StringNum);
     }
 
     void OnEnable()
@@ -368,15 +330,14 @@ public class StringManager_Canvas : MonoBehaviour
     void OnRightInput()
     {
         if (m_LastDirection == LEFT) return;
-        m_PreDirection=m_LastDirection;//直前の方向を保存
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos + m_Offset_X;
 
         if (m_LastDirection == UP) newPos = lastPos + m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == DOWN) newPos = lastPos + m_Offset_X / 2 + m_Offset_Y / 2;
-        else if (m_LastDirection == First) newPos = lastPos + m_Offset_X/2;
+        else if (m_LastDirection == First) newPos = lastPos + m_Offset_X / 2;
 
-            Vector2 frontPos = newPos + m_Offset_X / 2;
+        Vector2 frontPos = newPos + m_Offset_X / 2;
         Vector2 backPos = newPos - m_Offset_X / 2;
 
         if (CheckString(newPos, frontPos, backPos) && StageWidth < StageUILoader.stage.STAGE_WIDTH)
@@ -386,11 +347,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageWidth++;
             StringNum[currentIndex]--;
-
             StringCursol.anchoredPosition += m_Offset_X;
-//=======
-//            offset = m_Offset_X;
-//>>>>>>> origin/Work_Sakaue9
         }
     }
 
@@ -401,14 +358,13 @@ public class StringManager_Canvas : MonoBehaviour
     {
         if (m_LastDirection == RIGHT) return;
 
-        m_PreDirection = m_LastDirection;//直前の方向を保存
 
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos - m_Offset_X;
 
         if (m_LastDirection == UP) newPos = lastPos - m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == DOWN) newPos = lastPos - m_Offset_X / 2 + m_Offset_Y / 2;
-        else if (m_LastDirection == First) newPos= lastPos - m_Offset_X / 2;
+        else if (m_LastDirection == First) newPos = lastPos - m_Offset_X / 2;
 
         Vector2 frontPos = newPos - m_Offset_X / 2;
         Vector2 backPos = newPos + m_Offset_X / 2;
@@ -420,11 +376,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageWidth--;
             StringNum[currentIndex]--;
-
             StringCursol.anchoredPosition -= m_Offset_X;
-//=======
-//            offset = -m_Offset_X;
-//>>>>>>> origin/Work_Sakaue9
         }
     }
 
@@ -432,15 +384,13 @@ public class StringManager_Canvas : MonoBehaviour
     {
         if (m_LastDirection == DOWN) return;
 
-        m_PreDirection = m_LastDirection;//直前の方向を保存
-
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos;
 
         if (m_LastDirection == RIGHT) newPos = lastPos + m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == LEFT) newPos = lastPos - m_Offset_X / 2 - m_Offset_Y / 2;
         else if (m_LastDirection == UP) newPos = lastPos - m_Offset_Y;
-        else if (m_LastDirection == First) newPos= lastPos - m_Offset_Y / 2;
+        else if (m_LastDirection == First) newPos = lastPos - m_Offset_Y / 2;
         Vector2 frontPos = newPos - m_Offset_Y / 2;
         Vector2 backPos = newPos + m_Offset_Y / 2;
 
@@ -451,11 +401,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageHeight--;
             StringNum[currentIndex]--;
-
             StringCursol.anchoredPosition -= m_Offset_Y;
-//=======
-//            offset = -m_Offset_Y;
-//>>>>>>> origin/Work_Sakaue9
         }
     }
 
@@ -463,15 +409,13 @@ public class StringManager_Canvas : MonoBehaviour
     {
         if (m_LastDirection == UP) return;
 
-        m_PreDirection = m_LastDirection;//直前の方向を保存
-
         Vector2 lastPos = Strings[^1].anchoredPosition;
         Vector2 newPos = lastPos;
 
         if (m_LastDirection == RIGHT) newPos = lastPos + m_Offset_X / 2 + m_Offset_Y / 2;
         else if (m_LastDirection == LEFT) newPos = lastPos - m_Offset_X / 2 + m_Offset_Y / 2;
         else if (m_LastDirection == DOWN) newPos = lastPos + m_Offset_Y;
-        else if (m_LastDirection == First) newPos= lastPos + m_Offset_Y / 2;
+        else if (m_LastDirection == First) newPos = lastPos + m_Offset_Y / 2;
 
         Vector2 frontPos = newPos + m_Offset_Y / 2;
         Vector2 backPos = newPos - m_Offset_Y / 2;
@@ -483,11 +427,7 @@ public class StringManager_Canvas : MonoBehaviour
             Directions.Add(m_LastDirection);
             StageHeight++;//いったん消します
             StringNum[currentIndex]--;
-
             StringCursol.anchoredPosition += m_Offset_Y;
-//=======
-//            offset = m_Offset_Y;
-//>>>>>>> origin/Work_Sakaue9
         }
     }
 
@@ -642,17 +582,37 @@ public class StringManager_Canvas : MonoBehaviour
 
         switch (m_LastDirection)
         {
-            case RIGHT: newPos += m_Offset_X / 2; break;
-            case LEFT: newPos -= m_Offset_X / 2; break;
-            case UP: newPos -= m_Offset_Y / 2; break;
-            case DOWN: newPos += m_Offset_Y / 2; break;
+            case RIGHT:
+                {
+                    newPos += m_Offset_X / 2;
+                    StageWidth--;
+                    break;
+                }
+            case LEFT:
+                {
+                    newPos -= m_Offset_X / 2;
+                    StageWidth++;
+                    break;
+                }
+            case UP:
+                {
+                    newPos -= m_Offset_Y / 2;
+                    StageHeight++;
+                    break;
+                }
+            case DOWN:
+                {
+                    newPos += m_Offset_Y / 2;
+                    StageHeight--;
+                    break;
+                }
         }
 
         RectTransform tama = Instantiate(Tamadome, canvasTransform);
-        tama.sizeDelta = m_StrinngScale;
+        tama.sizeDelta = m_StrinngScale*0.5f;
         tama.anchoredPosition = newPos;
         Tamadomes.Add(tama);
-
+        m_PreCursolPosition.Add(new Vector2Int(StageWidth, StageHeight));//最後の玉止めの場所の地点でのカーソル位置を保存して、玉止めの地点から戻す際にその値をセットしたらいける！！玉止め後のずれがなくなる
 
         m_StringMode = NoString;
         m_LastDirection = First;
@@ -670,4 +630,3 @@ public class StringManager_Canvas : MonoBehaviour
         StringCursol.anchoredPosition = pos;
     }
 }
-
