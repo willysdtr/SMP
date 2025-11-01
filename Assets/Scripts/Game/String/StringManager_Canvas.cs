@@ -46,7 +46,9 @@ public class StringManager_Canvas : MonoBehaviour
 
     private int m_StageWidth = 0;
     private int m_StageHeight = 0;
-    public int m_CutNum = 0;
+    private int m_CutNum_front = 0; // 表側の切った回数をカウント
+    private int m_CutNum_back = 0; // 裏側の切った回数をカウント
+
     private List<Vector2Int>  m_PreCursolPosition=new List<Vector2Int>();
 
     private int m_firstcount = 0;//firstpointのカウント 
@@ -317,23 +319,33 @@ public class StringManager_Canvas : MonoBehaviour
     {
         if (front)
         {
-            Destroy(m_Strings[index + firstct].gameObject); // FirstPointを加算
+            Destroy(m_Strings[index + firstct - m_CutNum_front].gameObject); // FirstPointを加算
             m_AnimStrings[index].DeleteImage(0);
-            m_Strings.RemoveAt(index + firstct);
-            m_AnimStrings.RemoveAt(index);
+            m_Strings.RemoveAt(index + firstct - m_CutNum_front);
+            m_AnimStrings.RemoveAt(index - m_CutNum_front);
+            Destroy(m_FrontStrings[index - m_CutNum_front].gameObject);
+            Destroy(BackStrings[index - m_CutNum_front].gameObject);
+
+            m_FrontStrings.RemoveAt(index - m_CutNum_front);
+            BackStrings.RemoveAt(index - m_CutNum_front);
+
+            m_CutNum_front++;
         }
         else
         {
-            Destroy(m_MirrorStrings[index].gameObject);
-            m_MirrorAnimStrings[index].DeleteImage(0);
-            m_MirrorStrings.RemoveAt(index);
-            m_MirrorAnimStrings.RemoveAt(index);
-        }
-        Destroy(m_FrontStrings[index].gameObject);
-        Destroy(BackStrings[index].gameObject);
+            Destroy(m_MirrorStrings[index - m_CutNum_back].gameObject);
+            m_MirrorAnimStrings[index - m_CutNum_back].DeleteImage(0);
+            m_MirrorStrings.RemoveAt(index - m_CutNum_back);
+            m_MirrorAnimStrings.RemoveAt(index - m_CutNum_back);
 
-        m_FrontStrings.RemoveAt(index);
-        BackStrings.RemoveAt(index);
+            Destroy(m_FrontStrings[index - m_CutNum_back].gameObject);
+            Destroy(BackStrings[index - m_CutNum_back].gameObject);
+
+            m_FrontStrings.RemoveAt(index - m_CutNum_back);
+            BackStrings.RemoveAt(index - m_CutNum_back);
+
+            m_CutNum_back++;
+        }
     }
 
     // 各方向への糸設置処理
@@ -641,5 +653,10 @@ public class StringManager_Canvas : MonoBehaviour
     public void SetCursor(Vector2 pos)
     {
         m_StringCursol.anchoredPosition = pos;
+    }
+
+    public void CursorLastSibling()
+    {
+        m_StringCursol.SetAsLastSibling();
     }
 }
