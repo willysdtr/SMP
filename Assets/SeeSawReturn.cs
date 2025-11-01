@@ -17,15 +17,16 @@ public class SeeSawReturn : MonoBehaviour
         float angleZ = transform.eulerAngles.z;
         if (angleZ > 180f) angleZ -= 360f;  // -180Å`180Ç…ïœä∑
         if (returnFgRight) {
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 1f); 
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 1f);
             
-            if (angleZ <= -30) { 
+            if (angleZ <= -45) { 
                 returnFgRight = false; 
             } 
         }
         if(returnFgLeft) { 
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 1f); 
-            if (angleZ >= 30) { 
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 1f);
+
+            if (angleZ >= 45) { 
                 returnFgLeft = false; 
             } 
         }
@@ -72,13 +73,13 @@ public class SeeSawReturn : MonoBehaviour
             if (angleZ > 180f) angleZ -= 360f;  // -180Å`180Ç…ïœä∑
             float diffX = collision.transform.position.x - transform.position.x;
 
-            if (diffX > 0 && angleZ >= -30)
+            if (diffX > 0 && angleZ >= -45)
             {
                 Debug.Log($"{collision.gameObject.name} ÇÕâEë§Ç…Ç¢Ç‹Ç∑");
                 returnFgRight = true;
                 //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 1f);
             }
-            else if (diffX < 0 && angleZ <= 30)
+            else if (diffX < 0 && angleZ <= 45)
             {
                 Debug.Log($"{collision.gameObject.name} ÇÕç∂ë§Ç…Ç¢Ç‹Ç∑");
                 returnFgLeft = true;

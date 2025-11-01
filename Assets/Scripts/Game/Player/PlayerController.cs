@@ -122,7 +122,6 @@ public class PlayerController : MonoBehaviour
             case PlayerState.State.DEATH: anim.speed = 1; death = true; break;
         }
         anim.SetInteger("State", (int)state.currentstate);
-        Debug.Log(state.currentstate);
     }
 
     void ChangeStateStop() //’â~ó‘Ô‚É•ÏX

@@ -72,7 +72,7 @@ public class PlayerCollision : MonoBehaviour
         int layerID = go.layer;
         string layerName = LayerMask.LayerToName(layerID);
 
-        // String と Gimmick は無視
+        // String と Gimmick 以外は無視
         if (!(layerName == "String" || layerName == "Gimmick"))
             return;
         
@@ -104,7 +104,7 @@ public class PlayerCollision : MonoBehaviour
             m_Cont.state.IS_GROUND = false;
         
 
-        // 全壁から離れたら移動できるってこと？
+        // 全壁から離れたら移動できる？
         if (m_WallBbj.Count == 0)
             m_Cont.state.IS_MOVE = true;
         
@@ -145,6 +145,8 @@ public class PlayerCollision : MonoBehaviour
         {
             m_Cont.state.IS_MOVE = true;
             m_Cont.state.IS_GROUND = true;
+            m_Cont.state.IS_JUMP = false;
+            m_Rb.linearVelocity = new Vector2(m_Cont.state.m_direction * PlayerState.MAX_SPEED, m_Rb.linearVelocity.y);
             return false;
         }
 
@@ -220,7 +222,7 @@ public class PlayerCollision : MonoBehaviour
                 // === 段差補正 ===
                 if (TryStepCorrection(collision)) return;
 
-                // 段差補正失敗ってなに？: 壁衝突扱い
+                // 壁衝突扱い
                 Wallhit = true;
 
                 // 直前に段差持ち上げなら、戻す
@@ -266,7 +268,7 @@ public class PlayerCollision : MonoBehaviour
         transform.position = new Vector2(collision.transform.position.x, transform.position.y);
 
         // ジャンプ中なら STOP を挟む -> その後に再ジャンプ
-        if (m_Cont.state.IS_JUMP)
+        //if (m_Cont.state.IS_JUMP)
             m_Cont.state.currentstate = PlayerState.State.STOP;
 
         m_Cont.state.IS_JUMP = true;
