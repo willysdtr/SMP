@@ -18,7 +18,7 @@ public static class Stage1_Test
         false,                       // 王様は左向きか?
         false,                      // 姫様は左向きか?
 
-        new int[] { 5 },            // 縫える回数 と 縫える長さ
+        new int[] { 99 },            // 縫える回数 と 縫える長さ
 
         /*========== 鉄板 の位置 ==========*/
         new Int2[]                // 表
@@ -58,7 +58,7 @@ public static class Stage1_Test
         /*======== シーソー の位置 ========*/
         new SeeSaw[]                // 表
         {
-
+            new SeeSaw(true, 2, 3)
         },
         new SeeSaw[]                // 裏
         {

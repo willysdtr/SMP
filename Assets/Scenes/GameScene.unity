@@ -2023,8 +2023,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   useDataFromDropdown: 0
   stageId: 16
+=======
+  useDataFromDropdown: 1
+  stageId: 11
+>>>>>>> origin/Work_Taniguchi6
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
@@ -7265,13 +7270,21 @@ PrefabInstance:
       propertyPath: m_EdgeRadius
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4926157397284531837, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5003121743772350543, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5189404576895512662, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6182392007868562220, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8320459624472767055, guid: 8d5bbf0d2ab6d054b91d344678470364, type: 3}
       propertyPath: m_Name
@@ -7324,6 +7337,14 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1695052006304602561, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808619095222275275, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4204713197702489608, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
       propertyPath: m_CheckSize.x
       value: 0.3
@@ -7354,7 +7375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5750814329060552587, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5996354903248705729, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
       propertyPath: m_Pivot.x
@@ -7443,6 +7464,10 @@ PrefabInstance:
     - target: {fileID: 8116007354386631325, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
       propertyPath: m_Name
       value: King(UIImage)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8598488980998444207, guid: c6a2ba4a10fb18246b17ac18623bc0bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

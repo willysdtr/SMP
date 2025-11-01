@@ -15,7 +15,7 @@ public class PlayerCeilingCheck_Canvas : MonoBehaviour
     {
         if (((1 << collider.gameObject.layer) & m_cont.groundlayers) != 0)//当たったオブジェクトの数を記録し、障害物判定をオンにする
         {
-            if(collider.gameObject.tag == "PinCuttion" || collider.gameObject.tag == "Cutter" || collider.gameObject.tag == "Start" || collider.gameObject.tag == "SeeSaw") { return; }//針山とカッターとスタートとシーソーはスルー
+            if(collider.gameObject.tag == "PinCuttion" || collider.gameObject.tag == "Cutter" || collider.gameObject.tag == "Start" || collider.gameObject.tag == "SeeSaw" || collider.gameObject.tag == "Goal") { return; }//針山とカッターとスタートとシーソーはスルー
             if(collider.gameObject.tag == "String" && collider.transform.rotation.z != 0f) { return; }//縦糸には頭をぶつけない
             ++contactcount;
             m_cont.state.IS_CEILING_HIT= true;
