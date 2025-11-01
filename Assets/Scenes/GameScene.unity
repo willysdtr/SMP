@@ -1995,7 +1995,6 @@ MonoBehaviour:
   StringCursol: {fileID: 214518381}
   canvasTransform: {fileID: 563705522}
   mirrorOffsetX: 5
-  CopyStringNum: 
   Cutter: {fileID: 0}
   listDisplay: {fileID: 563705530}
   CutNum: 0
@@ -2024,7 +2023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDataFromDropdown: 1
+  useDataFromDropdown: 0
   stageId: 16
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
