@@ -58,21 +58,20 @@ public static class Stage1_Test
         /*======== シーソー の位置 ========*/
         new SeeSaw[]                // 表
         {
-            new SeeSaw(true, 2, 3)
         },
         new SeeSaw[]                // 裏
         {
-
+            new SeeSaw(false, 2, 2)
         },
 
         /*========== バネ の位置 ==========*/
         new Int2[]                // 裏
         {
-            new Int2(2, 4),
+            new Int2(3, 5),
         },
         new Int2[]                // 裏
         {
-            new Int2(2, 3),
+            new Int2(3, 5),
         },
 
         /*========== ハサミ の位置 ==========*/
