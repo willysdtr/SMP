@@ -170,7 +170,7 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void RemoveLastStitch(int count = 1)
     {
-        while (m_CurrentIndex > 0 && m_StringNum[m_CurrentIndex - 1] <= 0 && m_StringNum[m_CurrentIndex] == m_CopyStringNum[m_CurrentIndex])
+        while (m_CurrentIndex > 0 && m_StringNum[m_CurrentIndex - 1] <= 0 && m_StringNum[m_CurrentIndex] == m_CopyStringNum[m_CurrentIndex])//wawa
         {
             Debug.Log("インデックス増やすよ");
             m_CurrentIndex--;
