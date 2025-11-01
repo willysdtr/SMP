@@ -412,7 +412,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 40, y: 70}
+  m_Size: {x: 40, y: 60}
   m_EdgeRadius: 0
 --- !u!114 &1775085276676287249
 MonoBehaviour:
@@ -469,9 +469,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e8ae73467687a4993afc106c06b615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkSize: {x: 0.3, y: 0.4}
-  checkOffset: {x: 0, y: 0}
-  stringManager: {fileID: 0}
+  m_StringManager: {fileID: 0}
+  m_CheckSize: {x: 0.5, y: 1}
+  m_CheckOffset: {x: 0, y: 0}
 --- !u!82 &8167696770034784198
 AudioSource:
   m_ObjectHideFlags: 0

@@ -321,7 +321,7 @@ public class PlayerCollision : MonoBehaviour
         if (topY < thresholdY && !Wallhit)
         {
             float diff = topY - playerFootY;
-            transform.position += new Vector3(0f, diff, 0f);
+            transform.position += new Vector3(m_Cont.state.m_direction * PlayerState.MAX_SPEED * 0.1f, diff, 0f);
             Setdiff = diff;
 
             m_Cont.state.IS_GROUND = true;
