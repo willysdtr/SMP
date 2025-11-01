@@ -264,6 +264,32 @@ public class PlayerCollision : MonoBehaviour
     //======================================================================*/
     private void HandleSpringCollision(Collision2D collision)
     {
+        // プレイヤーとスプリングの BoxCollider2D を取得
+        BoxCollider2D playerCol = GetComponent<BoxCollider2D>();
+        BoxCollider2D springCol = collision.collider.GetComponent<BoxCollider2D>();
+
+        if (playerCol == null || springCol == null)
+        {
+            Debug.LogWarning("BoxCollider2D が足りません。");
+            return;
+        }
+
+        // スプリングの上端のワールド座標を取得
+        Vector2 springTop = GetColliderTop(springCol);
+
+        // プレイヤーの下端のワールド座標を取得
+        Vector2 playerBottom = GetColliderBottom(playerCol);
+
+        // 現在の差分（プレイヤー足元がスプリング上面より下にある分）
+        float offsetY = springTop.y - playerBottom.y;
+
+        // プレイヤーを上方向にスナップ（落下速度に依存しない）
+        transform.position = new Vector2(transform.position.x, transform.position.y + offsetY);
+
+        // 横位置をばねのXにスナップ
+        transform.position = new Vector2(collision.transform.position.x, transform.position.y);
+
+
         // 横位置をばねにスナップ
         transform.position = new Vector2(collision.transform.position.x, transform.position.y);
 
@@ -364,5 +390,23 @@ public class PlayerCollision : MonoBehaviour
     {
         // 左右比較
         return n == Vector2.left || n == Vector2.right;
+    }
+
+    // BoxCollider2D の上端ワールド座標
+    private Vector2 GetColliderTop(BoxCollider2D box)
+    {
+        Vector2 size = box.size;
+        Vector2 offset = box.offset;
+        Vector2 localTop = offset + new Vector2(0, size.y / 2);
+        return box.transform.TransformPoint(localTop);
+    }
+
+    // BoxCollider2D の下端ワールド座標
+    private Vector2 GetColliderBottom(BoxCollider2D box)
+    {
+        Vector2 size = box.size;
+        Vector2 offset = box.offset;
+        Vector2 localBottom = offset + new Vector2(0, -size.y / 2);
+        return box.transform.TransformPoint(localBottom);
     }
 }

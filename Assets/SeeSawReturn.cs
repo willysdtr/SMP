@@ -33,37 +33,6 @@ public class SeeSawReturn : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag != "Player") return;
-        // 上にいるオブジェクトだけを対象にしたい場合
-        if (collision.transform.position.y > transform.position.y)
-        {
-            //float angleZ = transform.eulerAngles.z;
-            //if (angleZ > 180f) angleZ -= 360f;  // -180～180に変換
-            //float diffX = collision.transform.position.x - transform.position.x;
-
-            //if (diffX > 0 && angleZ >= -27)
-            //{
-            //    Debug.Log($"{collision.gameObject.name} は右側にいます");
-            //    returnFgRight = true;
-            //    //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 1f);
-            //}
-            //else if (diffX < 0 && angleZ <= 27)
-            //{
-            //    Debug.Log($"{collision.gameObject.name} は左側にいます");
-            //    returnFgLeft = true;
-            //    //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 0.01f);
-            //}
-            //else
-            //{
-            //    Debug.Log($"{collision.gameObject.name} は中央にいます");
-            //}
-            returnFgRight = false;
-            returnFgLeft = false;
-        }
-    }
-
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.tag != "Player") return;
@@ -83,21 +52,13 @@ public class SeeSawReturn : MonoBehaviour
 
         if (playerPos.x > rightEdge.x && angleZ >= -45)
         {
-            Debug.Log($"{collision.gameObject.name} は右側にいます");
             returnFgRight = true;
-            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 1f);
         }
         else if (playerPos.x < leftEdge.x && angleZ <= 45)
         {
-            Debug.Log($"{collision.gameObject.name} は左側にいます");
             returnFgLeft = true;
-            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 0.01f);
         }
-        else
-        {
-            Debug.Log($"{collision.gameObject.name} は中央にいます");
-        }
-        
+
     }
 
     // BoxCollider2D の左右端のワールド座標を取得
