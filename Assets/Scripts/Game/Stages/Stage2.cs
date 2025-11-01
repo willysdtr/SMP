@@ -212,8 +212,8 @@ public static class Stage2
         5,                          // ステージ: 横
         4,                          // ステージ: 縦
 
-        new Int2(0, 3),           // 表: スタート位置
-        new Int2(4, 2),           // 表: ゴール位置
+        new Int2(2, 3),           // 表: スタート位置
+        new Int2(2, 1),           // 表: ゴール位置
 
         new Int2(2, 3),           // 裏: スタート位置
         new Int2(4, 3),           // 裏: ゴール位置
@@ -224,7 +224,7 @@ public static class Stage2
         false,                      // 王様は左向きか?
         true,                      // 姫様は左向きか?
 
-        new int[] { 2, 3 },            // 縫える回数 と 縫える長さ
+        new int[] { 1, 3, 1 },            // 縫える回数 と 縫える長さ
 
         /*========== 鉄板 の位置 ==========*/
         new Int2[]                // 表
@@ -253,7 +253,7 @@ public static class Stage2
         /*======== シーソー の位置 ========*/
         new SeeSaw[]                // 表
         {
-            new SeeSaw(false, 2, 2)
+            new SeeSaw(false, 3, 2)
         },
         new SeeSaw[]                // 裏
         {
@@ -327,7 +327,7 @@ public static class Stage2
         },
         new SeeSaw[]                // 裏
         {
-            new SeeSaw(true, 1, 2)
+            new SeeSaw(true, 2, 2)
         },
 
         /*========== バネ の位置 ==========*/

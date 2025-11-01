@@ -86,7 +86,7 @@ public static class Stage3
     new Int2(4, 2),           // 表: スタート位置
     new Int2(4, 0),           // 表: ゴール位置
 
-    new Int2(3, 2),           // 裏: スタート位置
+    new Int2(2, 2),           // 裏: スタート位置
     new Int2(0, 3),           // 裏: ゴール位置
 
     new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
@@ -95,7 +95,7 @@ public static class Stage3
     true,                       // 王様は左向きか?
     false,                      // 姫様は左向きか?
 
-    new int[] { 1, 2, 2 },            // 縫える回数 と 縫える長さ
+    new int[] { 1, 1, 3 },            // 縫える回数 と 縫える長さ
 
     /*========== 鉄板 の位置 ==========*/
     new Int2[]                // 表
@@ -109,7 +109,6 @@ public static class Stage3
     new Int2[]                // 裏
     {
         new Int2 (3, 1),
-        new Int2 (3, 3)
     },
     new Int2[]                // 裏
     {
@@ -127,7 +126,7 @@ public static class Stage3
     /*======== シーソー の位置 ========*/
     new SeeSaw[]
     {
-        new SeeSaw(true, 1, 2)
+        new SeeSaw(true, 2, 2)
     },
     new SeeSaw[]
     {
@@ -160,7 +159,7 @@ public static class Stage3
     new Int2(1, 1),           // 表: ゴール位置
     
     new Int2(3, 2),           // 裏: スタート位置
-    new Int2(0, 0),           // 裏: ゴール位置
+    new Int2(3, 1),           // 裏: ゴール位置
     
     new SoulPos(true, 0, 0),    // 魂の位置: 左側, X=0, Y=3
     
@@ -168,7 +167,7 @@ public static class Stage3
     true,                       // 王様は左向きか?
     false,                      // 姫様は左向きか?
     
-    new int[] { 3, 1, 1, 2 },            // 縫える回数 と 縫える長さ
+    new int[] { 3, 1, 3, 1 },            // 縫える回数 と 縫える長さ
     
     /*========== 鉄板 の位置 ==========*/
     new Int2[]                // 表
@@ -212,7 +211,7 @@ public static class Stage3
     },
     new Int2[]                // 裏
     {
-        new Int2(2, 2)
+        new Int2(1, 3)
     },
 
     /*========== ハサミ の位置 ==========*/
@@ -320,7 +319,7 @@ public static class Stage3
     true,                       // 王様は左向きか?
     true,                      // 姫様は左向きか?
 
-    new int[] { 4, 4, 2, 2 },            // 縫える回数 と 縫える長さ
+    new int[] { 2, 1, 2, 1, 3, 4 },            // 縫える回数 と 縫える長さ
 
     /*========== 鉄板 の位置 ==========*/
     new Int2[]                // 表
@@ -355,7 +354,7 @@ public static class Stage3
     },
     new SeeSaw[]
     {
-        new SeeSaw(false, 3, 1)
+        new SeeSaw(false, 4, 1)
     },
 
     /*========== バネ の位置 ==========*/
@@ -378,7 +377,8 @@ public static class Stage3
     },
     new Int2[]                // 裏
     {
-        new Int2(4, 4)
+        new Int2(4, 4),
+        new Int2(3, 1)
     }
     );
 }
