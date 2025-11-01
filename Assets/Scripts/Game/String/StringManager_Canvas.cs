@@ -49,6 +49,8 @@ public class StringManager_Canvas : MonoBehaviour
     public int m_CutNum = 0;
     private List<Vector2Int>  m_PreCursolPosition=new List<Vector2Int>();
 
+    private int m_firstcount = 0;//firstpointのカウント 
+
     void Awake()
     {
         inputActions = new InputSystem_Actions();
@@ -147,6 +149,7 @@ public class StringManager_Canvas : MonoBehaviour
             Debug.Log($"CursorPos: {m_StringCursol.anchoredPosition}");
             m_Strings.Add(dummy);
             m_StringMode = m_isString;
+            m_firstcount++;
         };
 
         inputActions.Stirng.BackString.performed += ctx =>// 糸の一針戻す操作
@@ -284,6 +287,7 @@ public class StringManager_Canvas : MonoBehaviour
             Destroy(m_Strings[^1].gameObject);
             m_Strings.RemoveAt(m_Strings.Count - 1);
             m_LastDirection = First;
+            m_firstcount--;
         }
     }
 
@@ -309,28 +313,21 @@ public class StringManager_Canvas : MonoBehaviour
     }
 
     // 糸を切る処理（指定indexの糸を削除）
-    public void CutString(int index, bool front)
+    public void CutString(int index, bool front ,int firstct)
     {
         if (front)
         {
-            Destroy(m_Strings[index + 1].gameObject); // FirstPointとの対応で+1
-            m_AnimStrings[index - 1].DeleteImage(0);
-            m_Strings.RemoveAt(index);
-            m_AnimStrings.RemoveAt(index - 1);
+            Destroy(m_Strings[index + firstct].gameObject); // FirstPointを加算
+            m_AnimStrings[index].DeleteImage(0);
+            m_Strings.RemoveAt(index + firstct);
+            m_AnimStrings.RemoveAt(index);
         }
         else
         {
-<<<<<<< HEAD
-            Destroy(MirrorStrings[index].gameObject);
-            MirrorAnimStrings[index - 1].DeleteImage(0);
-            MirrorStrings.RemoveAt(index);
-            MirrorAnimStrings.RemoveAt(index - 1);
-=======
             Destroy(m_MirrorStrings[index].gameObject);
             m_MirrorAnimStrings[index].DeleteImage(0);
             m_MirrorStrings.RemoveAt(index);
             m_MirrorAnimStrings.RemoveAt(index);
->>>>>>> main
         }
         Destroy(m_FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);
@@ -501,8 +498,9 @@ public class StringManager_Canvas : MonoBehaviour
         if (anim != null)
         {
             anim.SetCanvas(m_CanvasTransform);
-            anim.index = m_Strings.Count - 1; // FirstPoint対応で-1
+            anim.index = m_Strings.Count - m_firstcount; // FirstPoint分消す
             anim.front = true;
+            anim.firstct = m_firstcount;
         }
         m_AnimStrings.Add(anim);
 

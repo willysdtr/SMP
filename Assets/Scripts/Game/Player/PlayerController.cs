@@ -264,7 +264,7 @@ public class PlayerController : MonoBehaviour
         if (fallstart_y - transform.position.y >= blocksize * 2.9 && !state.IS_JUMP) { state.currentstate = PlayerState.State.DEATH; return; } //落下死するかどうか
         state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
         goal_pos = pos;//ゴール位置をセット
-        transform.position = new Vector2(transform.position.x, pos.y - (rect.sizeDelta.y * 0.15f));//高さを補正
+        transform.position = new Vector2(transform.position.x, pos.y - (rect.sizeDelta.y * 0.05f));//高さを補正
     }
 
     public void PlayerReturn(float angle)

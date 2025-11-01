@@ -318,10 +318,8 @@ public class PlayerCollision : MonoBehaviour
         if (m_Cont.cutCt <= 0) return false;
         
         var anim = stringObject.GetComponent<StringAnimation_Canvas>();
-        bool front = anim.front;
-        int index = anim.index;
 
-        m_StringManager.CutString(index, front);
+        m_StringManager.CutString(anim.index, anim.front,anim.firstct);
         m_Cont.cutCt--;
         return true;
     }
