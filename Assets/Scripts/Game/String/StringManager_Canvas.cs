@@ -353,9 +353,9 @@ public class StringManager_Canvas : MonoBehaviour
         else
         {
             Destroy(MirrorStrings[index].gameObject);
-            MirrorAnimStrings[index].DeleteImage(0);
+            MirrorAnimStrings[index - 1].DeleteImage(0);
             MirrorStrings.RemoveAt(index);
-            MirrorAnimStrings.RemoveAt(index);
+            MirrorAnimStrings.RemoveAt(index - 1);
         }
         Destroy(FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);

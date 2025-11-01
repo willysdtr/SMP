@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerReturn() //Œ»İ‚ÌŒü‚«‚Æ‹t•ûŒü‚ÉŒü‚«‚ğ•Ï‚¦‚é
     {
         move.AllStop();
-        state.m_direction = move.Return(-1 * transform.rotation.y);
+        state.m_direction = move.Return(transform.eulerAngles.y);
     }
 
     public void PlayerJumpReturn()//ƒWƒƒƒ“ƒv’†‚É”½“]‚·‚é
