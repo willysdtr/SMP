@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour
 
         check = transform.Find("Animation");
         check.localPosition = new(check.localPosition.x * setScale.x, check.localPosition.y * setScale.y);//checkの相対位置を変更
+        check.localScale *= setScale;
 
         if (isleft) { state.m_direction = (int)PlayerState.Direction.LEFT; transform.rotation = Quaternion.Euler(0, 0, 0); } // 左向き
         else { state.m_direction = (int)PlayerState.Direction.RIGHT; transform.rotation = Quaternion.Euler(0, 180, 0); } //右向き
@@ -263,7 +264,7 @@ public class PlayerController : MonoBehaviour
         if (fallstart_y - transform.position.y >= blocksize * 2.9 && !state.IS_JUMP) { state.currentstate = PlayerState.State.DEATH; return; } //落下死するかどうか
         state.currentstate = PlayerState.State.GOAL;// ゴール状態に変更
         goal_pos = pos;//ゴール位置をセット
-        transform.position = new Vector2(transform.position.x, pos.y);//高さを補正
+        transform.position = new Vector2(transform.position.x, pos.y - (rect.sizeDelta.y * 0.15f));//高さを補正
     }
 
     public void PlayerReturn(float angle)

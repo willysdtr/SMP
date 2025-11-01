@@ -314,7 +314,7 @@ public class PlayerCollision : MonoBehaviour
 
         float playerFootY = myBounds.min.y;
         float playerHeight = myBounds.size.y;
-        float thresholdY = playerFootY + playerHeight * 0.5f; // プレイヤー高さの半分上
+        float thresholdY = playerFootY + playerHeight * 0.8f; // プレイヤー高さの半分上
         float topY = targetBounds.max.y;
 
         // 段の上端がプレイヤー足元より少し低い -> 段差補正

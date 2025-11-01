@@ -68,6 +68,7 @@ public static class Stage1_Test
         /*========== ƒoƒl ‚ÌˆÊ’u ==========*/
         new Int2[]                // — 
         {
+            new Int2(2, 4),
         },
         new Int2[]                // — 
         {
