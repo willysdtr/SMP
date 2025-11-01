@@ -22,9 +22,9 @@ public class PauseApperance : MonoBehaviour
         }
 
         inputActions = new InputSystem_Actions();//PlayerInputActionsのインスタンスを生成
-        inputActions.PauseApperance.Apperance.performed += ctx =>//ここの処理をSMP_SceneManagerに移動させよう！
+        inputActions.PauseApperance.Apperance.performed += ctx =>
         {
-            Debug.Log("PauseSceneLoad");
+            if (isPause ||(SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange))　return;//すでにPauseしている場合は何もしない
             SMPState.Instance.m_CurrentGameState = SMPState.GameState.Pause;//Pause状態にする
             inputActions.Select.Disable();//PlayerInputActionsを無効化
             SceneManager.LoadScene("PauseScene", LoadSceneMode.Additive);

@@ -76,7 +76,7 @@ public class PlayerCollision : MonoBehaviour
             // カッターに当たった場合
             if (collision.gameObject.tag == "Cutter")
             {
-                stringManager.CutNum += 1;               // カット数を増やす
+                stringManager.m_CutNum += 1;               // カット数を増やす
                 collision.gameObject.SetActive(false);   // カッターを非表示
                 cont.cutCt++;                            // 糸を切れる回数を増加
                 return;                                  // これ以降の処理を行わない(壁判定に引っかかるため)
