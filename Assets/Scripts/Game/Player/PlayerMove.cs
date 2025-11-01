@@ -102,7 +102,7 @@ public class PlayerMove : MonoBehaviour
     public bool Goal(Vector2 goalpos)//ゴール処理、ゴールに向かって移動する
     {
         int direction = 0;
-        AllStop();
+        Stop();
         if (Mathf.Abs(goalpos.x - transform.position.x) < PlayerState.MAX_SPEED / 10)
         {
             return true;//ゴール演出が終わったらtrueを返す
