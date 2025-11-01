@@ -16,7 +16,7 @@ public static class Stage1_Test
 
         false,                      // 向き変更可能か?
         false,                       // 王様は左向きか?
-        true,                      // 姫様は左向きか?
+        false,                      // 姫様は左向きか?
 
         new int[] { 5 },            // 縫える回数 と 縫える長さ
 
@@ -72,6 +72,7 @@ public static class Stage1_Test
         },
         new Int2[]                // 裏
         {
+            new Int2(2, 3),
         },
 
         /*========== ハサミ の位置 ==========*/
