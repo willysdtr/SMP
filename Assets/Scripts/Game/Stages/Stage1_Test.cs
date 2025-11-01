@@ -87,7 +87,7 @@ public static class Stage1_Test
         5,                          // ステージ: 横
         6,                          // ステージ: 縦
 
-        new Int2(0, 3),           // 表: スタート位置
+        new Int2(0, 0),           // 表: スタート位置
         new Int2(5, 4),           // 表: ゴール位置
 
         new Int2(1, 1),           // 裏: スタート位置
@@ -112,11 +112,11 @@ public static class Stage1_Test
         /*========== 針山 の位置 ==========*/
         new Int2[]                // 裏
         {
-            new Int2(2, 2)
+            //new Int2(3, 3)
         },
         new Int2[]                // 裏
         {
-            new Int2(2, 0)
+            //new Int2(2, 0)
         },
 
         /*========== 風穴 の位置 ==========*/
@@ -130,7 +130,7 @@ public static class Stage1_Test
         /*======== シーソー の位置 ========*/
         new SeeSaw[]                // 表
         {
-            new SeeSaw(false, 1, 3)
+            new SeeSaw(false, 1, 0)
         },
         new SeeSaw[]                // 裏
         {
