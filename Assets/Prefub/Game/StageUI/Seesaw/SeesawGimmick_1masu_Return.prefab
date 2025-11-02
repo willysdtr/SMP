@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 2367878220040146496}
   - component: {fileID: 5827135428925086559}
   m_Layer: 5
-  m_Name: SeesawGimmick_test1masu_Return
+  m_Name: SeesawGimmick_1masu_Return
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

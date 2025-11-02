@@ -172,6 +172,9 @@ public class ResultScreen : MonoBehaviour
         SMPState.CURRENT_STAGE += 1;
         //SMPState.Instance.m_CurrentGameState = SMPState.GameState.PlayGame;//Gameplay状態にする
         // ゲームステージをロードする
+        if (SMPState.CURRENT_STAGE >= 14)
+            SMPState.CURRENT_STAGE = 0;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
