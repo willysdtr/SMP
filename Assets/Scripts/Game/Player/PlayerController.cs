@@ -272,7 +272,7 @@ public class PlayerController : MonoBehaviour
         PlayerReturn();
         move.JumpReturn();
     }
-    private void PlaySE(int no,bool forceplay)//SEÄ¶
+    public void PlaySE(int no,bool forceplay)//SEÄ¶
     {
         if(forceplay)// ‹­§Ä¶
         {
