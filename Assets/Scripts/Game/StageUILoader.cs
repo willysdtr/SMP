@@ -25,6 +25,8 @@ public class StageUILoader : MonoBehaviour
 
     PlayerController playerController;
 
+    StringManager_Canvas myStr;//自分自身のStringManager
+
     private Vector2 kingPos;
     private Vector2 queenPos;
 
@@ -124,8 +126,8 @@ public class StageUILoader : MonoBehaviour
         SetupGrid(leftPanel, 0, cols / 2);
         SetupGrid(rightPanel, cols / 2, cols);
 
-
-        StringManager_Canvas myStr = GetComponent<StringManager_Canvas>();
+        //StringManagerをセット
+        myStr = GetComponent<StringManager_Canvas>();
         myStr.SetCursor(GetTopLeftTilePositionInCanvas());
 
     }
@@ -147,6 +149,16 @@ public class StageUILoader : MonoBehaviour
         {
             playerController.PlaceAtPosition(myRect, queenPos, size, blocksize, stage.isQUEEN_LEFT);
         }
+    }
+
+    private void Update()
+    {
+        // プレイヤー2人を最前面に表示
+        king.transform.SetAsLastSibling();
+        queen.transform.SetAsLastSibling();
+
+        //カーソルを最前面に表示
+        myStr.CursorLastSibling();
     }
 
     private void GenerateStageGridObjects()

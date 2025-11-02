@@ -86,7 +86,19 @@ public class PlayerCollision : MonoBehaviour
         {
             if (m_Cont.state.currentstate != PlayerState.State.GOAL)
                 m_Cont.Goal(collision.transform.position);
+
+            //段差補正
+            Bounds myBounds = m_Collider.bounds;
+            var targetCollider = collision.gameObject.GetComponent<BoxCollider2D>();
+            Bounds targetBounds = targetCollider.bounds;
+
+            float playerFootY = myBounds.min.y;
+            float topY = targetBounds.max.y;
+
+            float diff = topY - playerFootY;
+            transform.position += new Vector3(m_Cont.state.m_direction * PlayerState.MAX_SPEED * 0.1f, diff, 0f);
             
+
             return;
         }
 
@@ -107,13 +119,14 @@ public class PlayerCollision : MonoBehaviour
         // 全壁から離れたら移動できる？
         if (m_WallBbj.Count == 0)
             m_Cont.state.IS_MOVE = true;
+
+        ExitTagCollisions(collision);
         
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         // 自Collider 以外ならreturn & 糸カット可能なら無視
-        // けどこれって other が来るからさ、常にtrueじゃね？ いる？これ
         if (collider != m_Collider || m_Cont.cutCt > 0) return;
 
         int layerID = collider.gameObject.layer;
@@ -209,9 +222,9 @@ public class PlayerCollision : MonoBehaviour
                         return;
                     }
 
-                    // 垂直糸なら [登り] Start: 禁止, 天井, ジャンプ中
+                    // 垂直糸なら [登り] Start: 禁止, 天井, ジャンプ中、落下中でないなら
                     if (IsVerticalString(collision) &&
-                        !(m_Cont.state.IS_CLIMB_NG || m_Cont.state.IS_CEILING_HIT || m_Cont.state.IS_JUMP))
+                        !(m_Cont.state.IS_CLIMB_NG || m_Cont.state.IS_CEILING_HIT || m_Cont.state.IS_JUMP || !m_Cont.state.IS_GROUND))
                     {
                         BeginClimb(collision.transform.position);
                         m_RroundObj.Clear();
@@ -318,10 +331,8 @@ public class PlayerCollision : MonoBehaviour
         if (m_Cont.cutCt <= 0) return false;
         
         var anim = stringObject.GetComponent<StringAnimation_Canvas>();
-        bool front = anim.front;
-        int index = anim.index;
 
-        m_StringManager.CutString(index, front);
+        m_StringManager.CutString(anim.index, anim.front,anim.firstct);
         m_Cont.cutCt--;
         return true;
     }
@@ -340,7 +351,7 @@ public class PlayerCollision : MonoBehaviour
 
         float playerFootY = myBounds.min.y;
         float playerHeight = myBounds.size.y;
-        float thresholdY = playerFootY + playerHeight * 0.8f; // プレイヤー高さの半分上
+        float thresholdY = playerFootY + playerHeight * 0.8f; // プレイヤー高さの0.8上
         float topY = targetBounds.max.y;
 
         // 段の上端がプレイヤー足元より少し低い -> 段差補正
@@ -409,4 +420,19 @@ public class PlayerCollision : MonoBehaviour
         Vector2 localBottom = offset + new Vector2(0, -size.y / 2);
         return box.transform.TransformPoint(localBottom);
     }
+
+    //======================================================================
+    // Exitした時のタグ即時処理
+    //======================================================================
+    private void ExitTagCollisions(Collision2D collision)
+    {
+        var go = collision.gameObject;
+       
+        if (go.CompareTag("SeeSaw"))
+        {
+            m_Rb.linearVelocity = new Vector2(0, m_Rb.linearVelocity.y);
+            return;
+        }
+    }
+
 }
