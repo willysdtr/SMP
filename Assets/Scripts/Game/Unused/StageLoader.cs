@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
+//using UnityEditor.SceneManagement;
 using StageInfo;
 
 public class StageUICanvasLoader : MonoBehaviour
