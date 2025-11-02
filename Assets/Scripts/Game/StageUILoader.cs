@@ -137,6 +137,19 @@ public class StageUILoader : MonoBehaviour
 
         // 自分自身のRectTransformを取得
         RectTransform myRect = this.GetComponent<RectTransform>();
+
+        // シーン上からプレイヤーを再取得（ビルドでも確実）
+        if (king == null)
+            king = GameObject.Find("King(UIImage)");
+        if (queen == null)
+            queen = GameObject.FindWithTag("Queen(UIImage)");
+
+        if (king == null || queen == null)
+        {
+            Debug.LogWarning("King or Queen が見つかりません！");
+            return;
+        }
+
         //プレイヤー配置
         playerController = king.GetComponent<PlayerController>();
         if (playerController != null)
