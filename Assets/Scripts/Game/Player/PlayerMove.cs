@@ -141,7 +141,9 @@ public class PlayerMove : MonoBehaviour
 
     public int Return(float angle) // 向き変更処理、指定された向きになる
     {
+        if (angle > 180f) angle -= 360f;  // -180～180に変換
         int direction = (int)PlayerState.Direction.STOP;
+
         if (angle < 0) // 角度を補正する
         {
             // 右向き
