@@ -1125,7 +1125,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=-1)"",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1136,7 +1136,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": ""Scale"",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1147,7 +1147,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": ""Scale"",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1158,7 +1158,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=-1)"",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1169,7 +1169,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""NewtStageRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1180,7 +1180,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""NewtStageRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1191,7 +1191,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""NextStageLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1202,7 +1202,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""NextStageLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1213,7 +1213,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SelectStage"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1224,7 +1224,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""SelectStage"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1594,7 +1594,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=3)"",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""nami"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1605,7 +1605,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=2)"",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""nami"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1616,7 +1616,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": ""Scale"",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""nami"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1627,7 +1627,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": ""Scale(factor=-1)"",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""nami"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1678,44 +1678,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4b56ba0b-1709-482c-a286-9d7caafd907b"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""kaesi"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a94dd799-6d3f-415c-938d-f617e173eb65"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""tama"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2c0c0da7-ace3-4ce9-a1eb-58f33b3a1bd6"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""tama"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""8551c224-a17a-494d-9100-62a3800299b4"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1723,22 +1690,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""90729172-2edd-4055-a672-78c2ad2d1369"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""start"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2451cdb7-1775-42e1-bd05-bdd2f23e341d"",
-                    ""path"": ""<Keyboard>/backspace"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""cutstring"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1748,7 +1704,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/#(X)"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""PlayerStartL"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1759,7 +1715,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""PlayerStartL"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1770,7 +1726,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/#(X)"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""PlayerStartR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1781,7 +1737,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""PlayerStartR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1792,7 +1748,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/delete"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""BackString"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1800,10 +1756,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3571306a-80ab-483a-815c-b615eb3eb9e2"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""BackString"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -2158,6 +2114,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GameEnd"",
+                    ""type"": ""Button"",
+                    ""id"": ""633a4270-db7c-46a1-a84d-103537816a3e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -2167,8 +2132,41 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Entry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70e2f8a7-c0ef-45b3-8c2c-87c2774cdcfc"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Entry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b839948-1a48-4eed-91fb-15c34f7a7541"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse;Gamepad"",
+                    ""action"": ""GameEnd"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fb1c34a-69c7-462e-b17d-e7bcb3a5b901"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""GameEnd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2305,6 +2303,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // TItle
         m_TItle = asset.FindActionMap("TItle", throwIfNotFound: true);
         m_TItle_Entry = m_TItle.FindAction("Entry", throwIfNotFound: true);
+        m_TItle_GameEnd = m_TItle.FindAction("GameEnd", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -3666,6 +3665,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_TItle;
     private List<ITItleActions> m_TItleActionsCallbackInterfaces = new List<ITItleActions>();
     private readonly InputAction m_TItle_Entry;
+    private readonly InputAction m_TItle_GameEnd;
     /// <summary>
     /// Provides access to input actions defined in input action map "TItle".
     /// </summary>
@@ -3681,6 +3681,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "TItle/Entry".
         /// </summary>
         public InputAction @Entry => m_Wrapper.m_TItle_Entry;
+        /// <summary>
+        /// Provides access to the underlying input action "TItle/GameEnd".
+        /// </summary>
+        public InputAction @GameEnd => m_Wrapper.m_TItle_GameEnd;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -3710,6 +3714,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Entry.started += instance.OnEntry;
             @Entry.performed += instance.OnEntry;
             @Entry.canceled += instance.OnEntry;
+            @GameEnd.started += instance.OnGameEnd;
+            @GameEnd.performed += instance.OnGameEnd;
+            @GameEnd.canceled += instance.OnGameEnd;
         }
 
         /// <summary>
@@ -3724,6 +3731,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Entry.started -= instance.OnEntry;
             @Entry.performed -= instance.OnEntry;
             @Entry.canceled -= instance.OnEntry;
+            @GameEnd.started -= instance.OnGameEnd;
+            @GameEnd.performed -= instance.OnGameEnd;
+            @GameEnd.canceled -= instance.OnGameEnd;
         }
 
         /// <summary>
@@ -4230,5 +4240,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEntry(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "GameEnd" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGameEnd(InputAction.CallbackContext context);
     }
 }
