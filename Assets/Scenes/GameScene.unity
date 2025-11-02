@@ -1474,7 +1474,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f251a4595d63b54448ff588ae3ec24eb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:  
   m_PlayerController: {fileID: 1098702345}
   m_StageLoader: {fileID: 563705531}
   m_StringPrefub: {fileID: 5777233302591922959, guid: d56e34dd06bd0ba4983ddcfab5976ce9, type: 3}
