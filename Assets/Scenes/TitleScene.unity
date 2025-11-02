@@ -181,14 +181,14 @@ RectTransform:
   m_GameObject: {fileID: 442923943}
   m_LocalRotation: {x: 0, y: 0, z: 0.18077667, w: 0.9835242}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.9, y: 2.9, z: 2.9}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3.08, y: 3.08, z: 3.08}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 127155640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20.83}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.8, y: 4.23}
+  m_AnchoredPosition: {x: 7.8, y: 4.3}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &442923945
@@ -256,7 +256,7 @@ Animator:
   m_GameObject: {fileID: 442923943}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8fa6ac1bb7c506d4b9fce9c72c79a476, type: 2}
+  m_Controller: {fileID: 9100000, guid: d1350ac83f10edb43a38c54bf97812a2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -497,8 +497,8 @@ RectTransform:
   m_GameObject: {fileID: 933842997}
   m_LocalRotation: {x: 0.09671436, y: 0.99531215, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9, y: 1.9, z: 1.9}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 127155640}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 11.1}
@@ -572,7 +572,7 @@ Animator:
   m_GameObject: {fileID: 933842997}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 159cf7d74ff0ce9428e3205f9d884620, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6e65825ebc3831d4fbd503cb75cde309, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -774,7 +774,7 @@ Animator:
   m_GameObject: {fileID: 1442990202}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b24b93ea2f5a4524a884fd7d0bc5615b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8c950645fca428241ad4cd32188fac5c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
