@@ -9,6 +9,7 @@ public class StringAnimation_Canvas : MonoBehaviour
 
     public int index = 0;//自身が何番目か
     public bool front = false;//表の糸か
+    public int firstct = 0;//firstpointがいくつだったかをカウント
 
     // 親Canvasを登録する関数（生成直後に呼び出す）
     public void SetCanvas(RectTransform canvas)

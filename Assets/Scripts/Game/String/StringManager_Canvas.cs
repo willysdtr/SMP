@@ -46,8 +46,12 @@ public class StringManager_Canvas : MonoBehaviour
 
     private int m_StageWidth = 0;
     private int m_StageHeight = 0;
-    public int m_CutNum = 0;
+    private int m_CutNum_front = 0; // 表側の切った回数をカウント
+    private int m_CutNum_back = 0; // 裏側の切った回数をカウント
+
     private List<Vector2Int>  m_PreCursolPosition=new List<Vector2Int>();
+
+    private int m_firstcount = 0;//firstpointのカウント 
 
     void Awake()
     {
@@ -147,6 +151,7 @@ public class StringManager_Canvas : MonoBehaviour
             Debug.Log($"CursorPos: {m_StringCursol.anchoredPosition}");
             m_Strings.Add(dummy);
             m_StringMode = m_isString;
+            m_firstcount++;
         };
 
         inputActions.Stirng.BackString.performed += ctx =>// 糸の一針戻す操作
@@ -284,6 +289,7 @@ public class StringManager_Canvas : MonoBehaviour
             Destroy(m_Strings[^1].gameObject);
             m_Strings.RemoveAt(m_Strings.Count - 1);
             m_LastDirection = First;
+            m_firstcount--;
         }
     }
 
@@ -309,17 +315,25 @@ public class StringManager_Canvas : MonoBehaviour
     }
 
     // 糸を切る処理（指定indexの糸を削除）
-    public void CutString(int index, bool front)
+    public void CutString(int index, bool front ,int firstct)
     {
         if (front)
         {
-            Destroy(m_Strings[index + 1].gameObject); // FirstPointとの対応で+1
-            m_AnimStrings[index - 1].DeleteImage(0);
-            m_Strings.RemoveAt(index);
-            m_AnimStrings.RemoveAt(index - 1);
+            Destroy(m_Strings[index + firstct - m_CutNum_front].gameObject); // FirstPointを加算
+            m_AnimStrings[index].DeleteImage(0);
+            m_Strings.RemoveAt(index + firstct - m_CutNum_front);
+            m_AnimStrings.RemoveAt(index - m_CutNum_front);
+            Destroy(m_FrontStrings[index - m_CutNum_front].gameObject);
+            Destroy(BackStrings[index - m_CutNum_front].gameObject);
+
+            m_FrontStrings.RemoveAt(index - m_CutNum_front);
+            BackStrings.RemoveAt(index - m_CutNum_front);
+
+            m_CutNum_front++;
         }
         else
         {
+<<<<<<< HEAD
             Destroy(m_MirrorStrings[index].gameObject);
             m_MirrorAnimStrings[index - 1].DeleteImage(0);
             m_MirrorStrings.RemoveAt(index);
@@ -327,9 +341,21 @@ public class StringManager_Canvas : MonoBehaviour
         }
         Destroy(m_FrontStrings[index].gameObject);
         Destroy(BackStrings[index].gameObject);
+=======
+            Destroy(m_MirrorStrings[index - m_CutNum_back].gameObject);
+            m_MirrorAnimStrings[index - m_CutNum_back].DeleteImage(0);
+            m_MirrorStrings.RemoveAt(index - m_CutNum_back);
+            m_MirrorAnimStrings.RemoveAt(index - m_CutNum_back);
+>>>>>>> origin/Work_Taniguchi6
 
-        m_FrontStrings.RemoveAt(index);
-        BackStrings.RemoveAt(index);
+            Destroy(m_FrontStrings[index - m_CutNum_back].gameObject);
+            Destroy(BackStrings[index - m_CutNum_back].gameObject);
+
+            m_FrontStrings.RemoveAt(index - m_CutNum_back);
+            BackStrings.RemoveAt(index - m_CutNum_back);
+
+            m_CutNum_back++;
+        }
     }
 
     // 各方向への糸設置処理
@@ -494,8 +520,9 @@ public class StringManager_Canvas : MonoBehaviour
         if (anim != null)
         {
             anim.SetCanvas(m_CanvasTransform);
-            anim.index = m_Strings.Count - 1; // FirstPoint対応で-1
+            anim.index = m_Strings.Count - m_firstcount; // FirstPoint分消す
             anim.front = true;
+            anim.firstct = m_firstcount;
         }
         m_AnimStrings.Add(anim);
 
@@ -636,5 +663,10 @@ public class StringManager_Canvas : MonoBehaviour
     public void SetCursor(Vector2 pos)
     {
         m_StringCursol.anchoredPosition = pos;
+    }
+
+    public void CursorLastSibling()
+    {
+        m_StringCursol.SetAsLastSibling();
     }
 }
