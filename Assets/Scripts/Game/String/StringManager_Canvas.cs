@@ -12,6 +12,7 @@ public class StringManager_Canvas : MonoBehaviour
     private const bool m_NoString = false;
     private const bool m_isString = true;
 
+    [SerializeField] private PlayerController m_PlayerController;
     [SerializeField] private StageUILoader m_StageLoader;
     [SerializeField] private RectTransform m_StringPrefub;      // UI用の糸プレハブ（RectTransformに変更）
     [SerializeField] private RectTransform m_Tamadome;          // 糸の先端に付く玉止めオブジェクト
@@ -57,7 +58,7 @@ public class StringManager_Canvas : MonoBehaviour
         inputActions.Stirng.nami.performed += ctx =>
         {
             if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
-
+            //if (m_PlayerController.start) return;
             float value = ctx.ReadValue<float>();
             if (m_StringMode == m_isString)
             {
@@ -624,6 +625,7 @@ public class StringManager_Canvas : MonoBehaviour
 
         m_StringMode = m_NoString;
         m_LastDirection = First;
+        m_ListDisplay.UpdateDisplay(m_StringNum); // UI表示を更新
     }
 
     // 糸のサイズと当たり判定スケールを設定
