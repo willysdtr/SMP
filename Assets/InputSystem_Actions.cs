@@ -2145,6 +2145,34 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TItle"",
+            ""id"": ""d5a28d79-7084-4b21-85f0-3fc0db419eba"",
+            ""actions"": [
+                {
+                    ""name"": ""Entry"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0b4bf1c-4b48-4beb-bd68-82c1bf1f25ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""35c1d2c9-98ec-4f04-8bbb-00bcb02c9638"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Entry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -2274,6 +2302,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Result = asset.FindActionMap("Result", throwIfNotFound: true);
         m_Result_CursorMove = m_Result.FindAction("CursorMove", throwIfNotFound: true);
         m_Result_ConfirmSelect = m_Result.FindAction("ConfirmSelect", throwIfNotFound: true);
+        // TItle
+        m_TItle = asset.FindActionMap("TItle", throwIfNotFound: true);
+        m_TItle_Entry = m_TItle.FindAction("Entry", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -2287,6 +2318,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_PrefubCursol.enabled, "This will cause a leak and performance issues, InputSystem_Actions.PrefubCursol.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Sound.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Sound.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Result.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Result.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_TItle.enabled, "This will cause a leak and performance issues, InputSystem_Actions.TItle.Disable() has not been called.");
     }
 
     /// <summary>
@@ -3629,6 +3661,102 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="ResultActions" /> instance referencing this action map.
     /// </summary>
     public ResultActions @Result => new ResultActions(this);
+
+    // TItle
+    private readonly InputActionMap m_TItle;
+    private List<ITItleActions> m_TItleActionsCallbackInterfaces = new List<ITItleActions>();
+    private readonly InputAction m_TItle_Entry;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "TItle".
+    /// </summary>
+    public struct TItleActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public TItleActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "TItle/Entry".
+        /// </summary>
+        public InputAction @Entry => m_Wrapper.m_TItle_Entry;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_TItle; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="TItleActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(TItleActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="TItleActions" />
+        public void AddCallbacks(ITItleActions instance)
+        {
+            if (instance == null || m_Wrapper.m_TItleActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TItleActionsCallbackInterfaces.Add(instance);
+            @Entry.started += instance.OnEntry;
+            @Entry.performed += instance.OnEntry;
+            @Entry.canceled += instance.OnEntry;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="TItleActions" />
+        private void UnregisterCallbacks(ITItleActions instance)
+        {
+            @Entry.started -= instance.OnEntry;
+            @Entry.performed -= instance.OnEntry;
+            @Entry.canceled -= instance.OnEntry;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="TItleActions.UnregisterCallbacks(ITItleActions)" />.
+        /// </summary>
+        /// <seealso cref="TItleActions.UnregisterCallbacks(ITItleActions)" />
+        public void RemoveCallbacks(ITItleActions instance)
+        {
+            if (m_Wrapper.m_TItleActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="TItleActions.AddCallbacks(ITItleActions)" />
+        /// <seealso cref="TItleActions.RemoveCallbacks(ITItleActions)" />
+        /// <seealso cref="TItleActions.UnregisterCallbacks(ITItleActions)" />
+        public void SetCallbacks(ITItleActions instance)
+        {
+            foreach (var item in m_Wrapper.m_TItleActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_TItleActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="TItleActions" /> instance referencing this action map.
+    /// </summary>
+    public TItleActions @TItle => new TItleActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -4087,5 +4215,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnConfirmSelect(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "TItle" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="TItleActions.AddCallbacks(ITItleActions)" />
+    /// <seealso cref="TItleActions.RemoveCallbacks(ITItleActions)" />
+    public interface ITItleActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Entry" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEntry(InputAction.CallbackContext context);
     }
 }
