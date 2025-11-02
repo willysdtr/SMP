@@ -1475,8 +1475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f251a4595d63b54448ff588ae3ec24eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerController: {fileID: 0}
-  m_StageLoader: {fileID: 0}
+  m_PlayerController: {fileID: 1098702345}
+  m_StageLoader: {fileID: 563705531}
   m_StringPrefub: {fileID: 5777233302591922959, guid: d56e34dd06bd0ba4983ddcfab5976ce9, type: 3}
   m_Tamadome: {fileID: 1871174560279415123, guid: a4ea3a4f2add8bf408fca01cc1b49511, type: 3}
   m_StringCursol: {fileID: 214518381}
@@ -2879,7 +2879,7 @@ PrefabInstance:
     - target: {fileID: 1177235943936050332, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0d049173e83e9744ca10a5d24c9a09bb, type: 3}
+      objectReference: {fileID: 21300000, guid: d8fb6265ce36b494c9806efc23c5d9b9, type: 3}
     - target: {fileID: 1876937853298859249, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: m_Camera
       value: 
