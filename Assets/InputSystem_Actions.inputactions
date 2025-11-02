@@ -2059,6 +2059,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "TItle",
+            "id": "d5a28d79-7084-4b21-85f0-3fc0db419eba",
+            "actions": [
+                {
+                    "name": "Entry",
+                    "type": "Button",
+                    "id": "a0b4bf1c-4b48-4beb-bd68-82c1bf1f25ba",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "35c1d2c9-98ec-4f04-8bbb-00bcb02c9638",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Entry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
