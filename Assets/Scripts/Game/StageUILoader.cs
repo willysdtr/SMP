@@ -335,10 +335,23 @@ public class StageUILoader : MonoBehaviour
 
                     RectTransform rect = tile.GetComponent<RectTransform>();
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
-                    setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
+                    setScale = new(Mathf.Abs(tileSize / rect.sizeDelta.x),Mathf.Abs(tileSize / rect.sizeDelta.y));
+
+                    //setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
                     collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
                     collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
                     fill2.localPosition = new(fill2.localPosition.x * setScale.x, fill2.localPosition.y * setScale.y);//fillの相対位置を変更
+
+                    if (fill2.gameObject.CompareTag("SeeSaw"))
+                    {
+                        Transform Image = fill2.transform.Find("Image");
+                        Image.localScale *= setScale;
+                        Image.localPosition = new(Image.localPosition.x * setScale.x, Image.localPosition.y * setScale.y);//buttonの相対位置を変更
+                        Transform button = tile.transform.Find("button");
+                        button.localScale *= setScale;
+                        button.localPosition = new(button.localPosition.x * setScale.x, button.localPosition.y * setScale.y);//buttonの相対位置を変更
+                        
+                    }
 
                 }
 
