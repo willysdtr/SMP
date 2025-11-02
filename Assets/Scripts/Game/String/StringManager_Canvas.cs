@@ -61,8 +61,8 @@ public class StringManager_Canvas : MonoBehaviour
         // 糸の縫い操作
         inputActions.Stirng.nami.performed += ctx =>
         {
-            if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
             if (m_PlayerController.GetStart()) return;
+            if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
             float value = ctx.ReadValue<float>();
             if (m_StringMode == m_isString)
             {
@@ -129,6 +129,7 @@ public class StringManager_Canvas : MonoBehaviour
         // 玉止め（糸の終端）設置操作
         inputActions.Stirng.tama.performed += ctx =>
         {
+            if (m_PlayerController.GetStart()) return;
             if (m_CurrentIndex >= m_StringNum.Count)
             {
                 return;
@@ -139,6 +140,7 @@ public class StringManager_Canvas : MonoBehaviour
         // 糸を縫う処理
         inputActions.Stirng.start.performed += ctx =>
         {
+            if (m_PlayerController.GetStart()) return;
             if (m_CurrentIndex >= m_StringNum.Count)
             {
                 return;
@@ -157,6 +159,7 @@ public class StringManager_Canvas : MonoBehaviour
 
         inputActions.Stirng.BackString.performed += ctx =>// 糸の一針戻す操作
         {
+            if (m_PlayerController.GetStart()) return;
             RemoveLastStitch();
             m_ListDisplay.UpdateDisplay(m_StringNum); // UI表示を更新
         };
