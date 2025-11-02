@@ -62,7 +62,7 @@ public class StringManager_Canvas : MonoBehaviour
         inputActions.Stirng.nami.performed += ctx =>
         {
             if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
-            //if (m_PlayerController.start) return;
+            if (m_PlayerController.GetStart()) return;
             float value = ctx.ReadValue<float>();
             if (m_StringMode == m_isString)
             {
