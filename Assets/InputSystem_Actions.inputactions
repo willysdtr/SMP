@@ -1508,7 +1508,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "Scale(factor=3)",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "nami",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1519,7 +1519,7 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "Scale(factor=2)",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "nami",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1530,7 +1530,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "Scale",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "nami",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1541,7 +1541,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "Scale(factor=-1)",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "nami",
                     "isComposite": false,
                     "isPartOfComposite": false
