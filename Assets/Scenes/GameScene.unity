@@ -1475,8 +1475,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f251a4595d63b54448ff588ae3ec24eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   m_PlayerController: {fileID: 1098702345}
   m_StageLoader: {fileID: 563705531}
+=======
+<<<<<<< HEAD
+  m_PlayerController: {fileID: 1098702345}
+=======
+  m_PlayerController: {fileID: 0}
+>>>>>>> origin/Work_Taniguchi6
+  m_StageLoader: {fileID: 0}
+>>>>>>> origin/Work_Sakaue15
   m_StringPrefub: {fileID: 5777233302591922959, guid: d56e34dd06bd0ba4983ddcfab5976ce9, type: 3}
   m_Tamadome: {fileID: 1871174560279415123, guid: a4ea3a4f2add8bf408fca01cc1b49511, type: 3}
   m_StringCursol: {fileID: 214518381}
