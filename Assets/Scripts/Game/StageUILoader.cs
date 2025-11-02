@@ -1,4 +1,5 @@
 using StageInfo;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -132,22 +133,26 @@ public class StageUILoader : MonoBehaviour
 
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
 
-        // 自分自身のRectTransformを取得
-        RectTransform myRect = this.GetComponent<RectTransform>();
 
-        // シーン上からプレイヤーを再取得（ビルドでも確実）
+        // 1フレーム待つことで Canvas 内の要素が確実に初期化される
+        yield return null;
+
+        // 自分自身のRectTransformを取得
+        RectTransform myRect = GetComponent<RectTransform>();
+
+        // Canvas直下の子を検索
         if (king == null)
-            king = GameObject.Find("King(UIImage)");
+            king = transform.Find("King(UIImage)")?.gameObject;
         if (queen == null)
-            queen = GameObject.FindWithTag("Queen(UIImage)");
+            queen = transform.Find("Queen(UIImage)")?.gameObject;
 
         if (king == null || queen == null)
         {
-            Debug.LogWarning("King or Queen が見つかりません！");
-            return;
+            Debug.LogWarning($"King or Queen が見つかりません！（king={king}, queen={queen})");
+            yield break;
         }
 
         //プレイヤー配置
