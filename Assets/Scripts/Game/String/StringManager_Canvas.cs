@@ -333,20 +333,10 @@ public class StringManager_Canvas : MonoBehaviour
         }
         else
         {
-<<<<<<< HEAD
-            Destroy(m_MirrorStrings[index].gameObject);
-            m_MirrorAnimStrings[index - 1].DeleteImage(0);
-            m_MirrorStrings.RemoveAt(index);
-            m_MirrorAnimStrings.RemoveAt(index - 1);
-        }
-        Destroy(m_FrontStrings[index].gameObject);
-        Destroy(BackStrings[index].gameObject);
-=======
             Destroy(m_MirrorStrings[index - m_CutNum_back].gameObject);
             m_MirrorAnimStrings[index - m_CutNum_back].DeleteImage(0);
             m_MirrorStrings.RemoveAt(index - m_CutNum_back);
             m_MirrorAnimStrings.RemoveAt(index - m_CutNum_back);
->>>>>>> origin/Work_Taniguchi6
 
             Destroy(m_FrontStrings[index - m_CutNum_back].gameObject);
             Destroy(BackStrings[index - m_CutNum_back].gameObject);
