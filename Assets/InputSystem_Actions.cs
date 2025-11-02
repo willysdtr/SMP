@@ -2158,6 +2158,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GameEnd"",
+                    ""type"": ""Button"",
+                    ""id"": ""633a4270-db7c-46a1-a84d-103537816a3e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -2169,6 +2178,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Entry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70e2f8a7-c0ef-45b3-8c2c-87c2774cdcfc"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Entry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b839948-1a48-4eed-91fb-15c34f7a7541"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GameEnd"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fb1c34a-69c7-462e-b17d-e7bcb3a5b901"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GameEnd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2305,6 +2347,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // TItle
         m_TItle = asset.FindActionMap("TItle", throwIfNotFound: true);
         m_TItle_Entry = m_TItle.FindAction("Entry", throwIfNotFound: true);
+        m_TItle_GameEnd = m_TItle.FindAction("GameEnd", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -3666,6 +3709,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_TItle;
     private List<ITItleActions> m_TItleActionsCallbackInterfaces = new List<ITItleActions>();
     private readonly InputAction m_TItle_Entry;
+    private readonly InputAction m_TItle_GameEnd;
     /// <summary>
     /// Provides access to input actions defined in input action map "TItle".
     /// </summary>
@@ -3681,6 +3725,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "TItle/Entry".
         /// </summary>
         public InputAction @Entry => m_Wrapper.m_TItle_Entry;
+        /// <summary>
+        /// Provides access to the underlying input action "TItle/GameEnd".
+        /// </summary>
+        public InputAction @GameEnd => m_Wrapper.m_TItle_GameEnd;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -3710,6 +3758,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Entry.started += instance.OnEntry;
             @Entry.performed += instance.OnEntry;
             @Entry.canceled += instance.OnEntry;
+            @GameEnd.started += instance.OnGameEnd;
+            @GameEnd.performed += instance.OnGameEnd;
+            @GameEnd.canceled += instance.OnGameEnd;
         }
 
         /// <summary>
@@ -3724,6 +3775,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Entry.started -= instance.OnEntry;
             @Entry.performed -= instance.OnEntry;
             @Entry.canceled -= instance.OnEntry;
+            @GameEnd.started -= instance.OnGameEnd;
+            @GameEnd.performed -= instance.OnGameEnd;
+            @GameEnd.canceled -= instance.OnGameEnd;
         }
 
         /// <summary>
@@ -4230,5 +4284,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEntry(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "GameEnd" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGameEnd(InputAction.CallbackContext context);
     }
 }
