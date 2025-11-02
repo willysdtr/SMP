@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
@@ -219,6 +220,7 @@ public class PlayerCollision : MonoBehaviour
                     if (TryCutString(collision.gameObject))
                     {
                         m_Cont.state.IS_GROUND = true;
+                        m_Cont.PlaySE(3,true);
                         return;
                     }
 
