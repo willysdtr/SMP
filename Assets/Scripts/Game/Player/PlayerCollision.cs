@@ -49,6 +49,24 @@ public class PlayerCollision : MonoBehaviour
     //=====================================================================
     private void Update()
     {
+        if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange))
+        {
+            if (m_Rb.bodyType != RigidbodyType2D.Kinematic)
+            {
+                m_Rb.simulated = false;
+               
+            }
+
+            return;
+        }
+        else
+        {
+            if (m_Rb.bodyType != RigidbodyType2D.Kinematic)
+            {
+                m_Rb.simulated = true;
+            }
+        }//ポーズ中は動かないようにする
+
         // Climb: OverlapBox -> m_Cont.ishit 直接代入
         Vector2 center = (Vector2)transform.position + m_CheckOffset;
         Collider2D hit = Physics2D.OverlapBox(center, m_CheckSize, 0f, m_Cont.climblayers);
@@ -98,7 +116,8 @@ public class PlayerCollision : MonoBehaviour
 
             float diff = topY - playerFootY;
             transform.position += new Vector3(m_Cont.state.m_direction * PlayerState.MAX_SPEED * 0.1f, diff, 0f);
-            
+
+            m_Rb.bodyType = RigidbodyType2D.Kinematic;
 
             return;
         }

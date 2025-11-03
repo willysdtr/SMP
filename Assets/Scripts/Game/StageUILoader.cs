@@ -121,15 +121,6 @@ public class StageUILoader : MonoBehaviour
             return;
         }
 
-        rows = stageGrid.Count;
-        cols = stageGrid[0].Count;
-
-        SetupGrid(leftPanel, 0, cols / 2);
-        SetupGrid(rightPanel, cols / 2, cols);
-
-        //StringManagerをセット
-        myStr = GetComponent<StringManager_Canvas>();
-        myStr.SetCursor(GetTopLeftTilePositionInCanvas());
 
     }
 
@@ -139,6 +130,16 @@ public class StageUILoader : MonoBehaviour
 
         // 1フレーム待つことで Canvas 内の要素が確実に初期化される
         yield return null;
+
+        rows = stageGrid.Count;
+        cols = stageGrid[0].Count;
+
+        SetupGrid(leftPanel, 0, cols / 2);
+        SetupGrid(rightPanel, cols / 2, cols);
+
+        //StringManagerをセット
+        myStr = GetComponent<StringManager_Canvas>();
+        myStr.SetCursor(GetTopLeftTilePositionInCanvas());
 
         // 自分自身のRectTransformを取得
         RectTransform myRect = GetComponent<RectTransform>();
@@ -303,6 +304,7 @@ public class StageUILoader : MonoBehaviour
         StringManager_Canvas myStr = GetComponent<StringManager_Canvas>();
         size = new(tileSize * 5.900001f, tileSize * 5.627693f);//この値は左右のCanvasのScale
         setScale = new(setScale.x * 5.900001f, setScale.y * 5.900001f);
+
         myStr.SetStringSize(size, setScale);
 
         blocksize = tileSize * 5.627693f;
@@ -335,10 +337,23 @@ public class StageUILoader : MonoBehaviour
 
                     RectTransform rect = tile.GetComponent<RectTransform>();
                     BoxCollider2D collider = fill2.GetComponent<BoxCollider2D>();
-                    setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
+                    setScale = new(Mathf.Abs(tileSize / rect.sizeDelta.x),Mathf.Abs(tileSize / rect.sizeDelta.y));
+
+                    //setScale = new(tileSize / rect.sizeDelta.x, tileSize / rect.sizeDelta.y);
                     collider.size = new Vector2(collider.size.x * setScale.x, collider.size.y * setScale.y);//相対的なサイズ変更
                     collider.offset = new(collider.offset.x * setScale.x, collider.offset.y * setScale.y);//offset変更
                     fill2.localPosition = new(fill2.localPosition.x * setScale.x, fill2.localPosition.y * setScale.y);//fillの相対位置を変更
+
+                    if (fill2.gameObject.CompareTag("SeeSaw"))
+                    {
+                        Transform Image = fill2.transform.Find("Image");
+                        Image.localScale *= setScale;
+                        Image.localPosition = new(Image.localPosition.x * setScale.x, Image.localPosition.y * setScale.y);//buttonの相対位置を変更
+                        Transform button = tile.transform.Find("button");
+                        button.localScale *= setScale;
+                        button.localPosition = new(button.localPosition.x * setScale.x, button.localPosition.y * setScale.y);//buttonの相対位置を変更
+                        
+                    }
 
                 }
 
@@ -374,6 +389,8 @@ public class StageUILoader : MonoBehaviour
 
         // ===== レイアウト確定 =====
         LayoutRebuilder.ForceRebuildLayoutImmediate(panel);
+        Canvas.ForceUpdateCanvases();//追加分
+        Canvas.ForceUpdateCanvases();
         Debug.Log($"[After LayoutRebuilder] panel.localPos={panel.localPosition}, anchoredPos={panel.anchoredPosition}, rect={panel.rect}");
 
         // ===== id==1 のタイル座標を取得 =====
@@ -400,7 +417,8 @@ public class StageUILoader : MonoBehaviour
             }
         }
 
-
+        // Canvas_Main（親）基準でタイル1マスの移動量を計算
+        ComputeCursorOffsetsForParentCanvas(panel, gridCols);
 
     }
 
@@ -422,23 +440,53 @@ public class StageUILoader : MonoBehaviour
         return new TileData { tag = "Untagged", sprite = null };
     }
 
+    //Vector2 GetTilePositionInCanvasLocal(RectTransform tileRect, RectTransform panel)
+    //{
+    //    RectTransform canvasRect = this.GetComponent<RectTransform>();
+    //    Canvas canvas = canvasRect.GetComponent<Canvas>();
+    //    Camera cam = canvas != null ? canvas.worldCamera : Camera.main;
+
+    //    Vector3 tileWorldPos = tileRect.TransformPoint(Vector3.zero);
+    //    Vector2 screenPoint = cam != null
+    //        ? (Vector2)cam.WorldToScreenPoint(tileWorldPos)
+    //        : RectTransformUtility.WorldToScreenPoint(null, tileWorldPos);
+
+    //    Vector2 localPoint;
+    //    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, cam, out localPoint);
+
+    //    Debug.Log($"    [GetTilePositionInCanvasLocal] tileWorldPos={tileWorldPos}, screenPoint={screenPoint}, localPoint={localPoint}, cam={cam?.name}");
+
+    //    return localPoint;
+    //}
+
     Vector2 GetTilePositionInCanvasLocal(RectTransform tileRect, RectTransform panel)
     {
-        RectTransform canvasRect = this.GetComponent<RectTransform>();
-        Canvas canvas = canvasRect.GetComponent<Canvas>();
-        Camera cam = canvas != null ? canvas.worldCamera : Camera.main;
+        // このスクリプトがついているCanvas
+        RectTransform canvasRect = GetComponent<RectTransform>();
 
-        Vector3 tileWorldPos = tileRect.TransformPoint(Vector3.zero);
-        Vector2 screenPoint = cam != null
-            ? (Vector2)cam.WorldToScreenPoint(tileWorldPos)
-            : RectTransformUtility.WorldToScreenPoint(null, tileWorldPos);
+        // タイルのワールド中心座標
+        Vector3 worldCenter = tileRect.TransformPoint(tileRect.rect.center);
 
-        Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, cam, out localPoint);
+        // === 一度 panel 基準のローカルに変換 ===
+        Vector2 panelLocal;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            panel,
+            RectTransformUtility.WorldToScreenPoint(null, worldCenter),
+            null,
+            out panelLocal
+        );
 
-        Debug.Log($"    [GetTilePositionInCanvasLocal] tileWorldPos={tileWorldPos}, screenPoint={screenPoint}, localPoint={localPoint}, cam={cam?.name}");
+        // === さらに panel → canvas の変換 ===
+        Vector3 panelWorld = panel.TransformPoint(panelLocal);
+        Vector2 canvasLocal;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            RectTransformUtility.WorldToScreenPoint(null, panelWorld),
+            null,
+            out canvasLocal
+        );
 
-        return localPoint;
+        return canvasLocal;
     }
 
     public static Vector2 GetTopLeftInCanvas(RectTransform target, RectTransform canvasRect)
@@ -478,6 +526,68 @@ public class StageUILoader : MonoBehaviour
 
         Debug.Log($"[GetTopLeftTilePositionInCanvas] leftTopInCanvas={topLeftInCanvas}");
         return topLeftInCanvas;
+    }
+
+    /// 子Canvas(panel)のタイル座標を、親Canvas(自分がアタッチされている側)基準に変換して、
+    /// カーソル移動量に対応するオフセットを求める。
+    void ComputeCursorOffsetsForParentCanvas(RectTransform panel, int gridCols)
+    {
+        // --- 親Canvasを取得 ---
+        Canvas parentCanvas = GetComponent<Canvas>();
+        if (parentCanvas == null)
+        {
+            Debug.LogWarning("親Canvas(Canvas_Main)が見つかりません。");
+            return;
+        }
+        RectTransform parentRect = parentCanvas.GetComponent<RectTransform>();
+
+        // --- 子Canvas（panel）のCanvasを取得 ---
+        Canvas childCanvas = panel.GetComponentInParent<Canvas>();
+        if (childCanvas == null)
+        {
+            Debug.LogWarning("子Canvas(panel)が見つかりません。");
+            return;
+        }
+
+        // --- タイルが少なくとも2列・2行ある前提で進める ---
+        if (panel.childCount < gridCols + 1)
+        {
+            Debug.LogWarning("タイル数が足りません（2×2以上必要）。");
+            return;
+        }
+
+        // --- 基準タイル(左上), 右隣タイル, 下のタイルを取得 ---
+        RectTransform tileA = panel.GetChild(0) as RectTransform;
+        RectTransform tileB = panel.GetChild(1) as RectTransform;
+        RectTransform tileC = panel.GetChild(gridCols) as RectTransform;
+
+        // --- タイルのワールド座標を取得 ---
+        Vector3 worldA = tileA.TransformPoint(tileA.rect.center);
+        Vector3 worldB = tileB.TransformPoint(tileB.rect.center);
+        Vector3 worldC = tileC.TransformPoint(tileC.rect.center);
+
+        // --- ワールド → スクリーン → 親Canvasローカルに変換 ---
+        Vector2 screenA = RectTransformUtility.WorldToScreenPoint(null, worldA);
+        Vector2 screenB = RectTransformUtility.WorldToScreenPoint(null, worldB);
+        Vector2 screenC = RectTransformUtility.WorldToScreenPoint(null, worldC);
+
+        Vector2 localA, localB, localC;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenA, null, out localA);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenB, null, out localB);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenC, null, out localC);
+
+        // --- 差分（親Canvas基準の1マス分の距離）を算出 ---
+        Vector2 offsetX = localB - localA;
+        Vector2 offsetY = localC - localA;
+
+        Debug.Log($"[ComputeOffsets] parentCanvas基準 offsetX={offsetX}, offsetY={offsetY}");
+
+        // --- StringManager_Canvas に送る ---
+        StringManager_Canvas stringMgr = GetComponent<StringManager_Canvas>();
+        if (stringMgr != null)
+        {
+            stringMgr.SetComputedOffsets(offsetX, offsetY);
+        }
     }
 
 }

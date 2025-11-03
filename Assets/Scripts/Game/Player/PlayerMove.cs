@@ -101,29 +101,53 @@ public class PlayerMove : MonoBehaviour
 
     public bool Goal(Vector2 goalpos)//ゴール処理、ゴールに向かって移動する
     {
-        int direction = 0;
-        Stop();
-        if (Mathf.Abs(goalpos.x - transform.position.x) < PlayerState.MAX_SPEED / 10)
+        //int direction = 0;
+        //AllStop();
+        //if (Mathf.Abs(goalpos.x - transform.position.x) < PlayerState.MAX_SPEED / 100)
+        //{
+        //    return true;//ゴール演出が終わったらtrueを返す
+        //}
+        //else
+        //{
+        //    if (goalpos.x > transform.position.x)
+        //    {
+        //        direction = (int)PlayerState.Direction.RIGHT;//右
+        //        transform.eulerAngles = new Vector3(transform.rotation.x, -180, transform.rotation.z);
+        //    }
+        //    else if (goalpos.x < transform.position.x)
+        //    {
+        //        direction = (int)PlayerState.Direction.LEFT;//左
+        //        transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
+        //    }
+        //}
+
+        //currentspeed = PlayerState.MAX_SPEED / 4;
+        //rb.linearVelocity = new Vector2(direction * currentspeed, 0);
+        //return false;
+
+        AllStop(); // 移動状態停止
+
+        // ゴールまでの距離
+        float distanceX = goalpos.x - transform.position.x;
+
+        if (Mathf.Abs(distanceX) < PlayerState.MAX_SPEED / 100f)
         {
-            return true;//ゴール演出が終わったらtrueを返す
-        }
-        else
-        {
-            if (goalpos.x > transform.position.x)
-            {
-                direction = (int)PlayerState.Direction.RIGHT;//右
-                transform.eulerAngles = new Vector3(transform.rotation.x, -180, transform.rotation.z);
-            }
-            else if (goalpos.x < transform.position.x)
-            {
-                direction = (int)PlayerState.Direction.LEFT;//左
-                transform.eulerAngles = new Vector3(transform.rotation.x, 0, transform.rotation.z);
-            }
+            // ゴールに到達
+            return true;
         }
 
-        currentspeed = PlayerState.MAX_SPEED / 4;
-        rb.linearVelocity = new Vector2(direction * currentspeed, 0);
+        // 方向設定と向き
+        int direction = distanceX > 0 ? (int)PlayerState.Direction.RIGHT : (int)PlayerState.Direction.LEFT;
+        transform.eulerAngles = direction > 0 ? new Vector3(0, -180, 0) : new Vector3(0, 0, 0);
+
+        // Kinematic の MovePosition で滑らかに移動
+        float moveStep = PlayerState.MAX_SPEED * Time.deltaTime;
+        Vector2 newPos = new Vector2(transform.position.x + direction * moveStep, transform.position.y);
+        rb.MovePosition(newPos);
+
         return false;
+
+
     }
 
     public void Stop()

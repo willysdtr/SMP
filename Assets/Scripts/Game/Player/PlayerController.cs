@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     public int cutCt = 0;//糸を切れる回数
 
+    private Vector2 setpos;
     void Awake()
     { // 各種コンポーネントの取得
         move = GetComponent<PlayerMove>();
@@ -57,8 +59,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) {
+            anim.speed = 0; 
+            return; 
+        } //ポーズ中は処理しない
 
-        if (!start || goal) { return; }//スタート中かゴール中なら、Update処理を行わない
+        if (!start) { return; }//スタート前なら、Update処理を行わない
+        if (goal) { transform.position = new(goal_pos.x, transform.position.y); return; }//ゴール中なら、位置を補正
         ChangeState();//状態変化処理
         HandleState();//状態ごとのUpdate処理
         if (transform.position.y < -600)
@@ -114,9 +121,9 @@ public class PlayerController : MonoBehaviour
             case PlayerState.State.STOP: anim.speed = 0; move.Stop(); break;
             case PlayerState.State.WALK: anim.speed = 1; move.Move(state.m_direction); PlaySE(0, false); break;
             case PlayerState.State.JUMP: anim.speed = 0; state.IS_JUMP = !move.Jump(); break;
-            case PlayerState.State.FALL: anim.speed = 0; falltime++; if (falltime == 20) { PlaySE(2, true); } break;
+            case PlayerState.State.FALL: anim.speed = 0; falltime++; if (falltime == 45) { PlaySE(2, true); } break;
             case PlayerState.State.CLIMB: anim.speed = 1; move.Climb(PlayerState.MAX_SPEED / 2); PlaySE(1, false); break;
-            case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0; } break;
+            case PlayerState.State.GOAL: anim.speed = 1; if (move.Goal(goal_pos)) { goal = true; anim.speed = 0;} break;
             case PlayerState.State.DEATH: anim.speed = 1; death = true; break;
         }
         anim.SetInteger("State", (int)state.currentstate);
