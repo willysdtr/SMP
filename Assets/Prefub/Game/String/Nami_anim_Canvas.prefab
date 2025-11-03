@@ -87,6 +87,7 @@ MonoBehaviour:
   ImageList: []
   index: 0
   front: 0
+  firstct: 0
 --- !u!114 &8725361922372436130
 MonoBehaviour:
   m_ObjectHideFlags: 0

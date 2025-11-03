@@ -299,8 +299,9 @@ public class StringManager_Canvas : MonoBehaviour
 
     void Start()
     {
-        m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
-        m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
+
+        //m_Offset_X = new Vector2(m_StrinngScale.x, 0f);
+        //m_Offset_Y = new Vector2(0f, -m_StrinngScale.y);
 
         m_StringNum = new List<int>(StageUILoader.stage.STRING_COUNT); // ステージの糸数情報を取得
         m_CopyStringNum = new List<int>(StageUILoader.stage.STRING_COUNT);
@@ -503,6 +504,7 @@ public class StringManager_Canvas : MonoBehaviour
     // 糸を生成・配置する（表裏と前後パーツ）
     void AddString(Vector2 main, Vector2 front, Vector2 back, Quaternion rot)
     {
+
         //表側糸生成
         RectTransform mainStr = Instantiate(m_StringPrefub, m_CanvasTransform);
         mainStr.anchoredPosition = main;
@@ -663,5 +665,12 @@ public class StringManager_Canvas : MonoBehaviour
     public void CursorLastSibling()
     {
         m_StringCursol.SetAsLastSibling();
+    }
+
+    public void SetComputedOffsets(Vector2 offsetX_inParentCanvas, Vector2 offsetY_inParentCanvas)
+    {
+        m_Offset_X = offsetX_inParentCanvas;
+        m_Offset_Y = offsetY_inParentCanvas;
+        Debug.Log($"[StringManager_Canvas] カーソルオフセット設定: X={m_Offset_X}, Y={m_Offset_Y}");
     }
 }

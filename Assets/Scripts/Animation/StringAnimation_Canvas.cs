@@ -16,6 +16,7 @@ public class StringAnimation_Canvas : MonoBehaviour
     {
         //Debug.Log("SetCanvas called with: " + canvas?.name);
         canvasTransform = canvas;
+
     }
 
     public void EndAnimarion()
