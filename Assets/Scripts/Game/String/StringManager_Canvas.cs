@@ -38,8 +38,8 @@ public class StringManager_Canvas : MonoBehaviour
     [SerializeField] private GameObject m_Cutter;               // 糸を切るためのカッターオブジェクト
     private int m_CurrentIndex = 0;
 
-    [SerializeField] private ShowStringNum m_ListDisplay;       // 糸の数などを表示するUI管理クラス
-
+    //[SerializeField] private ShowStringNum m_ListDisplay;       // 糸の数などを表示するUI管理クラス
+    [SerializeField] private VerticalNumberUI m_ListDisplay;       // 糸の数などを表示するUI管理クラス
     private InputSystem_Actions inputActions;
     private float m_PauseDirection;
     private int m_LastDirection = First;
@@ -123,7 +123,7 @@ public class StringManager_Canvas : MonoBehaviour
                 }
                 m_StringCursol.anchoredPosition += offset;
             }
-            m_ListDisplay.UpdateDisplay(m_StringNum); // UI表示を更新
+            m_ListDisplay.UpdateNumbers(m_StringNum); // UI表示を更新
         };
 
         // 玉止め（糸の終端）設置操作
@@ -161,7 +161,7 @@ public class StringManager_Canvas : MonoBehaviour
         {
             if (m_PlayerController.GetStart()) return;
             RemoveLastStitch();
-            m_ListDisplay.UpdateDisplay(m_StringNum); // UI表示を更新
+            m_ListDisplay.UpdateNumbers(m_StringNum); // UI表示を更新
         };
 
         // 返し縫いを生成(没のためコメントアウト)
@@ -305,7 +305,7 @@ public class StringManager_Canvas : MonoBehaviour
         m_StringNum = new List<int>(StageUILoader.stage.STRING_COUNT); // ステージの糸数情報を取得
         m_CopyStringNum = new List<int>(StageUILoader.stage.STRING_COUNT);
 
-        m_ListDisplay.UpdateDisplay(m_StringNum); // UI表示を更新
+        m_ListDisplay.ShowNumbers(m_StringNum); // UI表示を更新
     }
 
     void OnEnable()
@@ -645,7 +645,7 @@ public class StringManager_Canvas : MonoBehaviour
 
         m_StringMode = m_NoString;
         m_LastDirection = First;
-        m_ListDisplay.UpdateDisplay(m_StringNum); // UI表示を更新
+        m_ListDisplay.UpdateNumbers(m_StringNum); // UI表示を更新
     }
 
     // 糸のサイズと当たり判定スケールを設定
