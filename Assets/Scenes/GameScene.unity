@@ -1510,7 +1510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useDataFromDropdown: 1
-  stageId: 12
+  stageId: 14
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
@@ -1784,7 +1784,7 @@ MonoBehaviour:
   - {fileID: 1317909795, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
   digitPrefab: {fileID: 2628470368166656790, guid: 1b0d4257bb14fe847853ff3acfd6deda, type: 3}
   backgroundSprite: {fileID: 0}
-  spacing: 170
+  spacing: 100
 --- !u!1 &794793946
 GameObject:
   m_ObjectHideFlags: 0
