@@ -24,6 +24,12 @@ public class TitleScene : MonoBehaviour
             #endif
         };
     }
+
+    private void Start()
+    {
+        Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+    }
+
     // Update is called once per frame
     void OnEnable()
     {
