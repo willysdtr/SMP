@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_CanvasTransform: {fileID: 563705522}
   m_MirrorOffsetX: 5
   m_Cutter: {fileID: 0}
-  m_ListDisplay: {fileID: 563705530}
+  m_ListDisplay: {fileID: 790413410}
 --- !u!114 &563705530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1509,8 +1509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351327b4511c1574fa8c2a6eef487de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDataFromDropdown: 0
-  stageId: 0
+  useDataFromDropdown: 1
+  stageId: 14
   leftPanel: {fileID: 642689595}
   rightPanel: {fileID: 2046700329}
   tileUIPrefab: {fileID: 7296938410568890891, guid: 82c78e0e3d65d884c91c2328e509c9ee, type: 3}
@@ -1633,6 +1633,7 @@ GameObject:
   - component: {fileID: 790413406}
   - component: {fileID: 790413409}
   - component: {fileID: 790413408}
+  - component: {fileID: 790413410}
   m_Layer: 5
   m_Name: StringNum
   m_TagString: Untagged
@@ -1666,7 +1667,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 790413405}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -1758,6 +1759,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 790413405}
   m_CullTransparentMesh: 1
+--- !u!114 &790413410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790413405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cfeea5d5f4e3c46b008daab5cac5ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberSprites:
+  - {fileID: -565938593, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: -527426247, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: -303737992, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: 259529003, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: 1585938324, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: -1143945748, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: 733584375, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: -745211382, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: 200948806, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  - {fileID: 1317909795, guid: ff763a2c5b48f824da018258c7f3aaf3, type: 3}
+  digitPrefab: {fileID: 2628470368166656790, guid: 1b0d4257bb14fe847853ff3acfd6deda, type: 3}
+  backgroundSprite: {fileID: 0}
+  spacing: 100
 --- !u!1 &794793946
 GameObject:
   m_ObjectHideFlags: 0
