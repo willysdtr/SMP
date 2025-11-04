@@ -136,7 +136,7 @@ public class PlayerMove : MonoBehaviour
             return true;
         }
 
-        // •ûŒüÝ’è‚ÆŒü‚«
+        //•ûŒüÝ’è‚ÆŒü‚«
         int direction = distanceX > 0 ? (int)PlayerState.Direction.RIGHT : (int)PlayerState.Direction.LEFT;
         transform.eulerAngles = direction > 0 ? new Vector3(0, -180, 0) : new Vector3(0, 0, 0);
 
