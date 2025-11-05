@@ -2934,7 +2934,7 @@ PrefabInstance:
     - target: {fileID: 1177235943936050332, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d8fb6265ce36b494c9806efc23c5d9b9, type: 3}
+      objectReference: {fileID: 21300000, guid: 71da9567672a0ec439224ee578051a2f, type: 3}
     - target: {fileID: 1876937853298859249, guid: 1fc1d09210861de44b896782205bb244, type: 3}
       propertyPath: m_Camera
       value: 
