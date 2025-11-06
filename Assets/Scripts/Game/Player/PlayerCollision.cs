@@ -411,6 +411,7 @@ public class PlayerCollision : MonoBehaviour
         m_Rb.bodyType = RigidbodyType2D.Dynamic;
         m_Rb.linearVelocity = Vector2.zero;
         m_Collider.isTrigger = false;
+        transform.position += new Vector3(0f, 0.1f, 0f); // 少し上にずらす(Enterが反応しない場合の対策)
     }
 
     private static bool IsFloorContact(in ContactPoint2D contact)
