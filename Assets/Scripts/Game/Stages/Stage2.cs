@@ -169,6 +169,7 @@ public static class Stage2
         /*========== êjéR ÇÃà íu ==========*/
         new Int2[]                // ó†
         {
+            new Int2(1, 2),
         },
         new Int2[]                // ó†
         {
