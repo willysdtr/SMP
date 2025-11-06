@@ -124,6 +124,8 @@ namespace Script
                     AudioChange.SetActive(true);
                     PauseApperance.Instance.isPause = false;
                     ManualDisable();
+                    Debug.Log("Sound");
+                    m_SelectCount=0;
                     //Sound‚ğo‚·i‚ ‚Á‚¿‚Åflg‚ğOn‚É‚µ‚½‚çj
                     break;
                 case 4:
