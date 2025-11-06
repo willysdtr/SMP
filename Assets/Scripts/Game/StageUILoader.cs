@@ -139,7 +139,7 @@ public class StageUILoader : MonoBehaviour
 
         //StringManagerをセット
         myStr = GetComponent<StringManager_Canvas>();
-        myStr.SetCursor(GetTopLeftTilePositionInCanvas());
+        myStr.SetCursor(GetTopLeftTilePositionInCanvas(), GetTopRightTilePositionInCanvas());
 
         // 自分自身のRectTransformを取得
         RectTransform myRect = GetComponent<RectTransform>();
@@ -527,6 +527,49 @@ public class StageUILoader : MonoBehaviour
         Debug.Log($"[GetTopLeftTilePositionInCanvas] leftTopInCanvas={topLeftInCanvas}");
         return topLeftInCanvas;
     }
+
+    public Vector2 GetTopRightTilePositionInCanvas()
+    {
+        // 右パネルの子が存在しない場合は警告
+        if (rightPanel.childCount == 0)
+        {
+            Debug.LogWarning("右パネルにタイルが存在しません。");
+            return Vector2.zero;
+        }
+
+        // 最初の行の最後のタイルを取得
+        Transform lastTile = rightPanel.GetChild(0);
+        int gridCols = stageGrid[0].Count / 2; // 右パネルの列数
+        int index = gridCols - 1;              // 一番右端
+        if (index < rightPanel.childCount)
+            lastTile = rightPanel.GetChild(index);
+
+        RectTransform canvasRect = GetComponent<RectTransform>();
+        RectTransform tileRect = lastTile as RectTransform;
+
+        Vector2 topRightInCanvas = GetTopRightInCanvas(tileRect, canvasRect);
+
+        Debug.Log($"[GetTopRightTilePositionInCanvas] rightTopInCanvas={topRightInCanvas}");
+        return topRightInCanvas;
+    }
+
+    public static Vector2 GetTopRightInCanvas(RectTransform target, RectTransform canvasRect)
+    {
+        Vector3[] corners = new Vector3[4];
+        target.GetWorldCorners(corners); // 左下→左上→右上→右下
+        Vector3 worldTopRight = corners[2];
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            RectTransformUtility.WorldToScreenPoint(null, worldTopRight),
+            null,
+            out localPoint
+        );
+
+        return localPoint;
+    }
+
 
     /// 子Canvas(panel)のタイル座標を、親Canvas(自分がアタッチされている側)基準に変換して、
     /// カーソル移動量に対応するオフセットを求める。

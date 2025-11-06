@@ -17,6 +17,7 @@ public class StringManager_Canvas : MonoBehaviour
     [SerializeField] private RectTransform m_StringPrefub;      // UI用の糸プレハブ（RectTransformに変更）
     [SerializeField] private RectTransform m_Tamadome;          // 糸の先端に付く玉止めオブジェクト
     [SerializeField] private RectTransform m_StringCursol;      // 糸を張る際のカーソル
+    [SerializeField] private RectTransform m_StringCursolMirror;// 糸を張る際のカーソル反対側
     [SerializeField] private RectTransform m_CanvasTransform;   // CanvasのRectTransform参照
 
     [SerializeField] private float m_MirrorOffsetX = 5.0f;
@@ -122,6 +123,7 @@ public class StringManager_Canvas : MonoBehaviour
                     offset = -m_Offset_X;
                 }
                 m_StringCursol.anchoredPosition += offset;
+                m_StringCursolMirror.anchoredPosition += new Vector2(-offset.x,offset.y);
             }
             m_ListDisplay.UpdateNumbers(m_StringNum); // UI表示を更新
         };
@@ -252,7 +254,11 @@ public class StringManager_Canvas : MonoBehaviour
             m_FrontStrings.RemoveAll(s => s == null);
             BackStrings.RemoveAll(s => s == null);
 
+
+            // カーソル位置を戻す
+            m_StringCursolMirror.anchoredPosition = new Vector2(m_StringCursolMirror.anchoredPosition.x - (resumePos.x - m_StringCursol.anchoredPosition.x), resumePos.y);
             m_StringCursol.anchoredPosition = resumePos;
+
 
             // 糸数を戻す
             if (m_CurrentIndex >= 0 && m_CurrentIndex < m_StringNum.Count)
@@ -375,6 +381,7 @@ public class StringManager_Canvas : MonoBehaviour
             m_StageWidth++;
             m_StringNum[m_CurrentIndex]--;
             m_StringCursol.anchoredPosition += m_Offset_X;
+            m_StringCursolMirror.anchoredPosition -= m_Offset_X;
         }
     }
 
@@ -404,6 +411,7 @@ public class StringManager_Canvas : MonoBehaviour
             m_StageWidth--;
             m_StringNum[m_CurrentIndex]--;
             m_StringCursol.anchoredPosition -= m_Offset_X;
+            m_StringCursolMirror.anchoredPosition += m_Offset_X;
         }
     }
 
@@ -429,6 +437,7 @@ public class StringManager_Canvas : MonoBehaviour
             m_StageHeight--;
             m_StringNum[m_CurrentIndex]--;
             m_StringCursol.anchoredPosition -= m_Offset_Y;
+            m_StringCursolMirror.anchoredPosition -= m_Offset_Y;
         }
     }
 
@@ -455,6 +464,7 @@ public class StringManager_Canvas : MonoBehaviour
             m_StageHeight++;//いったん消します
             m_StringNum[m_CurrentIndex]--;
             m_StringCursol.anchoredPosition += m_Offset_Y;
+            m_StringCursolMirror.anchoredPosition += m_Offset_Y;
         }
     }
 
@@ -657,14 +667,16 @@ public class StringManager_Canvas : MonoBehaviour
         m_HitBoxScale = BoxScale;
     }
 
-    public void SetCursor(Vector2 pos)
+    public void SetCursor(Vector2 pos,Vector2 pos_mirror)
     {
         m_StringCursol.anchoredPosition = pos;
+        m_StringCursolMirror.anchoredPosition = pos_mirror;
     }
 
     public void CursorLastSibling()
     {
         m_StringCursol.SetAsLastSibling();
+        m_StringCursolMirror.SetAsLastSibling();
     }
 
     public void SetComputedOffsets(Vector2 offsetX_inParentCanvas, Vector2 offsetY_inParentCanvas)
