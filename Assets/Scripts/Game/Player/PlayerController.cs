@@ -257,6 +257,7 @@ public class PlayerController : MonoBehaviour
         startAnimPlay = true;
         startRequest = true;
         startAnimator.gameObject.SetActive(true);
+        PlaySE(4, true);
     }
 
     private void ResetFlag()
