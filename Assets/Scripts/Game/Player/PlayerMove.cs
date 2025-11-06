@@ -141,7 +141,7 @@ public class PlayerMove : MonoBehaviour
         transform.eulerAngles = direction > 0 ? new Vector3(0, -180, 0) : new Vector3(0, 0, 0);
 
         // Kinematic ‚Ì MovePosition ‚ÅŠŠ‚ç‚©‚ÉˆÚ“®
-        float moveStep = PlayerState.MAX_SPEED * Time.deltaTime;
+        float moveStep = PlayerState.MAX_SPEED * 0.01f;
         Vector2 newPos = new Vector2(transform.position.x + direction * moveStep, transform.position.y);
         rb.MovePosition(newPos);
 
