@@ -136,6 +136,13 @@ public class StageSelect : MonoBehaviour
             horizontalInput = 0f;
         };
 
+        inputActions.Select.Cancel.performed += ctx =>
+        {
+            //タイトルに戻る処理
+            SMPState.Instance.m_CurrentGameState = SMPState.GameState.Title;//Title状態にする
+            SceneManager.LoadScene("TitleScene");
+        };
+
         //選択しているステージをロードする
         inputActions.Select.SelectStage.performed += ctx =>
         {

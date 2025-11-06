@@ -1116,6 +1116,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""de034f39-bf3f-4740-98c6-8deb0e02ecae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1226,6 +1235,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""SelectStage"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3b7359f-c9ba-4242-bd46-61b5ca0433ba"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f41da5d-941c-4420-83c7-c4ed6275ee67"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1489,10 +1520,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""70df7fac-e2ee-46ce-8c72-2db3a9328498"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Apperance"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1500,10 +1531,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ee748150-f0a2-46b2-b97e-a95f820cdf2b"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Apperance"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1701,7 +1732,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9c0b33a6-c952-41e5-947d-9a7d66dbc4bd"",
-                    ""path"": ""<Keyboard>/#(X)"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -1723,7 +1754,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""48cc903f-6cb6-4e44-8d69-c02e2ea543e1"",
-                    ""path"": ""<Keyboard>/#(X)"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -2150,11 +2181,22 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""96045e1e-ebd9-4c6b-ae86-6fbaa9868b19"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Entry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8b839948-1a48-4eed-91fb-15c34f7a7541"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse;Gamepad"",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""GameEnd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -2265,6 +2307,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Select_NewtStageRight = m_Select.FindAction("NewtStageRight", throwIfNotFound: true);
         m_Select_NextStageLeft = m_Select.FindAction("NextStageLeft", throwIfNotFound: true);
         m_Select_SelectStage = m_Select.FindAction("SelectStage", throwIfNotFound: true);
+        m_Select_Cancel = m_Select.FindAction("Cancel", throwIfNotFound: true);
         // Pause
         m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
         m_Pause_SoundSelect = m_Pause.FindAction("SoundSelect", throwIfNotFound: true);
@@ -2776,6 +2819,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Select_NewtStageRight;
     private readonly InputAction m_Select_NextStageLeft;
     private readonly InputAction m_Select_SelectStage;
+    private readonly InputAction m_Select_Cancel;
     /// <summary>
     /// Provides access to input actions defined in input action map "Select".
     /// </summary>
@@ -2803,6 +2847,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Select/SelectStage".
         /// </summary>
         public InputAction @SelectStage => m_Wrapper.m_Select_SelectStage;
+        /// <summary>
+        /// Provides access to the underlying input action "Select/Cancel".
+        /// </summary>
+        public InputAction @Cancel => m_Wrapper.m_Select_Cancel;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2841,6 +2889,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectStage.started += instance.OnSelectStage;
             @SelectStage.performed += instance.OnSelectStage;
             @SelectStage.canceled += instance.OnSelectStage;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
         }
 
         /// <summary>
@@ -2864,6 +2915,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectStage.started -= instance.OnSelectStage;
             @SelectStage.performed -= instance.OnSelectStage;
             @SelectStage.canceled -= instance.OnSelectStage;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
         }
 
         /// <summary>
@@ -4016,6 +4070,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelectStage(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCancel(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Pause" which allows adding and removing callbacks.

@@ -41,6 +41,13 @@ public class PlayerController : MonoBehaviour
 
     public int cutCt = 0;//糸を切れる回数
 
+
+    [SerializeField] private Animator startAnimator; // スタート演出用Animator
+    [SerializeField] private string startAnimationName = "AutoStart"; // アニメーション名（例）
+
+    private bool startAnimPlay = false;
+    private bool startRequest = false;
+
     private Vector2 setpos;
     void Awake()
     { // 各種コンポーネントの取得
@@ -63,6 +70,21 @@ public class PlayerController : MonoBehaviour
             anim.speed = 0; 
             return; 
         } //ポーズ中は処理しない
+
+        // スタート演出が再生中か確認
+        if (startRequest && startAnimPlay)
+        {
+            if (!IsAnimationPlaying(startAnimator, startAnimationName))
+            {
+                // アニメーションが終了したらスタート
+                startAnimPlay = false;
+                startRequest = false;
+                start = true;
+                startAnimator.gameObject.SetActive(false);
+            }
+            startAnimator.transform.SetAsLastSibling();// 最前面に表示
+            return; // スタート待ち中は他の処理をしない
+        }
 
         if (!start) { return; }//スタート前なら、Update処理を行わない
         if (goal) { transform.position = new(goal_pos.x, transform.position.y); return; }//ゴール中なら、位置を補正
@@ -231,12 +253,11 @@ public class PlayerController : MonoBehaviour
     {
         if (PauseApperance.Instance.isPause || (SoundChangeSlider.Instance != null && SoundChangeSlider.Instance.IsSoundChange)) return;//ポーズ中は操作できないようにする
         if(!(lPressed && rPressed)) { return; }//LRが同時押しされてなければ処理をしない
-        if (!start) // スタートに切り替え
-        {
-
-            start = true;
-            start_pos = transform.position;
-        }
+        if (start || startRequest) { return; }// スタートに切り替え
+        startAnimPlay = true;
+        startRequest = true;
+        startAnimator.gameObject.SetActive(true);
+        PlaySE(4, true);
     }
 
     private void ResetFlag()
@@ -300,5 +321,13 @@ public class PlayerController : MonoBehaviour
     public bool GetStart()
     {
         return start;
+    }
+
+    //Animationが再生中か確認する関数
+    private bool IsAnimationPlaying(Animator animator, string animationName)
+    {
+        if (animator == null) return false;
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.IsName(animationName) && stateInfo.normalizedTime < 1.0f;
     }
 }
