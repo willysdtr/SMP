@@ -72,20 +72,46 @@ public class SoundChangeSlider : MonoBehaviour
         };
         inputActions.Sound.Return.performed += ctx =>
         {
-            //Soundを戻す
+            // Soundを戻す
             IsSoundChange = false;
             this.gameObject.SetActive(false);
-            PauseApperance.Instance.isPause = true;
 
+            // 一旦 Input を無効化（競合防止）
+            inputActions.Sound.Disable();
+
+            // Pauseを再有効化
             if (Script.Pause.Instance != null)
             {
-                Script.Pause.Instance.ManualEnable();
+                PauseApperance.Instance.isPause = true;
+
+                // 1フレーム遅らせて Pause の入力を復帰させる
+                Script.Pause.Instance.StartCoroutine(ReEnablePauseAfterFrame());
             }
             else
             {
                 Debug.LogWarning("Pause.Instance が存在しません。Additiveロード後に初期化されているか確認してください。");
             }
+            ////Soundを戻す
+            //IsSoundChange = false;
+            //this.gameObject.SetActive(false);
+            //PauseApperance.Instance.isPause = true;
+
+            //if (Script.Pause.Instance != null)
+            //{
+            //    Script.Pause.Instance.ManualEnable();
+            //}
+            //else
+            //{
+            //    Debug.LogWarning("Pause.Instance が存在しません。Additiveロード後に初期化されているか確認してください。");
+            //}
         };
+    }
+
+
+    private IEnumerator ReEnablePauseAfterFrame()
+    {
+        yield return null; // 1フレーム待つ（Disable競合を回避）
+        Script.Pause.Instance.ManualEnable();
     }
 
     private void Start()
