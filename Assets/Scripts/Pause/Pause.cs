@@ -87,8 +87,16 @@ namespace Script
         {
             Debug.Log("Pause 意図的に生かした");
             inputActions.Pause.Enable();
-        }
 
+            if (m_SelectCount == 3)
+            {
+                PauseApperance.Instance.isPause = false;
+                inputActions.Pause.Disable();
+                inputActions.Select.Enable();
+                SceneManager.UnloadSceneAsync("PauseScene");
+            }
+
+        }
         private void Update()
         {
             if (PauseApperance.Instance.isPause == true)
@@ -125,7 +133,6 @@ namespace Script
                     PauseApperance.Instance.isPause = false;
                     ManualDisable();
                     Debug.Log("Sound");
-                    m_SelectCount=0;
                     //Soundを出す（あっちでflgをOnにしたら）
                     break;
                 case 4:
