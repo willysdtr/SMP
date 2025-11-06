@@ -146,6 +146,7 @@ public class StageSelect : MonoBehaviour
         //選択しているステージをロードする
         inputActions.Select.SelectStage.performed += ctx =>
         {
+            if (MoveRight == true || MoveLeft == true) return;
             LoadSelectedStage();
         };
 
