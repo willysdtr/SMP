@@ -124,12 +124,12 @@ public class StageUILoader : MonoBehaviour
 
     }
 
-    private IEnumerator Start()
+    void Start()
     {
 
 
         // 1フレーム待つことで Canvas 内の要素が確実に初期化される
-        yield return null;
+        //yield return null;
 
         rows = stageGrid.Count;
         cols = stageGrid[0].Count;
@@ -153,7 +153,7 @@ public class StageUILoader : MonoBehaviour
         if (king == null || queen == null)
         {
             Debug.LogWarning($"King or Queen が見つかりません！（king={king}, queen={queen})");
-            yield break;
+            ///yield break;
         }
 
         //プレイヤー配置
