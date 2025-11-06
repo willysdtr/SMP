@@ -181,6 +181,14 @@ public class StringManager_Canvas : MonoBehaviour
 
     public void RemoveLastStitch(int count = 1)
     {
+        if (m_Strings[^1].name == "FirstPoint")
+        {
+            m_StringMode = m_NoString;
+            Destroy(m_Strings[^1].gameObject);
+            m_Strings.RemoveAt(m_Strings.Count - 1);
+            m_LastDirection = First;
+            m_firstcount--;
+        }
         while (m_CurrentIndex > 0 && m_StringNum[m_CurrentIndex - 1] <= 0 && m_StringNum[m_CurrentIndex] == m_CopyStringNum[m_CurrentIndex])//wawa
         {
             Debug.Log("インデックス増やすよ");
@@ -193,14 +201,6 @@ public class StringManager_Canvas : MonoBehaviour
             m_StageHeight = m_PreCursolPosition[^1].y;
             m_PreCursolPosition.RemoveAt(m_PreCursolPosition.Count - 1);
 
-        }
-        if (m_Strings[^1].name == "FirstPoint")
-        {
-            m_StringMode = m_NoString;
-            Destroy(m_Strings[^1].gameObject);
-            m_Strings.RemoveAt(m_Strings.Count - 1);
-            m_LastDirection = First;
-            m_firstcount--;
         }
         // 糸が存在しない or FirstPointしかない場合は何もしない
         if (m_Strings.Count <= 1)
