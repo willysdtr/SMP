@@ -149,6 +149,62 @@ public class StageSelect : MonoBehaviour
             LoadSelectedStage();
         };
 
+        inputActions.Select.NewtStageRight.performed += ctx =>
+        {
+            if (SMPState.CURRENT_STAGE >= 10 || MoveRight == true || MoveLeft == true) return;// 最初のステージの時は動かない
+            BackGroundstartPos = m_BackGround.transform.position;//現在のBackGroundの位置を保存
+            SMPState.CURRENT_STAGE += 5;
+            //m_CurrentArrow -= 5;
+            if (m_CurrentArrow % 2 == 1)
+            {
+                // 現在位置（開始地点）
+                startPos = m_StageArrow.transform.position;
+                // 各段階の目標地点を先に計算
+                downPos = new Vector3(startPos.x, startPos.y + m_UpPosY_Even_Left, startPos.z);
+                rightPos = new Vector3(startPos.x - m_UpPosX, downPos.y, startPos.z);
+                finalPos = new Vector3(rightPos.x, m_ActiveStage[SMPState.CURRENT_STAGE].transform.position.y + m_IconPosUp, startPos.z);
+            }
+            else if (m_CurrentArrow % 2 == 0)
+            {
+                // 現在位置（開始地点）
+                startPos = m_StageArrow.transform.position;
+                // 各段階の目標地点を先に計算
+                downPos = new Vector3(startPos.x, startPos.y - m_UpPosY_Even, startPos.z);
+                rightPos = new Vector3(startPos.x - m_UpPosX_Even, downPos.y, startPos.z);
+                finalPos = new Vector3(rightPos.x, m_ActiveStage[SMPState.CURRENT_STAGE].transform.position.y + m_IconPosUp, startPos.z);
+            }
+            MoveRight = true;
+            MoveRightWorld();
+        };
+
+        inputActions.Select.NextStageLeft.performed += ctx =>
+        {
+            if (SMPState.CURRENT_STAGE <= 4 || MoveRight == true || MoveLeft == true) return;// 最初のステージの時は動かない
+            BackGroundstartPos = m_BackGround.transform.position;//現在のBackGroundの位置を保存
+            SMPState.CURRENT_STAGE -= 5;
+            //m_CurrentArrow -= 5;
+            if (m_CurrentArrow % 2 == 1)
+            {
+                // 現在位置（開始地点）
+                startPos = m_StageArrow.transform.position;
+                // 各段階の目標地点を先に計算
+                downPos = new Vector3(startPos.x, startPos.y + m_UpPosY_Even_Left, startPos.z);
+                rightPos = new Vector3(startPos.x - m_UpPosX, downPos.y, startPos.z);
+                finalPos = new Vector3(rightPos.x, m_ActiveStage[SMPState.CURRENT_STAGE].transform.position.y + m_IconPosUp, startPos.z);
+            }
+            else if (m_CurrentArrow % 2 == 0)
+            {
+                // 現在位置（開始地点）
+                startPos = m_StageArrow.transform.position;
+                // 各段階の目標地点を先に計算
+                downPos = new Vector3(startPos.x, startPos.y - m_UpPosY_Even, startPos.z);
+                rightPos = new Vector3(startPos.x - m_UpPosX_Even, downPos.y, startPos.z);
+                finalPos = new Vector3(rightPos.x, m_ActiveStage[SMPState.CURRENT_STAGE].transform.position.y + m_IconPosUp, startPos.z);
+            }
+            MoveLeft = true;
+            MoveLeftWorld();
+        };
+
         //inputActions.PauseApperance.Apperance.performed += ctx =>//ここの処理をSMP_SceneManagerに移動させよう！
         //{
         //    Debug.Log("PauseSceneLoad");
@@ -240,6 +296,31 @@ public class StageSelect : MonoBehaviour
 
         }
     }
+    void MoveLeftWorld()//矢印左移動
+    {
+        m_StageArrow.SetActive(false);//画面遷移中は矢印を非表示
+        m_BackGround.transform.DOMoveX(BackGroundstartPos.x + 1837, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            m_StageArrow.SetActive(true);
+            m_StageArrow.transform.position = m_ActiveStage[SMPState.CURRENT_STAGE].transform.position;
+            MoveLeft = false;
+
+            World -= 1;
+        });
+    }
+
+    void MoveRightWorld()//矢印左移動
+    {
+        m_StageArrow.SetActive(false);//画面遷移中は矢印を非表示
+        m_BackGround.transform.DOMoveX(BackGroundstartPos.x - 1837, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            m_StageArrow.transform.position = m_ActiveStage[SMPState.CURRENT_STAGE].transform.position;
+            m_StageArrow.SetActive(true);
+            MoveRight = false;
+            World += 1;
+        });
+    }
+
     void LoadSelectedStage()
     {
         SMPState.Instance.m_CurrentGameState = SMPState.GameState.PlayGame;//Gameplay状態にする
